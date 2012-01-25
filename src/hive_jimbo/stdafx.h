@@ -31,6 +31,9 @@
 #define JIMBO_NO_ZLIB
 #endif
 
+#define JIMBO_EXPORT_PREFIX __declspec(dllexport)
+#define JIMBO_NO_EXPORT_PREFIX
+
 #include "targetver.h"
 
 #define WIN32_LEAN_AND_MEAN

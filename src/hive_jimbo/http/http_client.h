@@ -83,14 +83,14 @@ class CHttpClient : public CObservable {
         /**
          * Constructor of the class.
          */
-        CHttpClient();
+        JIMBO_EXPORT_PREFIX CHttpClient();
 
         /**
          * Destructor of the class.
          */
-        ~CHttpClient();
-        void getContents(std::string &url);
-        char *getMessageBuffer();
-        int getMessageSize();
-        int getContentLength();
+        JIMBO_EXPORT_PREFIX ~CHttpClient();
+        JIMBO_EXPORT_PREFIX void getContents(std::string &url);
+        JIMBO_EXPORT_PREFIX char *getMessageBuffer();
+        JIMBO_EXPORT_PREFIX int getMessageSize();
+        JIMBO_EXPORT_PREFIX int getContentLength();
 };

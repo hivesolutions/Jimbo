@@ -29,11 +29,18 @@
 
 class CPython {
     private:
+        /**
+         * The length of the buffer to be used for
+         * the reg key during the registration
+         * percolation operations.
+         * This value should be big enought to hold
+         * a registry key name.
+         */
         static const int bufferLength = 1024;
     public:
         CPython();
         ~CPython();
-        static HKEY checkPython();
-        static void getAvailablePythonVersions(std::vector<std::string> &pythonVersionsList);
-        static std::string getPythonInstallPath(std::string &pythonVersion);
+        JIMBO_EXPORT_PREFIX static HKEY checkPython();
+        JIMBO_EXPORT_PREFIX static void getAvailablePythonVersions(std::vector<std::string> &pythonVersionsList);
+        JIMBO_EXPORT_PREFIX static std::string getPythonInstallPath(std::string &pythonVersion);
 };
