@@ -27,9 +27,44 @@
 
 #pragma once
 
+/**
+ * Class containing a series of general util
+ * method used to operate and mofify string object.
+ * The method contained in these class are meant
+ * to be used with the standard string implementation.
+ */
 class CString {
     public:
+        /**
+         * Trims te given string, removing its initial and final
+         * space "like" chracters.
+         * The given string character is modified during the operation.
+         *
+         * @param stringValue The string value to be trimmed, this value
+         * is going to be changed durint the operation.
+         * @return The resulting string value after the trimming operation.
+         */
         JIMBO_EXPORT_PREFIX static std::string &trim(std::string &stringValue);
+
+        /**
+         * "Left" trims te given string, removing its initial space
+         * "like" chracters.
+         * The given string character is modified during the operation.
+         *
+         * @param stringValue The string value to be "left" trimmed,
+         * this value is going to be changed durint the operation.
+         * @return The resulting string value after the trimming operation.
+         */
         JIMBO_EXPORT_PREFIX static std::string &ltrim(std::string &stringValue);
+
+        /**
+         * "Right" trims te given string, removing its final space
+         * "like" chracters.
+         * The given string character is modified during the operation.
+         *
+         * @param stringValue The string value to be "right" trimmed,
+         * this value is going to be changed durint the operation.
+         * @return The resulting string value after the trimming operation.
+         */
         JIMBO_EXPORT_PREFIX static std::string &rtrim(std::string &stringValue);
 };

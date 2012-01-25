@@ -244,8 +244,8 @@ void CHttpClient::retrieveData() {
 
                     // trims the header key and values (avoids erroneous extra
                     // space characters) and sets the header in the headers map
-                    headerKey = CString::trim(headerKey);
-                    headerValue = CString::trim(headerValue);
+                    CString::trim(headerKey);
+                    CString::trim(headerValue);
                     headersMap[headerKey] = headerValue;
                 }
 
