@@ -31,12 +31,17 @@ int _tmain(int argc, _TCHAR* argv[]) {
     CHttpClient colonyHttp = CHttpClient();
 
     // retrieves the remote contents
-    colonyHttp.getContents(std::string("http://www.hive.pt"));
+   /* colonyHttp.getContents(std::string("http://www.hive.pt"));
 
     // opens the file for read and write
     std::fstream file = std::fstream("c:/tobias.dump", std::fstream::in | std::fstream::out | std::fstream::trunc | std::fstream::binary);
     file.write(colonyHttp.getMessageBuffer(), colonyHttp.getMessageSize());
-    file.close();
+    file.close();*/
+
+    char * value = "adasd ";
+    std::string trim_a = CString::trim(std::string(value));
+    std::string ltrim_a = CString::ltrim(std::string(value));
+    std::string rtrim_a = CString::rtrim(std::string(value));
 
     return 0;
 }

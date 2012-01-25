@@ -30,25 +30,91 @@
 #include "string.h"
 
 std::string &CString::trim(std::string &stringValue) {
-    int i;
-    int j;
-    int start;
-    int end;
+    // allocates space for the index to be used during
+    // the left and right trimming operation and the values
+    // to be used as markers for the start and end index of
+    // the trimming throught sub string
+    size_t index;
+    size_t start;
+    size_t end;
 
-    for(i = 0; (stringValue[i] != 0 && stringValue[i] <= 32);) {
-        i++;
-    }
+    // retrieves the size of the string to be used
+    // during iteration to avoid buffer overlfow
+    size_t stringSize = stringValue.size();
 
-    start = i;
+    // iterates while the string value is not a valid
+    // non space chartacter (left trim)
+    for(index = 0; index < stringSize && stringValue[index] <= 32; index++) { }
 
-    for(i = 0, j = 0; stringValue[i] != 0; i++) {
-        j = ((stringValue[i] <= 32) ? j + 1 : 0);
-    }
+    // marks the start index resulting from the left trim
+    // this value is going to be used for the sub string
+    start = index;
 
-    // calculates the end trimming index as the difference
-    // between the start index (left trim) and the final
-    /// (right trim) indexes
-    end = i - j;
+    // iterates (reversely) while the string value is not a valid
+    // non space chartacter (right trim)
+    for(index = stringSize; index > 0 && stringValue[index - 1] <= 32; index--) { }
+
+    // marks the end index resulting from the right trim
+    // this value is going to be used for the sub string
+    end = index;
+
+    // creates the final string value by creating
+    // a sub string of the original value on the detected
+    // end and start indexed of the trimming process
+    stringValue = stringValue.substr(start, end - start);
+    return stringValue;
+}
+
+std::string &CString::ltrim(std::string &stringValue) {
+    // allocates space for the index to be used during
+    // the left trimming operation and the values to
+    // be used as markers for the start and end index of
+    // the trimming throught sub string
+    size_t index;
+    size_t start;
+    size_t end;
+
+    // retrieves the size of the string to be used
+    // during iteration to avoid buffer overlfow
+    size_t stringSize = stringValue.size();
+
+    // iterates while the string value is not a valid
+    // non space chartacter (left trim)
+    for(index = 0; (stringValue[index] <= 32) && index < stringSize; index++) { }
+
+    // sets start index as the index resulting from the left trim
+    // and the end index as the string size (to the end of string)
+    start = index;
+    end = stringSize;
+
+    // creates the final string value by creating
+    // a sub string of the original value on the detected
+    // end and start indexed of the trimming process
+    stringValue = stringValue.substr(start, end - start);
+    return stringValue;
+}
+
+std::string &CString::rtrim(std::string &stringValue) {
+    // allocates space for the index to be used during
+    // the right trimming operation and the values to
+    // be used as markers for the start and end index of
+    // the trimming throught sub string
+    size_t index;
+    size_t start;
+    size_t end;
+
+    // retrieves the size of the string to be used
+    // during iteration to avoid buffer overlfow
+    size_t stringSize = stringValue.size();
+
+    // iterates (reversely) while the string value is not a valid
+    // non space chartacter (right trim)
+    for(index = stringSize; index > 0 && stringValue[index - 1] <= 32; index--) { }
+
+    // sets the start index as zero (begining of the string)
+    // and the end index as the index resulting from the right trim
+    start = 0;
+    end = index;
 
     // creates the final string value by creating
     // a sub string of the original value on the detected

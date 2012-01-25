@@ -30,4 +30,6 @@
 class CString {
     public:
         JIMBO_EXPORT_PREFIX static std::string &trim(std::string &stringValue);
+        JIMBO_EXPORT_PREFIX static std::string &ltrim(std::string &stringValue);
+        JIMBO_EXPORT_PREFIX static std::string &rtrim(std::string &stringValue);
 };
