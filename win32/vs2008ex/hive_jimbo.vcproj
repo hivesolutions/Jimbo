@@ -347,6 +347,10 @@
                     >
                 </File>
                 <File
+                    RelativePath="..\..\src\hive_jimbo\util\string.cpp"
+                    >
+                </File>
+                <File
                     RelativePath="..\..\src\hive_jimbo\util\tokenizer.cpp"
                     >
                 </File>
@@ -422,6 +426,10 @@
                 >
                 <File
                     RelativePath="..\..\src\hive_jimbo\util\python.h"
+                    >
+                </File>
+                <File
+                    RelativePath="..\..\src\hive_jimbo\util\string.h"
                     >
                 </File>
                 <File

@@ -27,6 +27,7 @@
 
 #pragma once
 
-#include "python.h"
-#include "string.h"
-#include "tokenizer.h"
+class CString {
+    public:
+        JIMBO_EXPORT_PREFIX static std::string &trim(std::string &stringValue);
+};

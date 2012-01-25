@@ -29,29 +29,6 @@
 
 #include "http_client.h"
 
-std::string &trim(std::string &str) {
-    int i,j,start,end;
-
-    //ltrim
-    for (i=0; (str[i]!=0 && str[i]<=32); )
-        i++;
-    start=i;
-
-    //rtrim
-    for(i=0,j=0; str[i]!=0; i++)
-        j = ((str[i]<=32)? j+1 : 0);
-    end=i-j;
-    str = str.substr(start,end-start);
-    return str;
-}
-
-
-
-
-
-
-
-
 CHttpClient::CHttpClient() : CObservable() {
     this->messageBuffer = NULL;
 }
@@ -267,8 +244,8 @@ void CHttpClient::retrieveData() {
 
                     // trims the header key and values (avoids erroneous extra
                     // space characters) and sets the header in the headers map
-                    headerKey = trim(headerKey);
-                    headerValue = trim(headerValue);
+                    headerKey = CString::trim(headerKey);
+                    headerValue = CString::trim(headerValue);
                     headersMap[headerKey] = headerValue;
                 }
 

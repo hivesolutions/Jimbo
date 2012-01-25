@@ -25,8 +25,34 @@
  __license__   = GNU General Public License (GPL), Version 3
 */
 
-#pragma once
+#include "stdafx.h"
 
-#include "python.h"
 #include "string.h"
-#include "tokenizer.h"
+
+std::string &CString::trim(std::string &stringValue) {
+    int i;
+    int j;
+    int start;
+    int end;
+
+    for(i = 0; (stringValue[i] != 0 && stringValue[i] <= 32);) {
+        i++;
+    }
+
+    start = i;
+
+    for(i = 0, j = 0; stringValue[i] != 0; i++) {
+        j = ((stringValue[i] <= 32) ? j + 1 : 0);
+    }
+
+    // calculates the end trimming index as the difference
+    // between the start index (left trim) and the final
+    /// (right trim) indexes
+    end = i - j;
+
+    // creates the final string value by creating
+    // a sub string of the original value on the detected
+    // end and start indexed of the trimming process
+    stringValue = stringValue.substr(start, end - start);
+    return stringValue;
+}
