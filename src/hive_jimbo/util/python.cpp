@@ -29,6 +29,10 @@
 
 #include "python.h"
 
+HKEY JBPython::checkPython() {
+    return JBPython::checkPython(NULL);
+}
+
 HKEY JBPython::checkPython(const char *version) {
     // allocates space for the string to hold the
     // various sub key values (iteration cycle)
@@ -86,7 +90,7 @@ void JBPython::getAvailableVersions(std::vector<std::string> &versions) {
 
     // retrieves the python (base) key, in case none
     // is found this should raise an exception
-    HKEY pythonKey = checkPython(NULL);
+    HKEY pythonKey = checkPython();
 
     // iterates continuously, to iterate over all the sub keys
     // in the current registry key, the iteration should only stop
@@ -120,7 +124,7 @@ std::string JBPython::getInstallPath(std::string &version) {
 
     // retrieves the python (base) key, in case
     // none is found this should raise an exception
-    HKEY pythonKey = checkPython(NULL);
+    HKEY pythonKey = checkPython();
 
     // allocates space for the storage of the install
     // path key value

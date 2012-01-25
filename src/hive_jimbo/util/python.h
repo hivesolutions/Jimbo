@@ -55,6 +55,15 @@ class JBPython {
         ~JBPython();
 
         /**
+         * Checks if there is any python installation in the system
+         * any version may exist in the system.
+         *
+         * @return The registry key containing the references to the python
+         * installation details.
+         */
+        JIMBO_EXPORT_PREFIX static HKEY checkPython();
+
+        /**
          * Checks if there is a python installation in the system
          * that meets the required given version.
          *

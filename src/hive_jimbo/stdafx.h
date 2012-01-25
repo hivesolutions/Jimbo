@@ -42,6 +42,7 @@
 #include <windows.h>
 #include <winsock2.h>
 
+#include <ctime>
 #include <string>
 
 #include <iostream>

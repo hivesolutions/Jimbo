@@ -30,6 +30,7 @@
 #include "stdafx.h"
 
 #include "http/http.h"
+#include "logging/logging.h"
 #include "packing/packing.h"
 #include "structures/structures.h"
 #include "util/util.h"

@@ -53,8 +53,9 @@ void JBHttpClient::parseUrl(std::string &url) {
 
     finalIndex = index + 7;
 
-    if(index == std::string::npos)
+    if(index == std::string::npos) {
         throw "Invalid address";
+    }
 
     std::string subUrl = url.substr(finalIndex);
 
@@ -76,10 +77,8 @@ void JBHttpClient::parseUrl(std::string &url) {
 
     finalIndex = index + 1;
 
-    if(index == std::string::npos)
-        this->contentUrl = "/";
-    else
-        this->contentUrl = subUrl.substr(index);
+    if(index == std::string::npos) { this->contentUrl = "/"; }
+    else { this->contentUrl = subUrl.substr(index); }
 }
 
 void JBHttpClient::retrieveData() {
@@ -141,63 +140,58 @@ void JBHttpClient::retrieveData() {
             startLineIndex = receiveStreamString.find("\r\n");
 
             if(startLineIndex != std::string::npos) {
-                // sets the start line loaded flag
+                // sets the start line loaded flag and retrieves
+                // the start line header string value
                 startLineLoaded = true;
-
-                // retrieves the start line header
                 std::string startLineHeader = receiveStreamString.substr(0, startLineIndex);
 
-
-
-
+                // allocates space for the list that will hold the various
+                // tokens from the start line and then tokenizes the start
+                // line header part arround the space character
                 std::vector<std::string> tokensList;
-
-                // tokenizes the buffer string and puts the tokens in the tokens vector
                 JBTokenizer::TokenizeNoEscape(tokensList, startLineHeader, JBIsFromStringNoEscape(" "));
 
-
-
-
-
-                // in case the header is smaller than expected
+                // in case the header is smaller than expected, the expected
+                // tokens are the protocol version, status code and status
+                // message (the status message is of variable length)
                 if(tokensList.size() < 3) {
                     // throws an exception
                     throw "Invalid header in the request";
                 }
 
-                // retrieves the protocol version
+                // retrieves the protocol version and the status code
+                // as the first and second elements of the tokens list
                 std::string protocolVersion = tokensList[0];
-
-                // retrieves the status code
                 std::string statusCode = tokensList[1];
 
                 // retrieves the status message
                 std::string statusMessage = std::string();
 
                 // retrieves the tokens list iterator
-                std::vector<std::string>::iterator tokensListIterator = tokensList.begin();
+                std::vector<std::string>::iterator iterator = tokensList.begin();
 
                 // increments the tokens list iterator (status code and message values)
-                tokensListIterator += 2;
+                // they should be skipped in order to correcly join the status message
+                iterator += 2;
 
                 // sets the is first flag
                 bool isFirst = true;
 
-                // iterates over all the tokens
-                while(tokensListIterator != tokensList.end()) {
+                // iterates over all the tokens to join the complete
+                // status message from the remaining tokens in the
+                // tokens list
+                while(iterator != tokensList.end()) {
                     // in case it's the first iteration
-                    if(isFirst) {
-                        // unsets the is first flag
-                        isFirst = false;
-                    }
-                    // otherwise it's not the first
-                    else {
-                        // adds a space to the status message
-                        statusMessage += " ";
-                    }
+                    // unsets the is first flag
+                    if(isFirst) { isFirst = false; }
+                    // otherwise it's not the first operation
+                    // and adds a space to the status message
+                    else { statusMessage += " "; }
 
-                    statusMessage += *tokensListIterator;
-                    tokensListIterator++;
+                    // appends the current token value to the status
+                    // message and increments the tokens list iterator
+                    statusMessage += *iterator;
+                    iterator++;
                 }
             }
         }
@@ -209,25 +203,26 @@ void JBHttpClient::retrieveData() {
 
             // in case the end header index is valid
             if(endHeaderIndex != std::string::npos) {
-                // sets the header loaded flag
+                // sets the header loaded flag, calculates the start header
+                // index and retrieves the associated header string with the
+                // start header index value in mind
                 headerLoaded = true;
-
-                // calculates the start header index
                 startHeaderIndex = startLineIndex + 2;
-
-                // retrieves the headers string
                 std::string headers = receiveStreamString.substr(startHeaderIndex, endHeaderIndex - startHeaderIndex);
 
-
-
-
+                // allocates space for the list that will hold the various
+                // tokens from the various header lines and then tokenizes
+                // the header string part arround the new line and carriage
+                // return characters
                 std::vector<std::string> tokensList;
-
-                // tokenizes the buffer string and puts the tokens in the tokens vector
                 JBTokenizer::TokenizeNoEscape(tokensList, headers, JBIsFromStringNoEscape("\r\n"));
 
+                // creats the map that will hold the various header values indexed
+                // by their key name and associated with their string value
                 std::map<std::string, std::string> headersMap = std::map<std::string, std::string>();
 
+                // iterates over all the tokens in the tokens list to populate the
+                // headers map with the resulting values from their splitting
                 for(std::vector<std::string>::iterator iterator = tokensList.begin(); iterator < tokensList.end(); iterator++) {
                     // retrieves the current iterator position as the
                     // current token in iteration
@@ -248,8 +243,6 @@ void JBHttpClient::retrieveData() {
                     JBString::trim(headerValue);
                     headersMap[headerKey] = headerValue;
                 }
-
-
 
                 if(headersMap.find("Content-Length") != headersMap.end()) {
                     messageSize = atoi(headersMap["Content-Length"].c_str());
@@ -382,12 +375,12 @@ void JBHttpClient::getContents(std::string &url) {
         // retrieves the data
         this->retrieveData();
     }
-    catch(char *exception) {
+    catch(char *) {
         // closes the connection
         this->closeConnection();
 
         // rethrows exception
-        throw exception;
+        throw;
     }
 
     // closes the connection

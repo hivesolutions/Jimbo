@@ -375,6 +375,14 @@
                     >
                 </File>
             </Filter>
+            <Filter
+                Name="Logging"
+                >
+                <File
+                    RelativePath="..\..\src\hive_jimbo\logging\logger.cpp"
+                    >
+                </File>
+            </Filter>
         </Filter>
         <Filter
             Name="Header Files"
@@ -462,6 +470,18 @@
                 </File>
                 <File
                     RelativePath="..\..\src\hive_jimbo\packing\packing.h"
+                    >
+                </File>
+            </Filter>
+            <Filter
+                Name="Logging"
+                >
+                <File
+                    RelativePath="..\..\src\hive_jimbo\logging\logger.h"
+                    >
+                </File>
+                <File
+                    RelativePath="..\..\src\hive_jimbo\logging\logging.h"
                     >
                 </File>
             </Filter>

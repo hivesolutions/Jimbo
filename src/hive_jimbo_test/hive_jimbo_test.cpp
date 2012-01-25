@@ -45,5 +45,11 @@ int _tmain(int argc, _TCHAR* argv[]) {
 
     std::string installPath = JBPython::getInstallPath(std::string("2.7"));
 
+    CLogger *logger = CLogger::getLogger();
+
+    CLoggerFileHandler *fileHandler = new CLoggerFileHandler(std::string("default.log"));
+    logger->addHandler(fileHandler);
+    logger->critical(std::string("Hello World Test"));
+
     return 0;
 }
