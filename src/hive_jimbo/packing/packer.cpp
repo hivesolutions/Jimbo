@@ -29,21 +29,21 @@
 
 #include "packer.h"
 
-CPacker::CPacker() {
+JBPacker::JBPacker() {
 }
 
-CPacker::~CPacker() {
+JBPacker::~JBPacker() {
 }
 
-void CPacker::addFile(std::string &filePath, std::fstream &fileStream) {
-    this->baseDirectory.addFile(filePath, new CPackerFile(filePath, filePath, &fileStream));
+void JBPacker::addFile(std::string &filePath, std::fstream &fileStream) {
+    this->baseDirectory.addFile(filePath, new JBPackerFile(filePath, filePath, &fileStream));
 }
 
-void CPacker::removeFile(std::string &filePath) {
+void JBPacker::removeFile(std::string &filePath) {
 }
 
-void CPacker::packFile(std::string &filePath, std::string &targetPath) {
+void JBPacker::packFile(std::string &filePath, std::string &targetPath) {
 }
 
-void CPacker::unpackFile(std::string &filePath, std::string &targetPath) {
+void JBPacker::unpackFile(std::string &filePath, std::string &targetPath) {
 }

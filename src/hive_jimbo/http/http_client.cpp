@@ -29,11 +29,11 @@
 
 #include "http_client.h"
 
-CHttpClient::CHttpClient() : CObservable() {
+JBHttpClient::JBHttpClient() : JBObservable() {
     this->messageBuffer = NULL;
 }
 
-CHttpClient::~CHttpClient() {
+JBHttpClient::~JBHttpClient() {
     // in case the message buffer is defined
     if(this->messageBuffer) {
         // releases the message buffer
@@ -41,7 +41,7 @@ CHttpClient::~CHttpClient() {
     }
 }
 
-void CHttpClient::parseUrl(std::string &url) {
+void JBHttpClient::parseUrl(std::string &url) {
     int index;
     int finalIndex;
 
@@ -66,7 +66,7 @@ void CHttpClient::parseUrl(std::string &url) {
 
     if(portIndex == std::string::npos) {
         this->address = address;
-        this->port = CHttpClient::defaultPort;
+        this->port = JBHttpClient::defaultPort;
     }
     else {
         this->address = address.substr(0, portIndex);
@@ -82,7 +82,7 @@ void CHttpClient::parseUrl(std::string &url) {
         this->contentUrl = subUrl.substr(index);
 }
 
-void CHttpClient::retrieveData() {
+void JBHttpClient::retrieveData() {
     int startLineIndex;
     int startHeaderIndex;
     int endHeaderIndex;
@@ -153,7 +153,7 @@ void CHttpClient::retrieveData() {
                 std::vector<std::string> tokensList;
 
                 // tokenizes the buffer string and puts the tokens in the tokens vector
-                CTokenizer::TokenizeNoEscape(tokensList, startLineHeader, CIsFromStringNoEscape(" "));
+                JBTokenizer::TokenizeNoEscape(tokensList, startLineHeader, JBIsFromStringNoEscape(" "));
 
 
 
@@ -224,7 +224,7 @@ void CHttpClient::retrieveData() {
                 std::vector<std::string> tokensList;
 
                 // tokenizes the buffer string and puts the tokens in the tokens vector
-                CTokenizer::TokenizeNoEscape(tokensList, headers, CIsFromStringNoEscape("\r\n"));
+                JBTokenizer::TokenizeNoEscape(tokensList, headers, JBIsFromStringNoEscape("\r\n"));
 
                 std::map<std::string, std::string> headersMap = std::map<std::string, std::string>();
 
@@ -244,8 +244,8 @@ void CHttpClient::retrieveData() {
 
                     // trims the header key and values (avoids erroneous extra
                     // space characters) and sets the header in the headers map
-                    CString::trim(headerKey);
-                    CString::trim(headerValue);
+                    JBString::trim(headerKey);
+                    JBString::trim(headerValue);
                     headersMap[headerKey] = headerValue;
                 }
 
@@ -314,7 +314,7 @@ void CHttpClient::retrieveData() {
     this->fireEvent(std::string("download_completed"), NULL);
 }
 
-void CHttpClient::openConnection(std::string &address, int port) {
+void JBHttpClient::openConnection(std::string &address, int port) {
     // the windows socket api data
     WSADATA wsaData;
 
@@ -366,12 +366,12 @@ void CHttpClient::openConnection(std::string &address, int port) {
     this->httpSocket = httpSocket;
 }
 
-void CHttpClient::closeConnection() {
+void JBHttpClient::closeConnection() {
     // closes the socket
     closesocket(this->httpSocket);
 }
 
-void CHttpClient::getContents(std::string &url) {
+void JBHttpClient::getContents(std::string &url) {
     // parses the url
     this->parseUrl(url);
 
@@ -394,14 +394,14 @@ void CHttpClient::getContents(std::string &url) {
     this->closeConnection();
 }
 
-char *CHttpClient::getMessageBuffer() {
+char *JBHttpClient::getMessageBuffer() {
     return this->messageBuffer;
 }
 
-int CHttpClient::getMessageSize() {
+int JBHttpClient::getMessageSize() {
     return this->messageSize;
 }
 
-int CHttpClient::getContentLength() {
+int JBHttpClient::getContentLength() {
     return this->contentLength;
 }

@@ -33,7 +33,7 @@
  */
 #define PYTHON_KEY_NAME "SOFTWARE\\Python\\PythonCore"
 
-class CPython {
+class JBPython {
     private:
         /**
          * The length of the buffer to be used for the
@@ -47,12 +47,12 @@ class CPython {
         /**
          * Constructor of the class.
          */
-        CPython();
+        JBPython();
 
         /**
          * Destructor of the class.
          */
-        ~CPython();
+        ~JBPython();
 
         /**
          * Checks if there is a python installation in the system

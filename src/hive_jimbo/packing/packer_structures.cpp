@@ -29,48 +29,48 @@
 
 #include "packer_structures.h"
 
-CPackerElement::CPackerElement() {
+JBPackerElement::JBPackerElement() {
 }
 
-CPackerElement::CPackerElement(std::string &name, std::string &path) {
+JBPackerElement::JBPackerElement(std::string &name, std::string &path) {
     this->name = name;
     this->path = path;
 }
 
-CPackerElement::~CPackerElement() {
+JBPackerElement::~JBPackerElement() {
 }
 
-CPackerFile::CPackerFile() : CPackerElement() {
+JBPackerFile::JBPackerFile() : JBPackerElement() {
 }
 
-CPackerFile::CPackerFile(std::string &name, std::string &path, std::fstream *fileStream, std::string &mimeType) : CPackerElement(name, path) {
+JBPackerFile::JBPackerFile(std::string &name, std::string &path, std::fstream *fileStream, std::string &mimeType) : JBPackerElement(name, path) {
     this->fileStream = fileStream;
     this->mimeType = mimeType;
 }
 
-CPackerFile::~CPackerFile() {
+JBPackerFile::~JBPackerFile() {
 }
 
-void CPackerFile::addFile(std::string &filePath, CPackerFile *packerFile) {
-    CPackerElement::addFile(filePath, packerFile);
+void JBPackerFile::addFile(std::string &filePath, JBPackerFile *packerFile) {
+    JBPackerElement::addFile(filePath, packerFile);
 
 }
 
-void CPackerFile::removeFile(std::string &filePath) {
-    CPackerElement::removeFile(filePath);
+void JBPackerFile::removeFile(std::string &filePath) {
+    JBPackerElement::removeFile(filePath);
 }
 
-CPackerDirectory::CPackerDirectory() {
+JBPackerDirectory::JBPackerDirectory() {
 }
 
-CPackerDirectory::CPackerDirectory(std::string &name, std::string &path) : CPackerElement(name, path) {
+JBPackerDirectory::JBPackerDirectory(std::string &name, std::string &path) : JBPackerElement(name, path) {
 }
 
-CPackerDirectory::~CPackerDirectory() {
+JBPackerDirectory::~JBPackerDirectory() {
 }
 
-void CPackerDirectory::addFile(std::string &filePath, CPackerFile *packerFile) {
-    CPackerElement::addFile(filePath, packerFile);
+void JBPackerDirectory::addFile(std::string &filePath, JBPackerFile *packerFile) {
+    JBPackerElement::addFile(filePath, packerFile);
 
     int index = filePath.find("/");
 
@@ -82,12 +82,12 @@ void CPackerDirectory::addFile(std::string &filePath, CPackerFile *packerFile) {
         std::string fileNewPath = filePath.substr(index + 1);
 
         if(this->elementsMap.find(fileDirectoryName) == this->elementsMap.end())
-            this->elementsMap[fileDirectoryName] = new CPackerDirectory(fileDirectoryName, fileDirectoryName);
+            this->elementsMap[fileDirectoryName] = new JBPackerDirectory(fileDirectoryName, fileDirectoryName);
 
          this->elementsMap[fileDirectoryName]->addFile(fileNewPath, packerFile);
     }
 }
 
-void CPackerDirectory::removeFile(std::string &filePath) {
-    CPackerElement::removeFile(filePath);
+void JBPackerDirectory::removeFile(std::string &filePath) {
+    JBPackerElement::removeFile(filePath);
 }

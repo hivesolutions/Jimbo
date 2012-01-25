@@ -29,7 +29,7 @@
 
 #include "string.h"
 
-std::string &CString::trim(std::string &stringValue) {
+std::string &JBString::trim(std::string &stringValue) {
     // allocates space for the index to be used during
     // the left and right trimming operation and the values
     // to be used as markers for the start and end index of
@@ -65,7 +65,7 @@ std::string &CString::trim(std::string &stringValue) {
     return stringValue;
 }
 
-std::string &CString::ltrim(std::string &stringValue) {
+std::string &JBString::ltrim(std::string &stringValue) {
     // allocates space for the index to be used during
     // the left trimming operation and the values to
     // be used as markers for the start and end index of
@@ -94,7 +94,7 @@ std::string &CString::ltrim(std::string &stringValue) {
     return stringValue;
 }
 
-std::string &CString::rtrim(std::string &stringValue) {
+std::string &JBString::rtrim(std::string &stringValue) {
     // allocates space for the index to be used during
     // the right trimming operation and the values to
     // be used as markers for the start and end index of

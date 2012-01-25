@@ -27,20 +27,20 @@
 
 #pragma once
 
-class CObservable;
+class JBObservable;
 class CObserver;
 
-class CObservable {
+class JBObservable {
     private:
-        std::map<std::string, std::vector<int(*)(CObservable &, void *)>> eventHandlersMap;
+        std::map<std::string, std::vector<int(*)(JBObservable &, void *)>> eventHandlersMap;
         std::map<std::string, std::vector<CObserver *>> observersMap;
     protected:
         void fireEvent(std::string &eventName, void *arguments);
     public:
-        CObservable();
-        ~CObservable();
-        void registerForEvent(std::string eventName, int(*callbackFunction)(CObservable &, void *));
-        void unregisterForEvent(std::string eventName, int(*callbackFunction)(CObservable &, void *));
+        JBObservable();
+        ~JBObservable();
+        void registerForEvent(std::string eventName, int(*callbackFunction)(JBObservable &, void *));
+        void unregisterForEvent(std::string eventName, int(*callbackFunction)(JBObservable &, void *));
         void registerObserverForEvent(std::string eventName, CObserver &observer);
         void unregisterObserverForEvent(std::string eventName, CObserver &observer);
 };
@@ -49,5 +49,5 @@ class CObserver {
     public:
         CObserver();
         ~CObserver();
-        virtual void update(CObservable &element, std::string &eventName, void *arguments) {};
+        virtual void update(JBObservable &element, std::string &eventName, void *arguments) {};
 };

@@ -29,12 +29,12 @@
 
 #include "python.h"
 
-HKEY CPython::checkPython(const char *version) {
+HKEY JBPython::checkPython(const char *version) {
     // allocates space for the string to hold the
     // various sub key values (iteration cycle)
     // stores also the syze of that key in a variable
-    char subKeyName[CPython::bufferLength];
-    DWORD subKeyNameSize = CPython::bufferLength;
+    char subKeyName[JBPython::bufferLength];
+    DWORD subKeyNameSize = JBPython::bufferLength;
 
     // allocates space for the main python key registry
     // (key) reference, going to be used during the
@@ -77,12 +77,12 @@ HKEY CPython::checkPython(const char *version) {
     return NULL;
 }
 
-void CPython::getAvailableVersions(std::vector<std::string> &versions) {
+void JBPython::getAvailableVersions(std::vector<std::string> &versions) {
     // allocates space for the string to hold the
     // various sub key values (iteration cycle)
     // stores also the syze of that key in a variable
-    char subKeyName[CPython::bufferLength];
-    DWORD subKeyNameSize = CPython::bufferLength;
+    char subKeyName[JBPython::bufferLength];
+    DWORD subKeyNameSize = JBPython::bufferLength;
 
     // retrieves the python (base) key, in case none
     // is found this should raise an exception
@@ -111,12 +111,12 @@ void CPython::getAvailableVersions(std::vector<std::string> &versions) {
     RegCloseKey(pythonKey);
 }
 
-std::string CPython::getInstallPath(std::string &version) {
+std::string JBPython::getInstallPath(std::string &version) {
     // allocates space for the string to hold the
     // install path, and also stores the size of
     // the path in it's own variable
-    char installPath[CPython::bufferLength];
-    DWORD installPathSize = CPython::bufferLength;
+    char installPath[JBPython::bufferLength];
+    DWORD installPathSize = JBPython::bufferLength;
 
     // retrieves the python (base) key, in case
     // none is found this should raise an exception

@@ -27,45 +27,45 @@
 
 #pragma once
 
-class CPackerElement;
-class CPackerFile;
-class CPackerDirectory;
+class JBPackerElement;
+class JBPackerFile;
+class JBPackerDirectory;
 
-class CPackerElement {
+class JBPackerElement {
     private:
         std::string name;
         std::string path;
 
     public:
-        CPackerElement();
-        CPackerElement(std::string &name, std::string &path);
-        ~CPackerElement();
-        virtual void addFile(std::string &filePath, CPackerFile *packerFile) {};
+        JBPackerElement();
+        JBPackerElement(std::string &name, std::string &path);
+        ~JBPackerElement();
+        virtual void addFile(std::string &filePath, JBPackerFile *packerFile) {};
         virtual void removeFile(std::string &filePath) {};
 };
 
-class CPackerFile : public CPackerElement {
+class JBPackerFile : public JBPackerElement {
     private:
         std::fstream *fileStream;
         std::string fileExtension;
         std::string mimeType;
 
     public:
-        CPackerFile();
-        CPackerFile(std::string &name, std::string &path, std::fstream *fileStream, std::string &mimeType = std::string("none/none"));
-        ~CPackerFile();
-        void addFile(std::string &filePath, CPackerFile *packerFile) override;
+        JBPackerFile();
+        JBPackerFile(std::string &name, std::string &path, std::fstream *fileStream, std::string &mimeType = std::string("none/none"));
+        ~JBPackerFile();
+        void addFile(std::string &filePath, JBPackerFile *packerFile) override;
         void removeFile(std::string &filePath) override;
 };
 
-class CPackerDirectory : public CPackerElement {
+class JBPackerDirectory : public JBPackerElement {
     private:
-        std::map<std::string, CPackerElement *> elementsMap;
+        std::map<std::string, JBPackerElement *> elementsMap;
 
     public:
-        CPackerDirectory();
-        CPackerDirectory(std::string &name, std::string &path);
-        ~CPackerDirectory();
-        void addFile(std::string &filePath, CPackerFile *packerFile) override;
+        JBPackerDirectory();
+        JBPackerDirectory(std::string &name, std::string &path);
+        ~JBPackerDirectory();
+        void addFile(std::string &filePath, JBPackerFile *packerFile) override;
         void removeFile(std::string &filePath) override;
 };

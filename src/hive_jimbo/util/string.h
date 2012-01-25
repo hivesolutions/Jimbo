@@ -33,7 +33,7 @@
  * The method contained in these class are meant
  * to be used with the standard string implementation.
  */
-class CString {
+class JBString {
     public:
         /**
          * Trims te given string, removing its initial and final

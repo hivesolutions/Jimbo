@@ -31,13 +31,13 @@
 
 #include "packer_gz.h"
 
-CPackerGz::CPackerGz() : CPacker() {
+JBPackerGz::JBPackerGz() : JBPacker() {
 }
 
-CPackerGz::~CPackerGz() {
+JBPackerGz::~JBPackerGz() {
 }
 
-void CPackerGz::packFile(std::string &filePath, std::string &targetPath) {
+void JBPackerGz::packFile(std::string &filePath, std::string &targetPath) {
     // allocates space for the buffer
     char buffer[GZ_BUFFER_SIZE];
 
@@ -73,7 +73,7 @@ void CPackerGz::packFile(std::string &filePath, std::string &targetPath) {
     gzclose(targetFile);
 }
 
-void CPackerGz::unpackFile(std::string &filePath, std::string &targetPath) {
+void JBPackerGz::unpackFile(std::string &filePath, std::string &targetPath) {
     // allocates space for the buffer
     char buffer[GZ_BUFFER_SIZE];
 

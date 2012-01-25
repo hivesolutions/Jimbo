@@ -28,7 +28,7 @@
 #include "stdafx.h"
 
 int _tmain(int argc, _TCHAR* argv[]) {
-    CHttpClient colonyHttp = CHttpClient();
+    JBHttpClient colonyHttp = JBHttpClient();
 
     // retrieves the remote contents
     colonyHttp.getContents(std::string("http://www.hive.pt"));
@@ -39,9 +39,11 @@ int _tmain(int argc, _TCHAR* argv[]) {
     file.close();
 
     char * value = "adasd ";
-    std::string trim_a = CString::trim(std::string(value));
-    std::string ltrim_a = CString::ltrim(std::string(value));
-    std::string rtrim_a = CString::rtrim(std::string(value));
+    std::string trim_a = JBString::trim(std::string(value));
+    std::string ltrim_a = JBString::ltrim(std::string(value));
+    std::string rtrim_a = JBString::rtrim(std::string(value));
+
+    std::string installPath = JBPython::getInstallPath(std::string("2.7"));
 
     return 0;
 }

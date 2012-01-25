@@ -49,7 +49,7 @@
  * Provides the support for http parsing and and retrieving.
  * This class represents the entry point for the http client.
  */
-class CHttpClient : public CObservable {
+class JBHttpClient : public JBObservable {
     private:
         /**
          * The default port to be used.
@@ -83,12 +83,12 @@ class CHttpClient : public CObservable {
         /**
          * Constructor of the class.
          */
-        JIMBO_EXPORT_PREFIX CHttpClient();
+        JIMBO_EXPORT_PREFIX JBHttpClient();
 
         /**
          * Destructor of the class.
          */
-        JIMBO_EXPORT_PREFIX ~CHttpClient();
+        JIMBO_EXPORT_PREFIX ~JBHttpClient();
         JIMBO_EXPORT_PREFIX void getContents(std::string &url);
         JIMBO_EXPORT_PREFIX char *getMessageBuffer();
         JIMBO_EXPORT_PREFIX int getMessageSize();

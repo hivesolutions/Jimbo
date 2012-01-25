@@ -29,15 +29,15 @@
 
 #include "tokenizer.h"
 
-int CIsSpace::operator()(char c) const {
+int JBIsSpace::operator()(char c) const {
     return isspace(c);
 }
 
-bool CIsComma::operator()(char c) const {
+bool JBIsComma::operator()(char c) const {
     return (',' == c);
 }
 
-bool CIsFromString::operator()(char c) const {
+bool JBIsFromString::operator()(char c) const {
     int iFind = this->tokenString.find(c);
     if(iFind != std::string::npos) {
         return true;
@@ -46,7 +46,7 @@ bool CIsFromString::operator()(char c) const {
     }
 }
 
-bool CIsFromStringNoEscape::operator()(char c) {
+bool JBIsFromStringNoEscape::operator()(char c) {
     if(c == ESCAPE_CHARACTER) {
         if(this->previousEscape) {
             this->previousEscape = false;
@@ -66,7 +66,7 @@ bool CIsFromStringNoEscape::operator()(char c) {
     }
 }
 
-void CTokenizer::Tokenize(std::vector<std::string> &roResult, std::string const &rostr, CIsFromString const &roT) {
+void JBTokenizer::Tokenize(std::vector<std::string> &roResult, std::string const &rostr, JBIsFromString const &roT) {
     roResult.clear();
     std::string::const_iterator it = rostr.begin();
     std::string::const_iterator itTokenEnd = rostr.begin();
@@ -90,7 +90,7 @@ void CTokenizer::Tokenize(std::vector<std::string> &roResult, std::string const 
   }
 }
 
-void CTokenizer::TokenizeNoEscape(std::vector<std::string> &roResult, std::string const &rostr, CIsFromStringNoEscape &roT) {
+void JBTokenizer::TokenizeNoEscape(std::vector<std::string> &roResult, std::string const &rostr, JBIsFromStringNoEscape &roT) {
     roResult.clear();
     std::string::const_iterator it = rostr.begin();
     std::string::const_iterator itTokenEnd = rostr.begin();

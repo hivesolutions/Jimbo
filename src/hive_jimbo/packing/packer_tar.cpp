@@ -29,16 +29,16 @@
 
 #include "packer_tar.h"
 
-CPackerTar::CPackerTar() : CPacker() {
+JBPackerTar::JBPackerTar() : JBPacker() {
 }
 
-CPackerTar::~CPackerTar() {
+JBPackerTar::~JBPackerTar() {
 }
 
-void CPackerTar::packFile(std::string &filePath, std::string &targetPath) {
+void JBPackerTar::packFile(std::string &filePath, std::string &targetPath) {
 }
 
-void CPackerTar::unpackFile(std::string &filePath, std::string &targetPath) {
+void JBPackerTar::unpackFile(std::string &filePath, std::string &targetPath) {
     // creates the counter
     int count;
 

@@ -29,17 +29,17 @@
 
 #include "observer.h"
 
-CObservable::CObservable() {
+JBObservable::JBObservable() {
 }
 
-CObservable::~CObservable() {
+JBObservable::~JBObservable() {
 }
 
-void CObservable::fireEvent(std::string &eventName, void *arguments) {
+void JBObservable::fireEvent(std::string &eventName, void *arguments) {
     // retrieves both the vector containing the various callback functions
     // for the current event and the vector containing the various observer
     // to be notified about the event
-    std::vector<int(*)(CObservable &, void *)> &callbackFunctions = this->eventHandlersMap[eventName];
+    std::vector<int(*)(JBObservable &, void *)> &callbackFunctions = this->eventHandlersMap[eventName];
     std::vector<CObserver *> &observers = this->observersMap[eventName];
 
     // iterates over all the callback functions to call them notifying
@@ -47,7 +47,7 @@ void CObservable::fireEvent(std::string &eventName, void *arguments) {
     for(unsigned int index = 0; index < callbackFunctions.size(); index++) {
         // retrieves the current callback function and calls it with the
         // current observable reference and the event arguments
-        int(*callbackFunction)(CObservable &, void *) = callbackFunctions[index];
+        int(*callbackFunction)(JBObservable &, void *) = callbackFunctions[index];
         callbackFunction(*this, arguments);
     }
 
@@ -62,12 +62,12 @@ void CObservable::fireEvent(std::string &eventName, void *arguments) {
     }
 }
 
-void CObservable::registerForEvent(std::string eventName, int(*callbackFunction)(CObservable &, void *)) {
+void JBObservable::registerForEvent(std::string eventName, int(*callbackFunction)(JBObservable &, void *)) {
     // in case the event list of handlers is not yet set, on must be created
     // to hold the references to the various callback functions
     if(this->eventHandlersMap.find(eventName) == this->eventHandlersMap.end()) {
         // creates the new vector to hold the various callback functions
-        this->eventHandlersMap[eventName] = std::vector<int(*)(CObservable &, void*)>();
+        this->eventHandlersMap[eventName] = std::vector<int(*)(JBObservable &, void*)>();
     }
 
     // appends the callback function to the back of the callback
@@ -75,14 +75,14 @@ void CObservable::registerForEvent(std::string eventName, int(*callbackFunction)
     this->eventHandlersMap[eventName].push_back(callbackFunction);
 }
 
-void CObservable::unregisterForEvent(std::string eventName, int(*callbackFunction)(CObservable &, void *)) {
-    std::vector<int(*)(CObservable &, void *)> &callbackFunctions = this->eventHandlersMap[eventName];
+void JBObservable::unregisterForEvent(std::string eventName, int(*callbackFunction)(JBObservable &, void *)) {
+    std::vector<int(*)(JBObservable &, void *)> &callbackFunctions = this->eventHandlersMap[eventName];
 
     for(unsigned int index = 0; index < callbackFunctions.size(); index++) {
         // retrieves the current callback function and checks if it is
         // the one to be found in case it's not continues the loop (continue
         // finding more elements, otherwise erases it from the vector
-        int(*_callbackFunction)(CObservable &, void *) = callbackFunctions[index];
+        int(*_callbackFunction)(JBObservable &, void *) = callbackFunctions[index];
         if(_callbackFunction != callbackFunction) continue;
 
         // erases the current element from the vector and break the loop
@@ -92,7 +92,7 @@ void CObservable::unregisterForEvent(std::string eventName, int(*callbackFunctio
     }
 }
 
-void CObservable::registerObserverForEvent(std::string eventName, CObserver &observer) {
+void JBObservable::registerObserverForEvent(std::string eventName, CObserver &observer) {
     if(this->observersMap.find(eventName) == this->observersMap.end()) {
         this->observersMap[eventName] = std::vector<CObserver *>();
     }
@@ -100,7 +100,7 @@ void CObservable::registerObserverForEvent(std::string eventName, CObserver &obs
     this->observersMap[eventName].push_back(&observer);
 }
 
-void CObservable::unregisterObserverForEvent(std::string eventName, CObserver &observer) {
+void JBObservable::unregisterObserverForEvent(std::string eventName, CObserver &observer) {
 }
 
 CObserver::CObserver() {

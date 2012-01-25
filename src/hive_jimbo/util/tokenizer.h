@@ -30,27 +30,27 @@
 // the escape character
 #define ESCAPE_CHARACTER '\\'
 
-class CIsSpace : public std::unary_function<char, bool> {
+class JBIsSpace : public std::unary_function<char, bool> {
     public:
         int operator()(char c) const;
 };
 
-class CIsComma : public std::unary_function<char, bool> {
+class JBIsComma : public std::unary_function<char, bool> {
     public:
         bool operator()(char c) const;
 };
 
-class CIsFromString : public std::unary_function<char, bool> {
+class JBIsFromString : public std::unary_function<char, bool> {
     public:
-        CIsFromString::CIsFromString(std::string const &tokenString) : tokenString(tokenString) {}
+        JBIsFromString::JBIsFromString(std::string const &tokenString) : tokenString(tokenString) {}
         bool operator()(char c) const;
     protected:
         std::string tokenString;
 };
 
-class CIsFromStringNoEscape : CIsFromString {
+class JBIsFromStringNoEscape : JBIsFromString {
     public:
-        CIsFromStringNoEscape::CIsFromStringNoEscape(std::string const &tokenString) : CIsFromString(tokenString) {
+        JBIsFromStringNoEscape::JBIsFromStringNoEscape(std::string const &tokenString) : JBIsFromString(tokenString) {
             this->previousEscape = false;
         }
         bool operator()(char c);
@@ -58,8 +58,8 @@ class CIsFromStringNoEscape : CIsFromString {
         bool previousEscape;
 };
 
-class CTokenizer {
+class JBTokenizer {
     public:
-        static void Tokenize(std::vector<std::string> &roResult, std::string const &rostr, CIsFromString const &roT);
-        static void TokenizeNoEscape(std::vector<std::string> &roResult, std::string const &rostr, CIsFromStringNoEscape &roT);
+        static void Tokenize(std::vector<std::string> &roResult, std::string const &rostr, JBIsFromString const &roT);
+        static void TokenizeNoEscape(std::vector<std::string> &roResult, std::string const &rostr, JBIsFromStringNoEscape &roT);
 };

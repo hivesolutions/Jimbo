@@ -46,11 +46,11 @@ struct tarHeader {
     char padding[255];
 };
 
-class CPackerTar : CPacker {
+class JBPackerTar : JBPacker {
     private:
     public:
-        CPackerTar();
-        ~CPackerTar();
+        JBPackerTar();
+        ~JBPackerTar();
         static void packFile(std::string &filePath, std::string &targetPath);
         static void unpackFile(std::string &filePath, std::string &targetPath);
 };

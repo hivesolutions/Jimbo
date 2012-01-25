@@ -29,13 +29,13 @@
 
 #include "packer_structures.h"
 
-class CPacker {
+class JBPacker {
     private:
-        CPackerDirectory baseDirectory;
+        JBPackerDirectory baseDirectory;
 
     public:
-        CPacker();
-        ~CPacker();
+        JBPacker();
+        ~JBPacker();
         void addFile(std::string &filePath, std::fstream &fileStream);
         void removeFile(std::string &filePath);
         static void packFile(std::string &filePath, std::string &targetPath);

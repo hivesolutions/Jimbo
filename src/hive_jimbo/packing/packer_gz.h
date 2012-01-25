@@ -33,11 +33,11 @@
 
 #define GZ_BUFFER_SIZE 1024
 
-class CPackerGz : CPacker {
+class JBPackerGz : JBPacker {
     private:
     public:
-        CPackerGz();
-        ~CPackerGz();
+        JBPackerGz();
+        ~JBPackerGz();
         static void packFile(std::string &filePath, std::string &targetPath);
         static void unpackFile(std::string &filePath, std::string &targetPath);
 };
