@@ -1,0 +1,65 @@
+/*
+ Hive Jimbo Library
+ Copyright (C) 2008 Hive Solutions Lda.
+
+ This file is part of Hive Jimbo Library.
+
+ Hive Jimbo Library is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Hive Jimbo Library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Hive Jimbo Library. If not, see <http://www.gnu.org/licenses/>.
+
+ __author__    = João Magalhães <joamag@hive.pt>
+ __version__   = 1.0.0
+ __revision__  = $LastChangedRevision$
+ __date__      = $LastChangedDate$
+ __copyright__ = Copyright (c) 2008 Hive Solutions Lda.
+ __license__   = GNU General Public License (GPL), Version 3
+*/
+
+#pragma once
+
+// the escape character
+#define ESCAPE_CHARACTER '\\'
+
+class CIsSpace : public std::unary_function<char, bool> {
+    public:
+        int operator()(char c) const;
+};
+
+class CIsComma : public std::unary_function<char, bool> {
+    public:
+        bool operator()(char c) const;
+};
+
+class CIsFromString : public std::unary_function<char, bool> {
+    public:
+        CIsFromString::CIsFromString(std::string const &tokenString) : tokenString(tokenString) {}
+        bool operator()(char c) const;
+    protected:
+        std::string tokenString;
+};
+
+class CIsFromStringNoEscape : CIsFromString {
+    public:
+        CIsFromStringNoEscape::CIsFromStringNoEscape(std::string const &tokenString) : CIsFromString(tokenString) {
+            this->previousEscape = false;
+        }
+        bool operator()(char c);
+    private:
+        bool previousEscape;
+};
+
+class CTokenizer {
+    public:
+        static void Tokenize(std::vector<std::string> &roResult, std::string const &rostr, CIsFromString const &roT);
+        static void TokenizeNoEscape(std::vector<std::string> &roResult, std::string const &rostr, CIsFromStringNoEscape &roT);
+};
