@@ -45,16 +45,6 @@ class JBPython {
         static const int bufferLength = 1024;
     public:
         /**
-         * Constructor of the class.
-         */
-        JBPython();
-
-        /**
-         * Destructor of the class.
-         */
-        ~JBPython();
-
-        /**
          * Checks if there is any python installation in the system
          * any version may exist in the system.
          *

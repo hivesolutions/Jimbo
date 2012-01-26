@@ -51,7 +51,7 @@ int _tmain(int argc, _TCHAR* argv[]) {
     logger->addHandler(fileHandler);
     logger->critical(std::string("Hello World Test"));
 
-	getchar();
+    getchar();
 
     return 0;
 }

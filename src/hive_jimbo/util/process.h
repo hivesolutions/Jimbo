@@ -27,7 +27,29 @@
 
 #pragma once
 
-#include "process.h"
-#include "python.h"
-#include "string.h"
-#include "tokenizer.h"
+class JBProcess {
+    public:
+        /**
+         * Checks if the executable (exe) with the given name is running
+         * and returns the value of it.
+         *
+         * @param exeName The name of the executable (exe) to be tested
+         * for running.
+         * @param running Pointer to the boolean to receive the result
+         * of the executable running test.
+         * @return The success of the function call.
+         */
+        JIMBO_EXPORT_PREFIX static bool isRunning(char *exeName, bool *processRunning);
+
+        /**
+         * Retrieves the of processes running for the executable (exe)
+         * with the given name.
+         *
+         * @param exeName The name of the executable (exe) to retrieve
+         * the number of processes running.
+         * @param count Pointer to the interger to receive the the number
+         * of processes running.
+         * @return The success of the function call.
+         */
+        JIMBO_EXPORT_PREFIX static bool getRunning(char *exeName, int *count);
+};

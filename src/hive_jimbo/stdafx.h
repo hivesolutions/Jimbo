@@ -39,8 +39,11 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <direct.h>
+#include <shlobj.h>
 #include <windows.h>
+#include <shlwapi.h>
 #include <winsock2.h>
+#include <tlhelp32.h>
 
 #include <ctime>
 #include <string>
