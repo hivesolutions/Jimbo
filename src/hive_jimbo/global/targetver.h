@@ -27,39 +27,17 @@
 
 #pragma once
 
-#ifdef NO_ZLIB
-#define JB_NO_ZLIB
+/* sets windows version to windows xp and 2003 or above */
+#ifndef WINVER
+#define WINVER 0x0501
 #endif
 
-#define JB_EXPORT __declspec(dllexport)
-#define JB_NO_EXPORT
+/* sets windows nt version to windows xp and 2003 or above */
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0501
+#endif
 
-#include "global/targetver.h"
-
-#define WIN32_LEAN_AND_MEAN
-
-#include <direct.h>
-#include <shlobj.h>
-#include <windows.h>
-#include <shlwapi.h>
-#include <winsock2.h>
-#include <tlhelp32.h>
-
-#include <ctime>
-#include <string>
-
-#include <iostream>
-#include <sstream>
-#include <fstream>
-
-#include <algorithm>
-#include <vector>
-#include <list>
-#include <map>
-
-#pragma comment(lib, "Ws2_32.lib")
-
-#ifndef JB_NO_ZLIB
-#include <zlib.h>
-#pragma comment(lib, "zlib1.lib")
+/* sets windows 32 version to windows 98 or above */
+#ifndef _WIN32_WINDOWS
+#define _WIN32_WINDOWS 0x0410
 #endif
