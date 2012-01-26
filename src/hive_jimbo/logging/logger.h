@@ -33,13 +33,6 @@
 #define DEFAULT_HANDLER JBLoggerStandardOutHandler
 #define DEFAULT_FORMATTER JBLoggerTimeFormatter
 
-#define NOTSET 0
-#define DEBUG 1
-#define INFO 2
-#define WARNING 3
-#define FAULT 4
-#define CRITICAL 5
-
 #define DEFAULT_FILE_STREAM_MODE std::ios_base::app
 
 #define DEFAULT_LOGGER_NAME "default"
@@ -75,4 +68,13 @@ class JBLogger {
         handlersListType handlersList;
         JBLoggerFormatter *loggerFormatter;
         static loggersMapType loggersMap;
+};
+
+enum JBLogLevel {
+	NOTSET = 0,
+	DEBUG,
+	INFO,
+	WARNING,
+	FAULT,
+	CRITICAL
 };
