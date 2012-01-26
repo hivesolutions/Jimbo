@@ -347,6 +347,10 @@
                 Name="Util"
                 >
                 <File
+                    RelativePath="..\..\src\hive_jimbo\util\escaper.cpp"
+                    >
+                </File>
+                <File
                     RelativePath="..\..\src\hive_jimbo\util\process.cpp"
                     >
                 </File>
@@ -452,6 +456,10 @@
             <Filter
                 Name="Util"
                 >
+                <File
+                    RelativePath="..\..\src\hive_jimbo\util\escaper.h"
+                    >
+                </File>
                 <File
                     RelativePath="..\..\src\hive_jimbo\util\process.h"
                     >

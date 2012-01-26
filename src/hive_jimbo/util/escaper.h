@@ -27,8 +27,22 @@
 
 #pragma once
 
-#include "escaper.h"
-#include "process.h"
-#include "python.h"
-#include "string.h"
-#include "tokenizer.h"
+#define ESCAPE_TOKEN "\\"
+
+#define COMMAND_SEPARATOR_TOKEN ";"
+#define ARGUMENT_SEPARATOR_TOKEN "&"
+#define ARGUMENT_TYPE_TOKEN "=///="
+
+class JBEscaper {
+    public:
+        JBEscaper();
+        ~JBEscaper();
+        static std::string &escape(std::string &stringValue);
+        static std::string *escape(char *stringCharacterValue);
+        static std::string &unescape(std::string &stringValue);
+        static std::string *unescape(char *stringCharacterValue);
+        static std::string &escapeCharacterSequence(std::string &stringValue, const char *characterSequence);
+        static std::string &unescapeCharacterSequence(std::string &stringValue, const char *characterSequence);
+        static std::string &replaceAll(std::string &targetString, const std::string &originalSequence, const std::string &targetSequence);
+        static void releaseStringValue(std::string *stringValue);
+};

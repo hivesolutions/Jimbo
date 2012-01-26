@@ -134,3 +134,16 @@ bool JBProcess::getRunning(char *exeName, int *count) {
     // returns
     return success;
 }
+
+void JBProcess::getProcessId(std::string &idString) {
+    // retrieves the current process id, this is a system
+    // call to the windows system
+    int processId = GetCurrentProcessId();
+
+    // creates a new id stream, pipes the curren process id
+    // to the id stream and then pipes it back to the id string
+    // from the stream (this is required for syntax compatibility)
+    std::stringstream idStream;
+    idStream << processId;
+    idStream >> idString;
+}

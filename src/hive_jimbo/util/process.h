@@ -52,4 +52,14 @@ class JBProcess {
          * @return The success of the function call.
          */
         JIMBO_EXPORT_PREFIX static bool getRunning(char *exeName, int *count);
+
+        /**
+         * Retrieves the identifier of the current process runing as a string
+         * value, the string value to hold the identifier should be given by
+         * reference value.
+         *
+         * @param idString The string value to hold the identifier of the current
+         * (running) system process.
+         */
+        JIMBO_EXPORT_PREFIX static void getProcessId(std::string &idString);
 };
