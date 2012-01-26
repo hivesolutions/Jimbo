@@ -27,7 +27,21 @@
 
 #pragma once
 
-#include "formatter.h"
-#include "handler.h"
-#include "logger.h"
-#include "record.h"
+class JBLoggerRecord;
+
+class JBLoggerRecord {
+    public:
+        JBLoggerRecord();
+        JBLoggerRecord(std::string &value, unsigned int level);
+        ~JBLoggerRecord();
+        std::string &getValue();
+        void setValue(std::string &value);
+        unsigned int getLevel();
+        void setLevel(unsigned int level);
+        std::string &getFormattedValue();
+        void setFormattedValue(std::string &formattedValue);
+    private:
+        std::string value;
+        unsigned int level;
+        std::string formattedValue;
+};

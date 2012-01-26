@@ -29,11 +29,11 @@
 
 #include "logger.h"
 
-CLogger::CLogger() {
+JBLogger::JBLogger() {
     // creates new instances for default logging and
     // default logger formatter
-    CLoggerHandler *defaultLoggerHandler = new DEFAULT_HANDLER();
-    CLoggerFormatter *defaultLoggerFormatter = new DEFAULT_FORMATTER();
+    JBLoggerHandler *defaultLoggerHandler = new DEFAULT_HANDLER();
+    JBLoggerFormatter *defaultLoggerFormatter = new DEFAULT_FORMATTER();
 
     // sets the default log level that provides initial
     // support for imediate logging
@@ -46,35 +46,35 @@ CLogger::CLogger() {
     this->setFormatter(defaultLoggerFormatter);
 }
 
-CLogger::~CLogger() {
+JBLogger::~JBLogger() {
 }
 
-void CLogger::debug(std::string &value) {
-    CLoggerRecord record = CLoggerRecord(value, DEBUG);
+void JBLogger::debug(std::string &value) {
+    JBLoggerRecord record = JBLoggerRecord(value, DEBUG);
     this->handle(record);
 }
 
-void CLogger::info(std::string &value) {
-    CLoggerRecord record = CLoggerRecord(value, INFO);
+void JBLogger::info(std::string &value) {
+    JBLoggerRecord record = JBLoggerRecord(value, INFO);
     this->handle(record);
 }
 
-void CLogger::warning(std::string &value) {
-    CLoggerRecord record = CLoggerRecord(value, WARNING);
+void JBLogger::warning(std::string &value) {
+    JBLoggerRecord record = JBLoggerRecord(value, WARNING);
     this->handle(record);
 }
 
-void CLogger::fault(std::string &value) {
-    CLoggerRecord record = CLoggerRecord(value, FAULT);
+void JBLogger::fault(std::string &value) {
+    JBLoggerRecord record = JBLoggerRecord(value, FAULT);
     this->handle(record);
 }
 
-void CLogger::critical(std::string &value) {
-    CLoggerRecord record = CLoggerRecord(value, CRITICAL);
+void JBLogger::critical(std::string &value) {
+    JBLoggerRecord record = JBLoggerRecord(value, CRITICAL);
     this->handle(record);
 }
 
-void CLogger::handle(CLoggerRecord &record) {
+void JBLogger::handle(JBLoggerRecord &record) {
     // in case the log level is not suficient ignores it
     // nothing should be done (returns immediately)
     if(record.getLevel() < this->logLevel) { return; }
@@ -88,37 +88,37 @@ void CLogger::handle(CLoggerRecord &record) {
     for(handlersListType::iterator iterator = this->handlersList.begin(); iterator != this->handlersList.end(); iterator++) {
         // retrieves the current logger handler and
         // sends the record to the it for handling
-        CLoggerHandler *loggerHandler = *iterator;
+        JBLoggerHandler *loggerHandler = *iterator;
         loggerHandler->handle(record);
     }
 }
 
-void CLogger::setLevel(unsigned int level) {
+void JBLogger::setLevel(unsigned int level) {
     this->logLevel = level;
 }
 
-void CLogger::addHandler(CLoggerHandler *loggerHandler) {
+void JBLogger::addHandler(JBLoggerHandler *loggerHandler) {
     this->handlersList.push_back(loggerHandler);
 }
 
-void CLogger::setDefaultHandler(CLoggerHandler *defaultLoggerHandler) {
+void JBLogger::setDefaultHandler(JBLoggerHandler *defaultLoggerHandler) {
 }
 
-void CLogger::setFormatter(CLoggerFormatter *loggerFormatter) {
+void JBLogger::setFormatter(JBLoggerFormatter *loggerFormatter) {
     this->loggerFormatter = loggerFormatter;
 }
 
-CLogger *CLogger::getLogger(std::string &loggerName) {
-    CLogger *logger;
-    loggersMapType::iterator iterator = CLogger::loggersMap.find(loggerName);
+JBLogger *JBLogger::getLogger(std::string &loggerName) {
+    JBLogger *logger;
+    loggersMapType::iterator iterator = JBLogger::loggersMap.find(loggerName);
 
     if(iterator != loggersMap.end()) {
         logger = iterator->second;
     } else {
         // creates a new logger and sets it the
         // proper manner in the loggers map
-        logger = new CLogger();
-        CLogger::loggersMap[loggerName] = logger;
+        logger = new JBLogger();
+        JBLogger::loggersMap[loggerName] = logger;
     }
 
     // returns the retrieved logger, this logger
@@ -126,203 +126,12 @@ CLogger *CLogger::getLogger(std::string &loggerName) {
     return logger;
 }
 
-CLogger *CLogger::getLogger(char *loggerName) {
-    return CLogger::getLogger(std::string(loggerName));
+JBLogger *JBLogger::getLogger(char *loggerName) {
+    return JBLogger::getLogger(std::string(loggerName));
 }
 
-CLogger *CLogger::getLogger() {
-    return CLogger::getLogger(DEFAULT_LOGGER_NAME);
+JBLogger *JBLogger::getLogger() {
+    return JBLogger::getLogger(DEFAULT_LOGGER_NAME);
 }
 
-loggersMapType CLogger::loggersMap = loggersMapType();
-
-CLoggerHandler::CLoggerHandler() {
-}
-
-CLoggerHandler::~CLoggerHandler() {
-}
-
-CLoggerStreamHandler::CLoggerStreamHandler() : CLoggerHandler() {
-    this->streamOpen = false;
-}
-
-CLoggerStreamHandler::~CLoggerStreamHandler() {
-}
-
-void CLoggerStreamHandler::handle(CLoggerRecord &record) {
-    // in case the stream is not currently open,
-    // must open it to start writing
-    if(this->streamOpen == NULL) { this->openStream(); }
-
-    // retrieves the formatted value of the records writes
-    // it to the stream and flushes the stream to provoke
-    // the output to be writen to the stream
-    *(this->stream) << record.getFormattedValue() << "\n";
-    this->flushStream();
-}
-
-CLoggerStandardOutHandler::CLoggerStandardOutHandler() : CLoggerStreamHandler() {
-}
-
-CLoggerStandardOutHandler::~CLoggerStandardOutHandler() {
-}
-
-void CLoggerStandardOutHandler::openStream() {
-    CLoggerStreamHandler::openStream();
-    this->stream = &std::cout;
-}
-
-CLoggerFileHandler::CLoggerFileHandler() : CLoggerStreamHandler() {
-}
-
-CLoggerFileHandler::CLoggerFileHandler(std::string &fileName) : CLoggerStreamHandler() {
-    this->setFileName(fileName);
-    this->openStream();
-}
-
-CLoggerFileHandler::~CLoggerFileHandler() {
-}
-
-void CLoggerFileHandler::openStream() {
-    CLoggerStreamHandler::openStream();
-    std::ofstream *stream = new std::ofstream();
-    stream->open(this->fileName.c_str(), DEFAULT_FILE_STREAM_OPEN_MODE);
-    this->stream = stream;
-}
-
-void CLoggerFileHandler::closeStream() {
-    CLoggerStreamHandler::closeStream();
-    std::ofstream *stream = (std::ofstream *) this->stream;
-    stream->close();
-}
-
-void CLoggerFileHandler::setFileName(std::string &fileName) {
-    this->fileName = fileName;
-}
-
-CLoggerFormatter::CLoggerFormatter() {
-}
-
-
-CLoggerFormatter::~CLoggerFormatter() {
-}
-
-void CLoggerFormatter::format(CLoggerRecord &record) {
-    // retrieves the record level and value to be
-    // used in the construction of the formatted value
-    unsigned int recordLevel = record.getLevel();
-    std::string &recordValue = record.getValue();
-
-    // creates the record level string
-    std::string recordLevelString;
-
-    switch(recordLevel) {
-        case DEBUG:
-            recordLevelString += "<DEBUG>";
-            break;
-        case INFO:
-            recordLevelString += "<INFO>";
-            break;
-        case WARNING:
-            recordLevelString += "<WARNING>";
-            break;
-        case FAULT:
-            recordLevelString += "<FAULT>";
-            break;
-        case CRITICAL:
-            recordLevelString += "<CRITICAL>";
-            break;
-    }
-
-    // creates the recrod formatted value from the
-    // record level string and the record value and
-    // sets it in the record (for latter usage)
-    std::string recordFormattedValue = recordLevelString + " " + recordValue;
-    record.setFormattedValue(recordFormattedValue);
-}
-
-CLoggerTimeFormatter::CLoggerTimeFormatter() : CLoggerFormatter() {
-}
-
-CLoggerTimeFormatter::~CLoggerTimeFormatter() {
-}
-
-void CLoggerTimeFormatter::format(CLoggerRecord &record) {
-    CLoggerFormatter::format(record);
-
-    // retrieves the formatted value
-    std::string &formattedValue = record.getFormattedValue();
-
-    // creates the time buffer
-    char timeBuffer[1024];
-
-    // creates the local time value
-    tm localTimeValue;
-
-    // retrieves the current time value
-    time_t timeValue = time(NULL);
-
-    // converts the time to local time
-    localtime_s(&localTimeValue, &timeValue);
-
-    // formats the time
-    strftime(timeBuffer, 1024, "%Y-%m-%d %H:%M:%S", &localTimeValue);
-
-    // creates the time string
-    std::string &timeString = std::string(timeBuffer);
-
-    // creates the new formatted value
-    std::string &newFormattedValue = std::string(timeString + " " + formattedValue);
-
-    // sets the new formatted value in the record
-    record.setFormattedValue(newFormattedValue);
-}
-
-CLoggerStringFormatter::CLoggerStringFormatter() : CLoggerFormatter() {
-}
-
-CLoggerStringFormatter::CLoggerStringFormatter(std::string &formatString) : CLoggerFormatter() {
-    this->setFormatString(formatString);
-}
-
-CLoggerStringFormatter::~CLoggerStringFormatter() {
-}
-
-void CLoggerStringFormatter::setFormatString(std::string &formatString) {
-    this->formatString = formatString;
-}
-
-CLoggerRecord::CLoggerRecord() {
-}
-
-CLoggerRecord::CLoggerRecord(std::string &value, unsigned int level) {
-    this->setValue(value);
-    this->setLevel(level);
-}
-
-CLoggerRecord::~CLoggerRecord() {
-}
-
-std::string &CLoggerRecord::getValue() {
-    return this->value;
-}
-
-void CLoggerRecord::setValue(std::string &value) {
-    this->value = value;
-}
-
-unsigned int CLoggerRecord::getLevel() {
-    return this->level;
-}
-
-void CLoggerRecord::setLevel(unsigned int level) {
-    this->level = level;
-}
-
-std::string &CLoggerRecord::getFormattedValue() {
-    return this->formattedValue;
-}
-
-void CLoggerRecord::setFormattedValue(std::string &formattedValue) {
-    this->formattedValue = formattedValue;
-}
+loggersMapType JBLogger::loggersMap = loggersMapType();

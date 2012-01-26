@@ -27,29 +27,39 @@
 
 #include "stdafx.h"
 
-int _tmain(int argc, _TCHAR* argv[]) {
-    JBHttpClient colonyHttp = JBHttpClient();
+#include "record.h"
 
-    // retrieves the remote contents
-    colonyHttp.getContents(std::string("http://www.hive.pt"));
+JBLoggerRecord::JBLoggerRecord() {
+}
 
-    // opens the file for read and write
-    std::fstream file = std::fstream("c:/tobias.dump", std::fstream::in | std::fstream::out | std::fstream::trunc | std::fstream::binary);
-    file.write(colonyHttp.getMessageBuffer(), colonyHttp.getMessageSize());
-    file.close();
+JBLoggerRecord::JBLoggerRecord(std::string &value, unsigned int level) {
+    this->setValue(value);
+    this->setLevel(level);
+}
 
-    char * value = "adasd ";
-    std::string trim_a = JBString::trim(std::string(value));
-    std::string ltrim_a = JBString::ltrim(std::string(value));
-    std::string rtrim_a = JBString::rtrim(std::string(value));
+JBLoggerRecord::~JBLoggerRecord() {
+}
 
-    std::string installPath = JBPython::getInstallPath(std::string("2.7"));
+std::string &JBLoggerRecord::getValue() {
+    return this->value;
+}
 
-    JBLogger *logger = JBLogger::getLogger();
+void JBLoggerRecord::setValue(std::string &value) {
+    this->value = value;
+}
 
-    JBLoggerFileHandler *fileHandler = new JBLoggerFileHandler(std::string("default.log"));
-    logger->addHandler(fileHandler);
-    logger->critical(std::string("Hello World Test"));
+unsigned int JBLoggerRecord::getLevel() {
+    return this->level;
+}
 
-    return 0;
+void JBLoggerRecord::setLevel(unsigned int level) {
+    this->level = level;
+}
+
+std::string &JBLoggerRecord::getFormattedValue() {
+    return this->formattedValue;
+}
+
+void JBLoggerRecord::setFormattedValue(std::string &formattedValue) {
+    this->formattedValue = formattedValue;
 }

@@ -379,7 +379,19 @@
                 Name="Logging"
                 >
                 <File
+                    RelativePath="..\..\src\hive_jimbo\logging\formatter.cpp"
+                    >
+                </File>
+                <File
+                    RelativePath="..\..\src\hive_jimbo\logging\handler.cpp"
+                    >
+                </File>
+                <File
                     RelativePath="..\..\src\hive_jimbo\logging\logger.cpp"
+                    >
+                </File>
+                <File
+                    RelativePath="..\..\src\hive_jimbo\logging\record.cpp"
                     >
                 </File>
             </Filter>
@@ -477,11 +489,23 @@
                 Name="Logging"
                 >
                 <File
+                    RelativePath="..\..\src\hive_jimbo\logging\formatter.h"
+                    >
+                </File>
+                <File
+                    RelativePath="..\..\src\hive_jimbo\logging\handler.h"
+                    >
+                </File>
+                <File
                     RelativePath="..\..\src\hive_jimbo\logging\logger.h"
                     >
                 </File>
                 <File
                     RelativePath="..\..\src\hive_jimbo\logging\logging.h"
+                    >
+                </File>
+                <File
+                    RelativePath="..\..\src\hive_jimbo\logging\record.h"
                     >
                 </File>
             </Filter>

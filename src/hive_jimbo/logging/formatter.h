@@ -27,7 +27,34 @@
 
 #pragma once
 
-#include "formatter.h"
-#include "handler.h"
 #include "logger.h"
 #include "record.h"
+
+class JBLoggerFormatter;
+class JBLoggerTimeFormatter;
+class JBLoggerStringFormatter;
+
+class JBLoggerFormatter {
+    public:
+        JBLoggerFormatter();
+        ~JBLoggerFormatter();
+        virtual void format(JBLoggerRecord &record);
+};
+
+class JBLoggerTimeFormatter : public JBLoggerFormatter {
+    public:
+        JBLoggerTimeFormatter();
+        ~JBLoggerTimeFormatter();
+        void format(JBLoggerRecord &record);
+        void formatValue(std::string &value);
+};
+
+class JBLoggerStringFormatter : public JBLoggerFormatter {
+    public:
+        JBLoggerStringFormatter();
+        JBLoggerStringFormatter(std::string &formatString);
+        ~JBLoggerStringFormatter();
+        void setFormatString(std::string &formatString);
+    private:
+        std::string formatString;
+};
