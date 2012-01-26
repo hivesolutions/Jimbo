@@ -6,31 +6,31 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hive_jimbo_test", "hive_jimbo_test.vcproj", "{15958381-6FB3-4C00-8004-61D92D42271C}"
 EndProject
 Global
-    GlobalSection(SolutionConfigurationPlatforms) = preSolution
-        Debug (Dynamic)|Win32 = Debug (Dynamic)|Win32
-        Debug|Win32 = Debug|Win32
-        Release (Dynamic)|Win32 = Release (Dynamic)|Win32
-        Release|Win32 = Release|Win32
-    EndGlobalSection
-    GlobalSection(ProjectConfigurationPlatforms) = postSolution
-        {4753D85B-7456-41CD-A81D-21864C6DD5D7}.Debug (Dynamic)|Win32.ActiveCfg = Debug (Dynamic)|Win32
-        {4753D85B-7456-41CD-A81D-21864C6DD5D7}.Debug (Dynamic)|Win32.Build.0 = Debug (Dynamic)|Win32
-        {4753D85B-7456-41CD-A81D-21864C6DD5D7}.Debug|Win32.ActiveCfg = Debug|Win32
-        {4753D85B-7456-41CD-A81D-21864C6DD5D7}.Debug|Win32.Build.0 = Debug|Win32
-        {4753D85B-7456-41CD-A81D-21864C6DD5D7}.Release (Dynamic)|Win32.ActiveCfg = Release (Dynamic)|Win32
-        {4753D85B-7456-41CD-A81D-21864C6DD5D7}.Release (Dynamic)|Win32.Build.0 = Release (Dynamic)|Win32
-        {4753D85B-7456-41CD-A81D-21864C6DD5D7}.Release|Win32.ActiveCfg = Release|Win32
-        {4753D85B-7456-41CD-A81D-21864C6DD5D7}.Release|Win32.Build.0 = Release|Win32
-        {15958381-6FB3-4C00-8004-61D92D42271C}.Debug (Dynamic)|Win32.ActiveCfg = Debug (Dynamic)|Win32
-        {15958381-6FB3-4C00-8004-61D92D42271C}.Debug (Dynamic)|Win32.Build.0 = Debug (Dynamic)|Win32
-        {15958381-6FB3-4C00-8004-61D92D42271C}.Debug|Win32.ActiveCfg = Debug|Win32
-        {15958381-6FB3-4C00-8004-61D92D42271C}.Debug|Win32.Build.0 = Debug|Win32
-        {15958381-6FB3-4C00-8004-61D92D42271C}.Release (Dynamic)|Win32.ActiveCfg = Release (Dynamic)|Win32
-        {15958381-6FB3-4C00-8004-61D92D42271C}.Release (Dynamic)|Win32.Build.0 = Release (Dynamic)|Win32
-        {15958381-6FB3-4C00-8004-61D92D42271C}.Release|Win32.ActiveCfg = Release|Win32
-        {15958381-6FB3-4C00-8004-61D92D42271C}.Release|Win32.Build.0 = Release|Win32
-    EndGlobalSection
-    GlobalSection(SolutionProperties) = preSolution
-        HideSolutionNode = FALSE
-    EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug (Dynamic)|Win32 = Debug (Dynamic)|Win32
+		Debug|Win32 = Debug|Win32
+		Release (Dynamic)|Win32 = Release (Dynamic)|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4753D85B-7456-41CD-A81D-21864C6DD5D7}.Debug (Dynamic)|Win32.ActiveCfg = Debug (Dynamic)|Win32
+		{4753D85B-7456-41CD-A81D-21864C6DD5D7}.Debug (Dynamic)|Win32.Build.0 = Debug (Dynamic)|Win32
+		{4753D85B-7456-41CD-A81D-21864C6DD5D7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4753D85B-7456-41CD-A81D-21864C6DD5D7}.Debug|Win32.Build.0 = Debug|Win32
+		{4753D85B-7456-41CD-A81D-21864C6DD5D7}.Release (Dynamic)|Win32.ActiveCfg = Release (Dynamic)|Win32
+		{4753D85B-7456-41CD-A81D-21864C6DD5D7}.Release (Dynamic)|Win32.Build.0 = Release (Dynamic)|Win32
+		{4753D85B-7456-41CD-A81D-21864C6DD5D7}.Release|Win32.ActiveCfg = Release|Win32
+		{4753D85B-7456-41CD-A81D-21864C6DD5D7}.Release|Win32.Build.0 = Release|Win32
+		{15958381-6FB3-4C00-8004-61D92D42271C}.Debug (Dynamic)|Win32.ActiveCfg = Debug (Dynamic)|Win32
+		{15958381-6FB3-4C00-8004-61D92D42271C}.Debug (Dynamic)|Win32.Build.0 = Debug (Dynamic)|Win32
+		{15958381-6FB3-4C00-8004-61D92D42271C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{15958381-6FB3-4C00-8004-61D92D42271C}.Debug|Win32.Build.0 = Debug|Win32
+		{15958381-6FB3-4C00-8004-61D92D42271C}.Release (Dynamic)|Win32.ActiveCfg = Release (Dynamic)|Win32
+		{15958381-6FB3-4C00-8004-61D92D42271C}.Release (Dynamic)|Win32.Build.0 = Release (Dynamic)|Win32
+		{15958381-6FB3-4C00-8004-61D92D42271C}.Release|Win32.ActiveCfg = Release|Win32
+		{15958381-6FB3-4C00-8004-61D92D42271C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 EndGlobal
