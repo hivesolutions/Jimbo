@@ -71,10 +71,10 @@ class JBLogger {
 };
 
 enum JBLogLevel {
-	NOTSET = 0,
-	DEBUG,
-	INFO,
-	WARNING,
-	FAULT,
-	CRITICAL
+    NOTSET = 0,
+    DEBUG,
+    INFO,
+    WARNING,
+    FAULT,
+    CRITICAL
 };
