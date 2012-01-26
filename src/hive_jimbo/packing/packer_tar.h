@@ -49,8 +49,8 @@ struct tarHeader {
 class JBPackerTar : JBPacker {
     private:
     public:
-        JBPackerTar();
-        ~JBPackerTar();
-        static void packFile(std::string &filePath, std::string &targetPath);
-        static void unpackFile(std::string &filePath, std::string &targetPath);
+        JB_EXPORT JBPackerTar();
+        JB_EXPORT ~JBPackerTar();
+        JB_EXPORT static void packFile(std::string &filePath, std::string &targetPath);
+        JB_EXPORT static void unpackFile(std::string &filePath, std::string &targetPath);
 };

@@ -40,7 +40,7 @@ void JBObservable::fireEvent(std::string &eventName, void *arguments) {
     // for the current event and the vector containing the various observer
     // to be notified about the event
     std::vector<int(*)(JBObservable &, void *)> &callbackFunctions = this->eventHandlersMap[eventName];
-    std::vector<CObserver *> &observers = this->observersMap[eventName];
+    std::vector<JBObserver *> &observers = this->observersMap[eventName];
 
     // iterates over all the callback functions to call them notifying
     // the handler of the function about the "fired" event
@@ -57,7 +57,7 @@ void JBObservable::fireEvent(std::string &eventName, void *arguments) {
         // retrieves the current observer object and "updates" it notifiying
         // it about the event (send the observable the event name and the
         // arguments to the update call as parameters)
-        CObserver *observer = observers[index];
+        JBObserver *observer = observers[index];
         observer->update(*this, eventName, arguments);
     }
 }
@@ -92,19 +92,19 @@ void JBObservable::unregisterForEvent(std::string eventName, int(*callbackFuncti
     }
 }
 
-void JBObservable::registerObserverForEvent(std::string eventName, CObserver &observer) {
+void JBObservable::registerObserverForEvent(std::string eventName, JBObserver &observer) {
     if(this->observersMap.find(eventName) == this->observersMap.end()) {
-        this->observersMap[eventName] = std::vector<CObserver *>();
+        this->observersMap[eventName] = std::vector<JBObserver *>();
     }
 
     this->observersMap[eventName].push_back(&observer);
 }
 
-void JBObservable::unregisterObserverForEvent(std::string eventName, CObserver &observer) {
+void JBObservable::unregisterObserverForEvent(std::string eventName, JBObserver &observer) {
 }
 
-CObserver::CObserver() {
+JBObserver::JBObserver() {
 }
 
-CObserver::~CObserver() {
+JBObserver::~JBObserver() {
 }

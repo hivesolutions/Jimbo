@@ -39,7 +39,7 @@ class JBProcess {
          * of the executable running test.
          * @return The success of the function call.
          */
-        JIMBO_EXPORT_PREFIX static bool isRunning(char *exeName, bool *processRunning);
+        JB_EXPORT static bool isRunning(char *exeName, bool *processRunning);
 
         /**
          * Retrieves the of processes running for the executable (exe)
@@ -51,7 +51,7 @@ class JBProcess {
          * of processes running.
          * @return The success of the function call.
          */
-        JIMBO_EXPORT_PREFIX static bool getRunning(char *exeName, int *count);
+        JB_EXPORT static bool getRunning(char *exeName, int *count);
 
         /**
          * Retrieves the identifier of the current process runing as a string
@@ -61,5 +61,5 @@ class JBProcess {
          * @param idString The string value to hold the identifier of the current
          * (running) system process.
          */
-        JIMBO_EXPORT_PREFIX static void getProcessId(std::string &idString);
+        JB_EXPORT static void getProcessId(std::string &idString);
 };

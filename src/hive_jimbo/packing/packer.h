@@ -34,10 +34,10 @@ class JBPacker {
         JBPackerDirectory baseDirectory;
 
     public:
-        JBPacker();
-        ~JBPacker();
-        void addFile(std::string &filePath, std::fstream &fileStream);
-        void removeFile(std::string &filePath);
-        static void packFile(std::string &filePath, std::string &targetPath);
-        static void unpackFile(std::string &filePath, std::string &targetPath);
+        JB_EXPORT JBPacker();
+        JB_EXPORT ~JBPacker();
+        JB_EXPORT void addFile(std::string &filePath, std::fstream &fileStream);
+        JB_EXPORT void removeFile(std::string &filePath);
+        JB_EXPORT static void packFile(std::string &filePath, std::string &targetPath);
+        JB_EXPORT static void unpackFile(std::string &filePath, std::string &targetPath);
 };

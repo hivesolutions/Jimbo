@@ -28,26 +28,26 @@
 #pragma once
 
 class JBObservable;
-class CObserver;
+class JBObserver;
 
 class JBObservable {
     private:
         std::map<std::string, std::vector<int(*)(JBObservable &, void *)>> eventHandlersMap;
-        std::map<std::string, std::vector<CObserver *>> observersMap;
+        std::map<std::string, std::vector<JBObserver *>> observersMap;
     protected:
         void fireEvent(std::string &eventName, void *arguments);
     public:
-        JBObservable();
-        ~JBObservable();
-        void registerForEvent(std::string eventName, int(*callbackFunction)(JBObservable &, void *));
-        void unregisterForEvent(std::string eventName, int(*callbackFunction)(JBObservable &, void *));
-        void registerObserverForEvent(std::string eventName, CObserver &observer);
-        void unregisterObserverForEvent(std::string eventName, CObserver &observer);
+        JB_EXPORT JBObservable();
+        JB_EXPORT ~JBObservable();
+        JB_EXPORT void registerForEvent(std::string eventName, int(*callbackFunction)(JBObservable &, void *));
+        JB_EXPORT void unregisterForEvent(std::string eventName, int(*callbackFunction)(JBObservable &, void *));
+        JB_EXPORT void registerObserverForEvent(std::string eventName, JBObserver &observer);
+        JB_EXPORT void unregisterObserverForEvent(std::string eventName, JBObserver &observer);
 };
 
-class CObserver {
+class JBObserver {
     public:
-        CObserver();
-        ~CObserver();
-        virtual void update(JBObservable &element, std::string &eventName, void *arguments) {};
+        JB_EXPORT JBObserver();
+        JB_EXPORT ~JBObserver();
+        JB_EXPORT virtual void update(JBObservable &element, std::string &eventName, void *arguments) {};
 };

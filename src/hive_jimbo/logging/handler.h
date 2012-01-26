@@ -37,21 +37,21 @@ class JBLoggerFileHandler;
 
 class JBLoggerHandler {
     public:
-        JBLoggerHandler();
-        ~JBLoggerHandler();
-        virtual void handle(JBLoggerRecord &record) {};
-        void flush();
+        JB_EXPORT JBLoggerHandler();
+        JB_EXPORT ~JBLoggerHandler();
+        JB_EXPORT virtual void handle(JBLoggerRecord &record) {};
+        JB_EXPORT void flush();
 };
 
 class JBLoggerStreamHandler : public JBLoggerHandler {
     public:
-        JBLoggerStreamHandler();
-        ~JBLoggerStreamHandler();
-        void handle(JBLoggerRecord &record);
-        void flush();
-        virtual void openStream() { this->streamOpen = true; };
-        virtual void closeStream() { this->streamOpen = false; };
-        virtual void flushStream() { this->stream->flush(); };
+        JB_EXPORT JBLoggerStreamHandler();
+        JB_EXPORT ~JBLoggerStreamHandler();
+        JB_EXPORT void handle(JBLoggerRecord &record);
+        JB_EXPORT void flush();
+        JB_EXPORT virtual void openStream() { this->streamOpen = true; };
+        JB_EXPORT virtual void closeStream() { this->streamOpen = false; };
+        JB_EXPORT virtual void flushStream() { this->stream->flush(); };
     protected:
         std::ostream *stream;
         bool streamOpen;
@@ -59,21 +59,21 @@ class JBLoggerStreamHandler : public JBLoggerHandler {
 
 class JBLoggerStandardOutHandler : public JBLoggerStreamHandler {
     public:
-        JBLoggerStandardOutHandler();
-        ~JBLoggerStandardOutHandler();
-        void flush();
-        void openStream();
+        JB_EXPORT JBLoggerStandardOutHandler();
+        JB_EXPORT ~JBLoggerStandardOutHandler();
+        JB_EXPORT void flush();
+        JB_EXPORT void openStream();
 };
 
 class JBLoggerFileHandler : public JBLoggerStreamHandler {
     public:
-        JBLoggerFileHandler();
-        JBLoggerFileHandler(std::string &fileName);
-        ~JBLoggerFileHandler();
-        void flush();
-        void openStream();
-        void closeStream();
-        void setFileName(std::string &fileName);
+        JB_EXPORT JBLoggerFileHandler();
+        JB_EXPORT JBLoggerFileHandler(std::string &fileName);
+        JB_EXPORT ~JBLoggerFileHandler();
+        JB_EXPORT void flush();
+        JB_EXPORT void openStream();
+        JB_EXPORT void closeStream();
+        JB_EXPORT void setFileName(std::string &fileName);
     private:
         std::string fileName;
         std::ofstream fileStream;

@@ -51,7 +51,7 @@ class JBPython {
          * @return The registry key containing the references to the python
          * installation details.
          */
-        JIMBO_EXPORT_PREFIX static HKEY checkPython();
+        JB_EXPORT static HKEY checkPython();
 
         /**
          * Checks if there is a python installation in the system
@@ -67,7 +67,7 @@ class JBPython {
          * @return The registry key containing the references to the python
          * installation details.
          */
-        JIMBO_EXPORT_PREFIX static HKEY checkPython(const char *version);
+        JB_EXPORT static HKEY checkPython(const char *version);
 
         /**
          * Populats the given list (vector) with the various version string
@@ -79,7 +79,7 @@ class JBPython {
          * @param versions The list (vector) ti be populated with the various
          * available python versions.
          */
-        JIMBO_EXPORT_PREFIX static void getAvailableVersions(std::vector<std::string> &versions);
+        JB_EXPORT static void getAvailableVersions(std::vector<std::string> &versions);
 
         /**
          * Retrieves the installation path to the python system with the requested
@@ -95,5 +95,5 @@ class JBPython {
          * @return The string containing the full file path to the requested python
          * installation.
          */
-        JIMBO_EXPORT_PREFIX static std::string getInstallPath(std::string &version);
+        JB_EXPORT static std::string getInstallPath(std::string &version);
 };

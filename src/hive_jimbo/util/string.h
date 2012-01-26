@@ -44,7 +44,7 @@ class JBString {
          * is going to be changed durint the operation.
          * @return The resulting string value after the trimming operation.
          */
-        JIMBO_EXPORT_PREFIX static std::string &trim(std::string &stringValue);
+        JB_EXPORT static std::string &trim(std::string &stringValue);
 
         /**
          * "Left" trims te given string, removing its initial space
@@ -55,7 +55,7 @@ class JBString {
          * this value is going to be changed durint the operation.
          * @return The resulting string value after the trimming operation.
          */
-        JIMBO_EXPORT_PREFIX static std::string &ltrim(std::string &stringValue);
+        JB_EXPORT static std::string &ltrim(std::string &stringValue);
 
         /**
          * "Right" trims te given string, removing its final space
@@ -66,5 +66,5 @@ class JBString {
          * this value is going to be changed durint the operation.
          * @return The resulting string value after the trimming operation.
          */
-        JIMBO_EXPORT_PREFIX static std::string &rtrim(std::string &stringValue);
+        JB_EXPORT static std::string &rtrim(std::string &stringValue);
 };

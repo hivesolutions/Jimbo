@@ -47,21 +47,21 @@ typedef std::map<std::string, JBLogger *> loggersMapType;
 
 class JBLogger {
     public:
-        JBLogger();
-        ~JBLogger();
-        void debug(std::string &value);
-        void info(std::string &value);
-        void warning(std::string &value);
-        void fault(std::string &value);
-        void critical(std::string &value);
-        void handle(JBLoggerRecord &record);
-        void setLevel(unsigned int level);
-        void addHandler(JBLoggerHandler *loggerHandler);
-        void setDefaultHandler(JBLoggerHandler *defaultLoggerHandler);
-        void setFormatter(JBLoggerFormatter *loggerFormatter);
-        static JBLogger *getLogger(std::string &loggerName);
-        static JBLogger *getLogger(char *loggerName);
-        static JBLogger *getLogger();
+        JB_EXPORT JBLogger();
+        JB_EXPORT ~JBLogger();
+        JB_EXPORT void debug(std::string &value);
+        JB_EXPORT void info(std::string &value);
+        JB_EXPORT void warning(std::string &value);
+        JB_EXPORT void fault(std::string &value);
+        JB_EXPORT void critical(std::string &value);
+        JB_EXPORT void handle(JBLoggerRecord &record);
+        JB_EXPORT void setLevel(unsigned int level);
+        JB_EXPORT void addHandler(JBLoggerHandler *loggerHandler);
+        JB_EXPORT void setDefaultHandler(JBLoggerHandler *defaultLoggerHandler);
+        JB_EXPORT void setFormatter(JBLoggerFormatter *loggerFormatter);
+        JB_EXPORT static JBLogger *getLogger(std::string &loggerName);
+        JB_EXPORT static JBLogger *getLogger(char *loggerName);
+        JB_EXPORT static JBLogger *getLogger();
     private:
         unsigned int logLevel;
         JBLoggerHandler *defaultLoggerHandler;

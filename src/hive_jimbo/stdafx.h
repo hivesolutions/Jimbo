@@ -28,11 +28,11 @@
 #pragma once
 
 #ifdef NO_ZLIB
-#define JIMBO_NO_ZLIB
+#define JB_NO_ZLIB
 #endif
 
-#define JIMBO_EXPORT_PREFIX __declspec(dllexport)
-#define JIMBO_NO_EXPORT_PREFIX
+#define JB_EXPORT __declspec(dllexport)
+#define JB_NO_EXPORT
 
 #include "targetver.h"
 
@@ -59,7 +59,7 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 
-#ifndef JIMBO_NO_ZLIB
+#ifndef JB_NO_ZLIB
 #include <zlib.h>
 #pragma comment(lib, "zlib1.lib")
 #endif

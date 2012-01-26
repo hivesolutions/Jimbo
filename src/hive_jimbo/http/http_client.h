@@ -83,14 +83,14 @@ class JBHttpClient : public JBObservable {
         /**
          * Constructor of the class.
          */
-        JIMBO_EXPORT_PREFIX JBHttpClient();
+        JB_EXPORT JBHttpClient();
 
         /**
          * Destructor of the class.
          */
-        JIMBO_EXPORT_PREFIX ~JBHttpClient();
-        JIMBO_EXPORT_PREFIX void getContents(std::string &url);
-        JIMBO_EXPORT_PREFIX char *getMessageBuffer();
-        JIMBO_EXPORT_PREFIX int getMessageSize();
-        JIMBO_EXPORT_PREFIX int getContentLength();
+        JB_EXPORT ~JBHttpClient();
+        JB_EXPORT void getContents(std::string &url);
+        JB_EXPORT char *getMessageBuffer();
+        JB_EXPORT int getMessageSize();
+        JB_EXPORT int getContentLength();
 };
