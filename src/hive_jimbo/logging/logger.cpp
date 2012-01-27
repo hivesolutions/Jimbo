@@ -47,6 +47,41 @@ JBLogger::JBLogger() {
 JBLogger::~JBLogger() {
 }
 
+void JBLogger::debug(char *format, ...) {
+    char _value[STRING_BUFFER_SIZE];
+    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    std::string value = std::string(_value);
+    JBLogger::debug(value);
+}
+
+void JBLogger::info(char *format, ...) {
+    char _value[STRING_BUFFER_SIZE];
+    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    std::string value = std::string(_value);
+    JBLogger::info(value);
+}
+
+void JBLogger::warning(char *format, ...) {
+    char _value[STRING_BUFFER_SIZE];
+    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    std::string value = std::string(_value);
+    JBLogger::warning(value);
+}
+
+void JBLogger::fault(char *format, ...) {
+    char _value[STRING_BUFFER_SIZE];
+    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    std::string value = std::string(_value);
+    JBLogger::fault(value);
+}
+
+void JBLogger::critical(char *format, ...) {
+    char _value[STRING_BUFFER_SIZE];
+    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    std::string value = std::string(_value);
+    JBLogger::critical(value);
+}
+
 void JBLogger::debug(std::string &value) {
     JBLoggerRecord record = JBLoggerRecord(value, DEBUG);
     this->handle(record);

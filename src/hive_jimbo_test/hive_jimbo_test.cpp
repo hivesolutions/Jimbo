@@ -46,8 +46,10 @@ int _tmain(int argc, _TCHAR* argv[]) {
     JBLogger *logger = JBLogger::getLogger();
 
     JBLoggerFileHandler *fileHandler = new JBLoggerFileHandler(std::string("default.log"));
+    logger->setLevel(DEBUG);
     logger->addHandler(fileHandler);
     logger->critical(std::string("Hello World Test"));
+    logger->debug("Hello %d World Test", 44);
 
     getchar();
 

@@ -35,6 +35,13 @@
 
 #define DEFAULT_LOGGER_NAME "default"
 
+#define STRING_BUFFER_SIZE 1024
+
+#define sprintf_vargs(value, format, size) va_list vargs;\
+    va_start(vargs, format);\
+    vsprintf_s(_value, 1024, format, vargs);\
+    va_end(vargs)
+
 class JBLogger;
 class JBLoggerHandler;
 class JBLoggerFormatter;
@@ -47,6 +54,11 @@ class JBLogger {
     public:
         JB_EXPORT JBLogger();
         JB_EXPORT ~JBLogger();
+        JB_EXPORT void debug(char *format, ...);
+        JB_EXPORT void info(char *format, ...);
+        JB_EXPORT void warning(char *format, ...);
+        JB_EXPORT void fault(char *format, ...);
+        JB_EXPORT void critical(char *format, ...);
         JB_EXPORT void debug(std::string &value);
         JB_EXPORT void info(std::string &value);
         JB_EXPORT void warning(std::string &value);
