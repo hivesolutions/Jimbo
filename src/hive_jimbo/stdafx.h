@@ -25,6 +25,10 @@
 
 #pragma once
 
+#ifdef _DEBUG
+#define JB_DEBUG
+#endif
+
 #ifdef NO_ZLIB
 #define JB_NO_ZLIB
 #endif
@@ -40,6 +44,7 @@
 #include <shlobj.h>
 #include <windows.h>
 #include <shlwapi.h>
+#include <shellapi.h>
 #include <winsock2.h>
 #include <tlhelp32.h>
 
@@ -59,7 +64,7 @@
 
 #ifndef JB_NO_ZLIB
 #include <zlib.h>
-#ifdef _DEBUG
+#ifdef JB_DEBUG
 #pragma comment(lib, "zlibd.lib")
 #else
 #pragma comment(lib, "zlib.lib")

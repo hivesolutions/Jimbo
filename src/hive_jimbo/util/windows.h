@@ -25,9 +25,10 @@
 
 #pragma once
 
-#include "escaper.h"
-#include "process.h"
-#include "python.h"
-#include "string.h"
-#include "tokenizer.h"
-#include "windows.h"
+class JBWindows {
+    public:
+        JB_EXPORT static char **commandLineToArgv(char *commandLine, int *argc);
+        JB_EXPORT static int deleteRecursive(const std::string &targetDirectory, bool deleteSubdirectories);
+        JB_EXPORT static int deleteRecursiveShell(const char *targetDirectory, bool recycleBin);
+        JB_EXPORT static int getVersion();
+};

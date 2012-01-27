@@ -515,6 +515,10 @@
                     RelativePath="..\..\src\hive_jimbo\util\tokenizer.cpp"
                     >
                 </File>
+                <File
+                    RelativePath="..\..\src\hive_jimbo\util\windows.cpp"
+                    >
+                </File>
             </Filter>
             <Filter
                 Name="Packing"
@@ -627,6 +631,10 @@
                 </File>
                 <File
                     RelativePath="..\..\src\hive_jimbo\util\util.h"
+                    >
+                </File>
+                <File
+                    RelativePath="..\..\src\hive_jimbo\util\windows.h"
                     >
                 </File>
             </Filter>
