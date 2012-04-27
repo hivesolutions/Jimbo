@@ -126,7 +126,7 @@ int JBWindows::copyRecursiveShell(const std::string &targetDirectory, const std:
     operation.wFunc = FO_COPY;
     operation.pTo = targetDirectoryString;
     operation.pFrom = sourceDirectoryString;
-    operation.fFlags = FOF_SILENT;
+    operation.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
     SHFileOperation(&operation);
 
     return 0;
@@ -208,28 +208,28 @@ int JBWindows::deleteRecursiveShell(const char *targetDirectory, bool recycleBin
     targetDirectoryAux[targetDirectoryLength] = 0;
     targetDirectoryAux[targetDirectoryLength + 1] = 0;
 
-    SHFILEOPSTRUCT fileOperation;
-    fileOperation.hwnd = NULL;
+    SHFILEOPSTRUCT operation;
+    operation.hwnd = NULL;
 
     // sets the operation as delete
-    fileOperation.wFunc = FO_DELETE;
+    operation.wFunc = FO_DELETE;
 
     // sets the source file name as double null terminated string
-    fileOperation.pFrom = targetDirectoryAux;
+    operation.pFrom = targetDirectoryAux;
 
     // no destination is required
-    fileOperation.pTo = NULL;
+    operation.pTo = NULL;
 
     // do not prompt the user
-    fileOperation.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
+    operation.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
 
-    if(!recycleBin) { fileOperation.fFlags |= FOF_ALLOWUNDO; }
+    if(recycleBin) { operation.fFlags |= FOF_ALLOWUNDO; }
 
-    fileOperation.fAnyOperationsAborted = FALSE;
-    fileOperation.lpszProgressTitle = NULL;
-    fileOperation.hNameMappings = NULL;
+    operation.fAnyOperationsAborted = FALSE;
+    operation.lpszProgressTitle = NULL;
+    operation.hNameMappings = NULL;
 
-    int returnValue = SHFileOperation(&fileOperation);
+    int returnValue = SHFileOperation(&operation);
 
     delete [] targetDirectoryAux;
 
