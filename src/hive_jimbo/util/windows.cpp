@@ -93,6 +93,45 @@ char **JBWindows::commandLineToArgv(char *commandLine, int *argc) {
     return result;
 }
 
+int JBWindows::copyRecursiveShell(const std::string &targetDirectory, const std::string &sourceDirectory) {
+    // retrieves the length of both the target and source
+    // directory length do that it's possible to allocate
+    // the structure native string structures
+    size_t targetDirectoryLength = targetDirectory.length();
+    size_t sourceDirectoryLength = sourceDirectory.length();
+
+    // creates the target directory native string from the
+    // target directory string and puts the double string
+    // termination characters
+    char *targetDirectoryString = (char *) malloc(targetDirectory.length() + 2);
+    memcpy(targetDirectoryString, targetDirectory.c_str(), targetDirectoryLength);
+    targetDirectoryString[targetDirectoryLength] = '\0';
+    targetDirectoryString[targetDirectoryLength + 1] = '\0';
+
+    // creates the source directory native string from the
+    // source directory string and puts the double string
+    // termination characters, note that the wildcard character
+    // is put in the string so that all files are copy
+    char *sourceDirectoryString = (char *) malloc(sourceDirectory.length() + 4);
+    memcpy(sourceDirectoryString, sourceDirectory.c_str(), sourceDirectoryLength);
+    sourceDirectoryString[sourceDirectoryLength] = '\\';
+    sourceDirectoryString[sourceDirectoryLength + 1] = '*';
+    sourceDirectoryString[sourceDirectoryLength + 2] = '\0';
+    sourceDirectoryString[sourceDirectoryLength + 3] = '\0';
+
+    // creates the shell operation structure for the recursive
+    // copy of the source to target directories
+    SHFILEOPSTRUCT operation = { 0 };
+    operation.hwnd = NULL;
+    operation.wFunc = FO_COPY;
+    operation.pTo = targetDirectoryString;
+    operation.pFrom = sourceDirectoryString;
+    operation.fFlags = FOF_SILENT;
+    SHFileOperation(&operation);
+
+    return 0;
+}
+
 int JBWindows::deleteRecursive(const std::string &targetDirectory, bool deleteSubdirectories) {
     bool subdirectory = false;
     HANDLE handlerFile;

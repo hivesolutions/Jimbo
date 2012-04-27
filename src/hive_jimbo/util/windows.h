@@ -28,6 +28,7 @@
 class JBWindows {
     public:
         JB_EXPORT static char **commandLineToArgv(char *commandLine, int *argc);
+        JB_EXPORT static int copyRecursiveShell(const std::string &targetDirectory, const std::string &sourceDirectory);
         JB_EXPORT static int deleteRecursive(const std::string &targetDirectory, bool deleteSubdirectories);
         JB_EXPORT static int deleteRecursiveShell(const char *targetDirectory, bool recycleBin);
         JB_EXPORT static int getVersion();
