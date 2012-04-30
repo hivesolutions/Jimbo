@@ -129,10 +129,10 @@ int JBWindows::copyRecursiveShell(const std::string &targetDirectory, const std:
     operation.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
     SHFileOperation(&operation);
 
-	// releases the space allocated for the target
-	// and source directory strings
-	free(targetDirectoryString);
-	free(sourceDirectoryString);
+    // releases the space allocated for the target
+    // and source directory strings
+    free(targetDirectoryString);
+    free(sourceDirectoryString);
 
     return 0;
 }
