@@ -46,6 +46,7 @@
                 BasicRuntimeChecks="3"
                 RuntimeLibrary="3"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="4"
             />
@@ -109,6 +110,7 @@
                 RuntimeLibrary="2"
                 EnableFunctionLevelLinking="true"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="3"
             />
@@ -171,6 +173,7 @@
                 BasicRuntimeChecks="3"
                 RuntimeLibrary="3"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="4"
             />
@@ -186,6 +189,10 @@
             <Tool
                 Name="VCLinkerTool"
                 OutputFile="$(OutDir)\jimbo_d.dll"
+                LinkIncremental="2"
+                GenerateDebugInformation="true"
+                SubSystem="2"
+                TargetMachine="1"
             />
             <Tool
                 Name="VCALinkTool"
@@ -240,6 +247,7 @@
                 RuntimeLibrary="2"
                 EnableFunctionLevelLinking="true"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="3"
             />
@@ -255,6 +263,10 @@
             <Tool
                 Name="VCLinkerTool"
                 OutputFile="$(OutDir)\jimbo.dll"
+                LinkIncremental="1"
+                GenerateDebugInformation="true"
+                SubSystem="2"
+                TargetMachine="1"
             />
             <Tool
                 Name="VCALinkTool"
@@ -308,6 +320,7 @@
                 BasicRuntimeChecks="3"
                 RuntimeLibrary="1"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="4"
             />
@@ -371,6 +384,7 @@
                 RuntimeLibrary="0"
                 EnableFunctionLevelLinking="true"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="3"
             />

@@ -46,6 +46,7 @@
                 BasicRuntimeChecks="3"
                 RuntimeLibrary="3"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="4"
             />
@@ -119,6 +120,7 @@
                 RuntimeLibrary="2"
                 EnableFunctionLevelLinking="true"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="3"
             />
@@ -193,6 +195,7 @@
                 BasicRuntimeChecks="3"
                 RuntimeLibrary="3"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="4"
             />
@@ -266,6 +269,7 @@
                 RuntimeLibrary="2"
                 EnableFunctionLevelLinking="true"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="3"
             />
@@ -340,6 +344,7 @@
                 BasicRuntimeChecks="3"
                 RuntimeLibrary="1"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="4"
             />
@@ -413,6 +418,7 @@
                 RuntimeLibrary="0"
                 EnableFunctionLevelLinking="true"
                 UsePrecompiledHeader="2"
+                ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
                 WarningLevel="3"
                 DebugInformationFormat="3"
             />
