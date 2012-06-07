@@ -28,41 +28,41 @@
 #include "windows.h"
 
 char **JBWindows::CommandLineToArgv(char *command_line, int *argc) {
-    int retval;
-    retval = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, command_line, -1, NULL, 0);
-    if(!SUCCEEDED(retval)) {
+    int return_value;
+    return_value = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, command_line, -1, NULL, 0);
+    if(!SUCCEEDED(return_value)) {
         return NULL;
     }
 
-    LPWSTR lpWideCharStr = (LPWSTR) malloc(retval * sizeof(WCHAR));
-    if(lpWideCharStr == NULL) {
+    LPWSTR _string = (LPWSTR) malloc(return_value * sizeof(WCHAR));
+    if(_string == NULL) {
         return NULL;
     }
 
-    retval = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, command_line, -1, lpWideCharStr, retval);
-    if(!SUCCEEDED(retval)) {
-        free(lpWideCharStr);
+    return_value = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, command_line, -1, _string, return_value);
+    if(!SUCCEEDED(return_value)) {
+        free(_string);
         return NULL;
     }
 
     int num_args;
     LPWSTR *args;
-    args = CommandLineToArgvW(lpWideCharStr, &num_args);
-    free(lpWideCharStr);
+    args = CommandLineToArgvW(_string, &num_args);
+    free(_string);
     if (args == NULL)
         return NULL;
 
     int storage = num_args * sizeof(LPSTR);
 
     for(int index = 0; index < num_args; ++index) {
-        BOOL lpUsedDefaultChar = FALSE;
-        retval = WideCharToMultiByte(CP_ACP, 0, args[index], -1, NULL, 0, NULL, &lpUsedDefaultChar);
-        if(!SUCCEEDED(retval)) {
+        BOOL used = FALSE;
+        return_value = WideCharToMultiByte(CP_ACP, 0, args[index], -1, NULL, 0, NULL, &used);
+        if(!SUCCEEDED(return_value)) {
             LocalFree(args);
             return NULL;
         }
 
-        storage += retval;
+        storage += return_value;
     }
 
     LPSTR *result = (LPSTR *)LocalAlloc(LMEM_FIXED, storage);
@@ -74,17 +74,17 @@ char **JBWindows::CommandLineToArgv(char *command_line, int *argc) {
     int buf_len = storage - num_args * sizeof(LPSTR);
     LPSTR buffer = ((LPSTR)result) + num_args * sizeof(LPSTR);
     for(int index = 0; index < num_args; ++index) {
-        BOOL lpUsedDefaultChar = FALSE;
-        retval = WideCharToMultiByte(CP_ACP, 0, args[index], -1, buffer, buf_len, NULL, &lpUsedDefaultChar);
-        if(!SUCCEEDED(retval)) {
+        BOOL used = FALSE;
+        return_value = WideCharToMultiByte(CP_ACP, 0, args[index], -1, buffer, buf_len, NULL, &used);
+        if(!SUCCEEDED(return_value)) {
             LocalFree(result);
             LocalFree(args);
             return NULL;
         }
 
         result[index] = buffer;
-        buffer += retval;
-        buf_len -= retval;
+        buffer += return_value;
+        buf_len -= return_value;
     }
 
     LocalFree(args);
