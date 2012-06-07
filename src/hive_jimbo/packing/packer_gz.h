@@ -36,8 +36,8 @@ class JBPackerGz : JBPacker {
     public:
         JB_EXPORT JBPackerGz();
         JB_EXPORT ~JBPackerGz();
-        JB_EXPORT static void packFile(std::string &filePath, std::string &targetPath);
-        JB_EXPORT static void unpackFile(std::string &filePath, std::string &targetPath);
+        JB_EXPORT static void PackFile(std::string &file_path, std::string &target_path);
+        JB_EXPORT static void UnpackFile(std::string &file_path, std::string &target_path);
 };
 
 #endif

@@ -25,7 +25,10 @@
 
 #pragma once
 
-// the escape character
+/**
+ * The character to be used as the proper
+ * esacape character.
+ */
 #define ESCAPE_CHARACTER '\\'
 
 class JBIsSpace : public std::unary_function<char, bool> {
@@ -40,24 +43,24 @@ class JBIsComma : public std::unary_function<char, bool> {
 
 class JBIsFromString : public std::unary_function<char, bool> {
     public:
-        JBIsFromString::JBIsFromString(std::string const &tokenString) : tokenString(tokenString) {}
+        JBIsFromString::JBIsFromString(std::string const &token_string) : token_string(token_string) {}
         bool operator()(char c) const;
     protected:
-        std::string tokenString;
+        std::string token_string;
 };
 
 class JBIsFromStringNoEscape : JBIsFromString {
     public:
-        JBIsFromStringNoEscape::JBIsFromStringNoEscape(std::string const &tokenString) : JBIsFromString(tokenString) {
-            this->previousEscape = false;
+        JBIsFromStringNoEscape::JBIsFromStringNoEscape(std::string const &token_string) : JBIsFromString(token_string) {
+            this->previous_escape = false;
         }
         bool operator()(char c);
     private:
-        bool previousEscape;
+        bool previous_escape;
 };
 
 class JBTokenizer {
     public:
-        static void Tokenize(std::vector<std::string> &roResult, std::string const &rostr, JBIsFromString const &roT);
-        static void TokenizeNoEscape(std::vector<std::string> &roResult, std::string const &rostr, JBIsFromStringNoEscape &roT);
+        static void Tokenize(std::vector<std::string> &ro_result, std::string const &rostr, JBIsFromString const &ro_t);
+        static void TokenizeNoEscape(std::vector<std::string> &ro_result, std::string const &rostr, JBIsFromStringNoEscape &ro_t);
 };

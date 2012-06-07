@@ -26,30 +26,30 @@
 #include "stdafx.h"
 
 int _tmain(int argc, _TCHAR* argv[]) {
-    JBHttpClient colonyHttp = JBHttpClient();
+    JBHttpClient colony_http = JBHttpClient();
 
     // retrieves the remote contents
-    colonyHttp.getContents(std::string("http://www.hive.pt"));
+    colony_http.GetContents(std::string("http://www.hive.pt"));
 
     // opens the file for read and write
     std::fstream file = std::fstream("c:/tobias.dump", std::fstream::in | std::fstream::out | std::fstream::trunc | std::fstream::binary);
-    file.write(colonyHttp.getMessageBuffer(), colonyHttp.getMessageSize());
+    file.write(colony_http.GetMessageBuffer(), colony_http.GetMessageSize());
     file.close();
 
     char * value = "adasd ";
-    std::string trim_a = JBString::trim(std::string(value));
-    std::string ltrim_a = JBString::ltrim(std::string(value));
-    std::string rtrim_a = JBString::rtrim(std::string(value));
+    std::string trim_a = JBString::Trim(std::string(value));
+    std::string ltrim_a = JBString::LTrim(std::string(value));
+    std::string rtrim_a = JBString::RTrim(std::string(value));
 
-    std::string installPath = JBPython::getInstallPath(std::string("2.7"));
+    std::string install_path = JBPython::GetInstallPath(std::string("2.7"));
 
-    JBLogger *logger = JBLogger::getLogger();
+    JBLogger *logger = JBLogger::GetLogger();
 
-    JBLoggerFileHandler *fileHandler = new JBLoggerFileHandler(std::string("default.log"));
-    logger->setLevel(DEBUG);
-    logger->addHandler(fileHandler);
-    logger->critical(std::string("Hello World Test"));
-    logger->debug("Hello %d World Test", 44);
+    JBLoggerFileHandler *file_handler = new JBLoggerFileHandler(std::string("default.log"));
+    logger->SetLevel(DEBUG);
+    logger->AddHandler(file_handler);
+    logger->Critical(std::string("Hello World Test"));
+    logger->Debug("Hello %d World Test", 44);
 
     getchar();
 

@@ -34,22 +34,22 @@ JBLoggerHandler::~JBLoggerHandler() {
 }
 
 JBLoggerStreamHandler::JBLoggerStreamHandler() : JBLoggerHandler() {
-    this->streamOpen = false;
+    this->stream_open = false;
 }
 
 JBLoggerStreamHandler::~JBLoggerStreamHandler() {
 }
 
-void JBLoggerStreamHandler::handle(JBLoggerRecord &record) {
+void JBLoggerStreamHandler::Handle(JBLoggerRecord &record) {
     // in case the stream is not currently open,
     // must open it to start writing
-    if(this->streamOpen == NULL) { this->openStream(); }
+    if(this->stream_open == NULL) { this->OpenStream(); }
 
     // retrieves the formatted value of the records writes
     // it to the stream and flushes the stream to provoke
     // the output to be writen to the stream
-    *(this->stream) << record.getFormattedValue() << "\n";
-    this->flushStream();
+    *(this->stream) << record.GetFormattedValue() << "\n";
+    this->FlushStream();
 }
 
 JBLoggerStandardOutHandler::JBLoggerStandardOutHandler() : JBLoggerStreamHandler() {
@@ -58,35 +58,35 @@ JBLoggerStandardOutHandler::JBLoggerStandardOutHandler() : JBLoggerStreamHandler
 JBLoggerStandardOutHandler::~JBLoggerStandardOutHandler() {
 }
 
-void JBLoggerStandardOutHandler::openStream() {
-    JBLoggerStreamHandler::openStream();
+void JBLoggerStandardOutHandler::OpenStream() {
+    JBLoggerStreamHandler::OpenStream();
     this->stream = &std::cout;
 }
 
 JBLoggerFileHandler::JBLoggerFileHandler() : JBLoggerStreamHandler() {
 }
 
-JBLoggerFileHandler::JBLoggerFileHandler(std::string &fileName) : JBLoggerStreamHandler() {
-    this->setFileName(fileName);
-    this->openStream();
+JBLoggerFileHandler::JBLoggerFileHandler(std::string &file_name) : JBLoggerStreamHandler() {
+    this->SetFileName(file_name);
+    this->OpenStream();
 }
 
 JBLoggerFileHandler::~JBLoggerFileHandler() {
 }
 
-void JBLoggerFileHandler::openStream() {
-    JBLoggerStreamHandler::openStream();
+void JBLoggerFileHandler::OpenStream() {
+    JBLoggerStreamHandler::OpenStream();
     std::ofstream *stream = new std::ofstream();
-    stream->open(this->fileName.c_str(), DEFAULT_FILE_STREAM_MODE);
+    stream->open(this->file_name.c_str(), DEFAULT_FILE_STREAM_MODE);
     this->stream = stream;
 }
 
-void JBLoggerFileHandler::closeStream() {
-    JBLoggerStreamHandler::closeStream();
+void JBLoggerFileHandler::CloseStream() {
+    JBLoggerStreamHandler::CloseStream();
     std::ofstream *stream = (std::ofstream *) this->stream;
     stream->close();
 }
 
-void JBLoggerFileHandler::setFileName(std::string &fileName) {
-    this->fileName = fileName;
+void JBLoggerFileHandler::SetFileName(std::string &file_name) {
+    this->file_name = file_name;
 }

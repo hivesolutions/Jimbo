@@ -41,21 +41,21 @@ JBPackerElement::~JBPackerElement() {
 JBPackerFile::JBPackerFile() : JBPackerElement() {
 }
 
-JBPackerFile::JBPackerFile(std::string &name, std::string &path, std::fstream *fileStream, std::string &mimeType) : JBPackerElement(name, path) {
-    this->fileStream = fileStream;
-    this->mimeType = mimeType;
+JBPackerFile::JBPackerFile(std::string &name, std::string &path, std::fstream *file_stream, std::string &mime_type) : JBPackerElement(name, path) {
+    this->file_stream = file_stream;
+    this->mime_type = mime_type;
 }
 
 JBPackerFile::~JBPackerFile() {
 }
 
-void JBPackerFile::addFile(std::string &filePath, JBPackerFile *packerFile) {
-    JBPackerElement::addFile(filePath, packerFile);
+void JBPackerFile::AddFile(std::string &file_path, JBPackerFile *packer_file) {
+    JBPackerElement::AddFile(file_path, packer_file);
 
 }
 
-void JBPackerFile::removeFile(std::string &filePath) {
-    JBPackerElement::removeFile(filePath);
+void JBPackerFile::RemoveFile(std::string &file_path) {
+    JBPackerElement::RemoveFile(file_path);
 }
 
 JBPackerDirectory::JBPackerDirectory() {
@@ -67,25 +67,25 @@ JBPackerDirectory::JBPackerDirectory(std::string &name, std::string &path) : JBP
 JBPackerDirectory::~JBPackerDirectory() {
 }
 
-void JBPackerDirectory::addFile(std::string &filePath, JBPackerFile *packerFile) {
-    JBPackerElement::addFile(filePath, packerFile);
+void JBPackerDirectory::AddFile(std::string &file_path, JBPackerFile *packer_file) {
+    JBPackerElement::AddFile(file_path, packer_file);
 
-    int index = filePath.find("/");
+    int index = file_path.find("/");
 
     if(index == std::string::npos) {
-        this->elementsMap[filePath] = packerFile;
+        this->elements_map[file_path] = packer_file;
     }
     else {
-        std::string fileDirectoryName = filePath.substr(0, index);
-        std::string fileNewPath = filePath.substr(index + 1);
+        std::string file_directory_name = file_path.substr(0, index);
+        std::string file_new_path = file_path.substr(index + 1);
 
-        if(this->elementsMap.find(fileDirectoryName) == this->elementsMap.end())
-            this->elementsMap[fileDirectoryName] = new JBPackerDirectory(fileDirectoryName, fileDirectoryName);
+        if(this->elements_map.find(file_directory_name) == this->elements_map.end())
+            this->elements_map[file_directory_name] = new JBPackerDirectory(file_directory_name, file_directory_name);
 
-         this->elementsMap[fileDirectoryName]->addFile(fileNewPath, packerFile);
+         this->elements_map[file_directory_name]->AddFile(file_new_path, packer_file);
     }
 }
 
-void JBPackerDirectory::removeFile(std::string &filePath) {
-    JBPackerElement::removeFile(filePath);
+void JBPackerDirectory::RemoveFile(std::string &file_path) {
+    JBPackerElement::RemoveFile(file_path);
 }

@@ -30,128 +30,128 @@
 JBLogger::JBLogger() {
     // creates new instances for default logging and
     // default logger formatter
-    JBLoggerHandler *defaultLoggerHandler = new DEFAULT_HANDLER();
-    JBLoggerFormatter *defaultLoggerFormatter = new DEFAULT_FORMATTER();
+    JBLoggerHandler *default_logger_handler = new DEFAULT_HANDLER();
+    JBLoggerFormatter *default_logger_formatter = new DEFAULT_FORMATTER();
 
     // sets the default log level that provides initial
     // support for imediate logging
-    this->logLevel = WARNING;
+    this->log_level = WARNING;
 
     // adds the default logger handler and the default
     // logger formatter, to provide an initial setup for
     // imediate usage
-    this->addHandler(defaultLoggerHandler);
-    this->setFormatter(defaultLoggerFormatter);
+    this->AddHandler(default_logger_handler);
+    this->SetFormatter(default_logger_formatter);
 }
 
 JBLogger::~JBLogger() {
 }
 
-void JBLogger::debug(char *format, ...) {
+void JBLogger::Debug(char *Format, ...) {
     char _value[STRING_BUFFER_SIZE];
-    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    sprintf_vargs(_value, Format, STRING_BUFFER_SIZE);
     std::string value = std::string(_value);
-    JBLogger::debug(value);
+    JBLogger::Debug(value);
 }
 
-void JBLogger::info(char *format, ...) {
+void JBLogger::Info(char *Format, ...) {
     char _value[STRING_BUFFER_SIZE];
-    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    sprintf_vargs(_value, Format, STRING_BUFFER_SIZE);
     std::string value = std::string(_value);
-    JBLogger::info(value);
+    JBLogger::Info(value);
 }
 
-void JBLogger::warning(char *format, ...) {
+void JBLogger::Warning(char *Format, ...) {
     char _value[STRING_BUFFER_SIZE];
-    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    sprintf_vargs(_value, Format, STRING_BUFFER_SIZE);
     std::string value = std::string(_value);
-    JBLogger::warning(value);
+    JBLogger::Warning(value);
 }
 
-void JBLogger::fault(char *format, ...) {
+void JBLogger::Fault(char *Format, ...) {
     char _value[STRING_BUFFER_SIZE];
-    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    sprintf_vargs(_value, Format, STRING_BUFFER_SIZE);
     std::string value = std::string(_value);
-    JBLogger::fault(value);
+    JBLogger::Fault(value);
 }
 
-void JBLogger::critical(char *format, ...) {
+void JBLogger::Critical(char *Format, ...) {
     char _value[STRING_BUFFER_SIZE];
-    sprintf_vargs(_value, format, STRING_BUFFER_SIZE);
+    sprintf_vargs(_value, Format, STRING_BUFFER_SIZE);
     std::string value = std::string(_value);
-    JBLogger::critical(value);
+    JBLogger::Critical(value);
 }
 
-void JBLogger::debug(std::string &value) {
+void JBLogger::Debug(std::string &value) {
     JBLoggerRecord record = JBLoggerRecord(value, DEBUG);
-    this->handle(record);
+    this->Handle(record);
 }
 
-void JBLogger::info(std::string &value) {
+void JBLogger::Info(std::string &value) {
     JBLoggerRecord record = JBLoggerRecord(value, INFO);
-    this->handle(record);
+    this->Handle(record);
 }
 
-void JBLogger::warning(std::string &value) {
+void JBLogger::Warning(std::string &value) {
     JBLoggerRecord record = JBLoggerRecord(value, WARNING);
-    this->handle(record);
+    this->Handle(record);
 }
 
-void JBLogger::fault(std::string &value) {
+void JBLogger::Fault(std::string &value) {
     JBLoggerRecord record = JBLoggerRecord(value, FAULT);
-    this->handle(record);
+    this->Handle(record);
 }
 
-void JBLogger::critical(std::string &value) {
+void JBLogger::Critical(std::string &value) {
     JBLoggerRecord record = JBLoggerRecord(value, CRITICAL);
-    this->handle(record);
+    this->Handle(record);
 }
 
-void JBLogger::handle(JBLoggerRecord &record) {
+void JBLogger::Handle(JBLoggerRecord &record) {
     // in case the log level is not suficient ignores it
     // nothing should be done (returns immediately)
-    if(record.getLevel() < this->logLevel) { return; }
+    if(record.GetLevel() < this->log_level) { return; }
 
-    // calls the logger format to format the record, this
+    // calls the logger Format to Format the record, this
     // should change its internal structure
-    this->loggerFormatter->format(record);
+    this->logger_formatter->Format(record);
 
-    // iterates over all the handlers to handle the record
+    // iterates over all the handlers to Handle the record
     // in the proper manner (sends it over all the handlers)
-    for(handlersListType::iterator iterator = this->handlersList.begin(); iterator != this->handlersList.end(); iterator++) {
+    for(HandlersListType::iterator iterator = this->handlers_list.begin(); iterator != this->handlers_list.end(); iterator++) {
         // retrieves the current logger handler and
         // sends the record to the it for handling
-        JBLoggerHandler *loggerHandler = *iterator;
-        loggerHandler->handle(record);
+        JBLoggerHandler *logger_handler = *iterator;
+        logger_handler->Handle(record);
     }
 }
 
-void JBLogger::setLevel(unsigned int level) {
-    this->logLevel = level;
+void JBLogger::SetLevel(unsigned int level) {
+    this->log_level = level;
 }
 
-void JBLogger::addHandler(JBLoggerHandler *loggerHandler) {
-    this->handlersList.push_back(loggerHandler);
+void JBLogger::AddHandler(JBLoggerHandler *logger_handler) {
+    this->handlers_list.push_back(logger_handler);
 }
 
-void JBLogger::setDefaultHandler(JBLoggerHandler *defaultLoggerHandler) {
+void JBLogger::SetDefaultHandler(JBLoggerHandler *default_logger_handler) {
 }
 
-void JBLogger::setFormatter(JBLoggerFormatter *loggerFormatter) {
-    this->loggerFormatter = loggerFormatter;
+void JBLogger::SetFormatter(JBLoggerFormatter *logger_formatter) {
+    this->logger_formatter = logger_formatter;
 }
 
-JBLogger *JBLogger::getLogger(std::string &loggerName) {
+JBLogger *JBLogger::GetLogger(std::string &logger_name) {
     JBLogger *logger;
-    loggersMapType::iterator iterator = JBLogger::loggersMap.find(loggerName);
+    LoggersMapType::iterator iterator = JBLogger::loggers_map.find(logger_name);
 
-    if(iterator != loggersMap.end()) {
+    if(iterator != loggers_map.end()) {
         logger = iterator->second;
     } else {
         // creates a new logger and sets it the
         // proper manner in the loggers map
         logger = new JBLogger();
-        JBLogger::loggersMap[loggerName] = logger;
+        JBLogger::loggers_map[logger_name] = logger;
     }
 
     // returns the retrieved logger, this logger
@@ -159,12 +159,12 @@ JBLogger *JBLogger::getLogger(std::string &loggerName) {
     return logger;
 }
 
-JBLogger *JBLogger::getLogger(char *loggerName) {
-    return JBLogger::getLogger(std::string(loggerName));
+JBLogger *JBLogger::GetLogger(char *logger_name) {
+    return JBLogger::GetLogger(std::string(logger_name));
 }
 
-JBLogger *JBLogger::getLogger() {
-    return JBLogger::getLogger(DEFAULT_LOGGER_NAME);
+JBLogger *JBLogger::GetLogger() {
+    return JBLogger::GetLogger(DEFAULT_LOGGER_NAME);
 }
 
-loggersMapType JBLogger::loggersMap = loggersMapType();
+LoggersMapType JBLogger::loggers_map = LoggersMapType();

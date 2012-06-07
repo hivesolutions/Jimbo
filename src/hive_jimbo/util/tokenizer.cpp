@@ -36,8 +36,8 @@ bool JBIsComma::operator()(char c) const {
 }
 
 bool JBIsFromString::operator()(char c) const {
-    int iFind = this->tokenString.find(c);
-    if(iFind != std::string::npos) {
+    int i_find = this->token_string.find(c);
+    if(i_find != std::string::npos) {
         return true;
     } else {
         return false;
@@ -46,67 +46,67 @@ bool JBIsFromString::operator()(char c) const {
 
 bool JBIsFromStringNoEscape::operator()(char c) {
     if(c == ESCAPE_CHARACTER) {
-        if(this->previousEscape) {
-            this->previousEscape = false;
+        if(this->previous_escape) {
+            this->previous_escape = false;
         }
         else {
-            this->previousEscape = true;
+            this->previous_escape = true;
             return false;
         }
     }
 
-    int iFind = tokenString.find(c);
-    if(iFind != std::string::npos && !this->previousEscape) {
+    int i_find = token_string.find(c);
+    if(i_find != std::string::npos && !this->previous_escape) {
         return true;
     } else {
-        this->previousEscape = false;
+        this->previous_escape = false;
         return false;
     }
 }
 
-void JBTokenizer::Tokenize(std::vector<std::string> &roResult, std::string const &rostr, JBIsFromString const &roT) {
-    roResult.clear();
+void JBTokenizer::Tokenize(std::vector<std::string> &ro_result, std::string const &rostr, JBIsFromString const &ro_t) {
+    ro_result.clear();
     std::string::const_iterator it = rostr.begin();
-    std::string::const_iterator itTokenEnd = rostr.begin();
+    std::string::const_iterator it_token_end = rostr.begin();
 
     while(it != rostr.end()) {
-        while(roT(*it)) {
+        while(ro_t(*it)) {
             it++;
         }
 
         // finds next token
-        itTokenEnd = find_if(it, rostr.end(), roT);
+        it_token_end = find_if(it, rostr.end(), ro_t);
 
         // in case the iterator is not at the end
-        if(it < itTokenEnd) {
+        if(it < it_token_end) {
             // appends the token to result
-            roResult.push_back(std::string(it, itTokenEnd));
+            ro_result.push_back(std::string(it, it_token_end));
         }
 
         // sets the new iterator position
-        it = itTokenEnd;
+        it = it_token_end;
   }
 }
 
-void JBTokenizer::TokenizeNoEscape(std::vector<std::string> &roResult, std::string const &rostr, JBIsFromStringNoEscape &roT) {
-    roResult.clear();
+void JBTokenizer::TokenizeNoEscape(std::vector<std::string> &ro_result, std::string const &rostr, JBIsFromStringNoEscape &ro_t) {
+    ro_result.clear();
     std::string::const_iterator it = rostr.begin();
-    std::string::const_iterator itTokenEnd = rostr.begin();
+    std::string::const_iterator it_token_end = rostr.begin();
 
     while(it != rostr.end()) {
-        while(roT(*it))
+        while(ro_t(*it))
             it++;
 
         // finds next token
-        itTokenEnd = find_if(it, rostr.end(), roT);
+        it_token_end = find_if(it, rostr.end(), ro_t);
 
         // in case the iterator is not at the end
-        if(it < itTokenEnd) {
+        if(it < it_token_end) {
             // appends the token to result
-            roResult.push_back(std::string(it, itTokenEnd));
+            ro_result.push_back(std::string(it, it_token_end));
         }
 
         // sets the new iterator position
-        it = itTokenEnd;
+        it = it_token_end;
     }
 }

@@ -33,66 +33,66 @@ JBEscaper::JBEscaper() {
 JBEscaper::~JBEscaper() {
 }
 
-std::string &JBEscaper::escape(std::string &stringValue) {
-    JBEscaper::escapeCharacterSequence(stringValue, COMMAND_SEPARATOR_TOKEN);
-    JBEscaper::escapeCharacterSequence(stringValue, ARGUMENT_SEPARATOR_TOKEN);
-    JBEscaper::escapeCharacterSequence(stringValue, ARGUMENT_TYPE_TOKEN);
-    return stringValue;
+std::string &JBEscaper::Escape(std::string &string_value) {
+    JBEscaper::EscapeCharacterSequence(string_value, COMMAND_SEPARATOR_TOKEN);
+    JBEscaper::EscapeCharacterSequence(string_value, ARGUMENT_SEPARATOR_TOKEN);
+    JBEscaper::EscapeCharacterSequence(string_value, ARGUMENT_TYPE_TOKEN);
+    return string_value;
 }
 
-std::string *JBEscaper::escape(char *stringCharacterValue) {
-    std::string *stringValue = new std::string(stringCharacterValue);
-    JBEscaper::escapeCharacterSequence(*stringValue, COMMAND_SEPARATOR_TOKEN);
-    JBEscaper::escapeCharacterSequence(*stringValue, ARGUMENT_SEPARATOR_TOKEN);
-    JBEscaper::escapeCharacterSequence(*stringValue, ARGUMENT_TYPE_TOKEN);
-    return stringValue;
+std::string *JBEscaper::Escape(char *string_character_value) {
+    std::string *string_value = new std::string(string_character_value);
+    JBEscaper::EscapeCharacterSequence(*string_value, COMMAND_SEPARATOR_TOKEN);
+    JBEscaper::EscapeCharacterSequence(*string_value, ARGUMENT_SEPARATOR_TOKEN);
+    JBEscaper::EscapeCharacterSequence(*string_value, ARGUMENT_TYPE_TOKEN);
+    return string_value;
 }
 
-std::string &JBEscaper::unescape(std::string &stringValue) {
-    JBEscaper::unescapeCharacterSequence(stringValue, COMMAND_SEPARATOR_TOKEN);
-    JBEscaper::unescapeCharacterSequence(stringValue, ARGUMENT_SEPARATOR_TOKEN);
-    JBEscaper::unescapeCharacterSequence(stringValue, ARGUMENT_TYPE_TOKEN);
-    return stringValue;
+std::string &JBEscaper::Unescape(std::string &string_value) {
+    JBEscaper::UnescapeCharacterSequence(string_value, COMMAND_SEPARATOR_TOKEN);
+    JBEscaper::UnescapeCharacterSequence(string_value, ARGUMENT_SEPARATOR_TOKEN);
+    JBEscaper::UnescapeCharacterSequence(string_value, ARGUMENT_TYPE_TOKEN);
+    return string_value;
 }
 
-std::string *JBEscaper::unescape(char *stringCharacterValue) {
-    std::string *stringValue = new std::string(stringCharacterValue);
-    JBEscaper::unescapeCharacterSequence(*stringValue, COMMAND_SEPARATOR_TOKEN);
-    JBEscaper::unescapeCharacterSequence(*stringValue, ARGUMENT_SEPARATOR_TOKEN);
-    JBEscaper::unescapeCharacterSequence(*stringValue, ARGUMENT_TYPE_TOKEN);
-    return stringValue;
+std::string *JBEscaper::Unescape(char *string_character_value) {
+    std::string *string_value = new std::string(string_character_value);
+    JBEscaper::UnescapeCharacterSequence(*string_value, COMMAND_SEPARATOR_TOKEN);
+    JBEscaper::UnescapeCharacterSequence(*string_value, ARGUMENT_SEPARATOR_TOKEN);
+    JBEscaper::UnescapeCharacterSequence(*string_value, ARGUMENT_TYPE_TOKEN);
+    return string_value;
 }
 
-std::string &JBEscaper::escapeCharacterSequence(std::string &stringValue, const char *characterSequence) {
-    std::string characterSequenceEscaped = std::string(ESCAPE_TOKEN) + std::string(characterSequence);
+std::string &JBEscaper::EscapeCharacterSequence(std::string &string_value, const char *character_sequence) {
+    std::string character_sequence_escaped = std::string(ESCAPE_TOKEN) + std::string(character_sequence);
 
-    JBEscaper::replaceAll(stringValue, characterSequence, characterSequenceEscaped);
+    JBEscaper::ReplaceAll(string_value, character_sequence, character_sequence_escaped);
 
     // returns the string value
-    return stringValue;
+    return string_value;
 }
 
-std::string &JBEscaper::unescapeCharacterSequence(std::string &stringValue, const char *characterSequence) {
-    std::string characterSequenceEscaped = std::string(ESCAPE_TOKEN) + std::string(characterSequence);
+std::string &JBEscaper::UnescapeCharacterSequence(std::string &string_value, const char *character_sequence) {
+    std::string character_sequence_escaped = std::string(ESCAPE_TOKEN) + std::string(character_sequence);
 
-    JBEscaper::replaceAll(stringValue, characterSequenceEscaped, characterSequence);
+    JBEscaper::ReplaceAll(string_value, character_sequence_escaped, character_sequence);
 
     // returns the string value
-    return stringValue;
+    return string_value;
 }
 
-std::string &JBEscaper::replaceAll(std::string &targetString, const std::string &originalSequence, const std::string &targetSequence) {
-    size_t lookHere = 0;
-    size_t foundHere;
+std::string &JBEscaper::ReplaceAll(std::string &target_string, const std::string &original_sequence, const std::string &target_sequence) {
+    size_t look_here = 0;
+    size_t found_here;
 
-    while((foundHere = targetString.find(originalSequence, lookHere)) != std::string::npos) {
-        targetString.replace(foundHere, originalSequence.size(), targetSequence);
-        lookHere = foundHere + targetSequence.size();
+    while((found_here = target_string.find(original_sequence, look_here)) != std::string::npos) {
+        target_string.replace(found_here, original_sequence.size(), target_sequence);
+        look_here = found_here + target_sequence.size();
     }
 
-    return targetString;
+    return target_string;
 }
 
-void JBEscaper::releaseStringValue(std::string *stringValue) {
-    delete stringValue;
+void JBEscaper::ReleaseStringValue(std::string *string_value) {
+    delete string_value;
 }

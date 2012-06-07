@@ -32,14 +32,14 @@ class JBLoggerRecord {
         JBLoggerRecord();
         JBLoggerRecord(std::string &value, unsigned int level);
         ~JBLoggerRecord();
-        std::string &getValue();
-        void setValue(std::string &value);
-        unsigned int getLevel();
-        void setLevel(unsigned int level);
-        std::string &getFormattedValue();
-        void setFormattedValue(std::string &formattedValue);
+        std::string &GetValue();
+        void SetValue(std::string &value);
+        unsigned int GetLevel();
+        void SetLevel(unsigned int level);
+        std::string &GetFormattedValue();
+        void SetFormattedValue(std::string &formatted_value);
     private:
         std::string value;
         unsigned int level;
-        std::string formattedValue;
+        std::string formatted_value;
 };

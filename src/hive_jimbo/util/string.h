@@ -38,31 +38,31 @@ class JBString {
          * space "like" chracters.
          * The given string character is modified during the operation.
          *
-         * @param stringValue The string value to be trimmed, this value
+         * @param string_value The string value to be trimmed, this value
          * is going to be changed durint the operation.
          * @return The resulting string value after the trimming operation.
          */
-        JB_EXPORT static std::string &trim(std::string &stringValue);
+        JB_EXPORT static std::string &Trim(std::string &string_value);
 
         /**
          * "Left" trims te given string, removing its initial space
          * "like" chracters.
          * The given string character is modified during the operation.
          *
-         * @param stringValue The string value to be "left" trimmed,
+         * @param string_value The string value to be "left" trimmed,
          * this value is going to be changed durint the operation.
          * @return The resulting string value after the trimming operation.
          */
-        JB_EXPORT static std::string &ltrim(std::string &stringValue);
+        JB_EXPORT static std::string &LTrim(std::string &string_value);
 
         /**
          * "Right" trims te given string, removing its final space
          * "like" chracters.
          * The given string character is modified during the operation.
          *
-         * @param stringValue The string value to be "right" trimmed,
+         * @param string_value The string value to be "right" trimmed,
          * this value is going to be changed durint the operation.
          * @return The resulting string value after the trimming operation.
          */
-        JB_EXPORT static std::string &rtrim(std::string &stringValue);
+        JB_EXPORT static std::string &RTrim(std::string &string_value);
 };

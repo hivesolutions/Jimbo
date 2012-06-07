@@ -31,33 +31,33 @@ class JBProcess {
          * Checks if the executable (exe) with the given name is running
          * and returns the value of it.
          *
-         * @param exeName The name of the executable (exe) to be tested
+         * @param exe_name The name of the executable (exe) to be tested
          * for running.
          * @param running Pointer to the boolean to receive the result
          * of the executable running test.
          * @return The success of the function call.
          */
-        JB_EXPORT static bool isRunning(char *exeName, bool *processRunning);
+        JB_EXPORT static bool IsRunning(char *exe_name, bool *process_running);
 
         /**
          * Retrieves the of processes running for the executable (exe)
          * with the given name.
          *
-         * @param exeName The name of the executable (exe) to retrieve
+         * @param exe_name The name of the executable (exe) to retrieve
          * the number of processes running.
          * @param count Pointer to the interger to receive the the number
          * of processes running.
          * @return The success of the function call.
          */
-        JB_EXPORT static bool getRunning(char *exeName, int *count);
+        JB_EXPORT static bool GetRunning(char *exe_name, int *count);
 
         /**
          * Retrieves the identifier of the current process runing as a string
          * value, the string value to hold the identifier should be given by
          * reference value.
          *
-         * @param idString The string value to hold the identifier of the current
+         * @param id_string The string value to hold the identifier of the current
          * (running) system process.
          */
-        JB_EXPORT static void getProcessId(std::string &idString);
+        JB_EXPORT static void GetProcessId(std::string &id_string);
 };

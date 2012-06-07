@@ -52,31 +52,54 @@ class JBHttpClient : public JBObservable {
         /**
          * The default port to be used.
          */
-        static const int defaultPort = 80;
+        static const int default_port = 80;
 
         /**
          * The http socket to be used.
          */
-        SOCKET httpSocket;
+        SOCKET http_socket;
 
         /**
-         * The address (string) to be used.
+         * The address (string) to be used, this
+		 * is the tcp address or dns name for
+		 * the connection.
          */
         std::string address;
 
         /**
-         * The port to be used.
+         * The port to be used, this is the
+		 * tcp port for the connection.
          */
         int port;
-        std::string contentUrl;
-        char *messageBuffer;
-        int messageSize;
-        int contentLength;
 
-        void parseUrl(std::string &url);
-        void retrieveData();
-        void openConnection(std::string &address, int port);
-        void closeConnection();
+		/**
+		 * The url to the content to be retrieved,
+		 * this is the target url of the client.
+		 */
+        std::string content_url;
+
+		/**
+		 * The buffer containing the contents retrieved
+		 * by the client connection.
+		 */
+        char *message_buffer;
+
+		/**
+		 * The size in bytes of the message retrieved
+		 * from the server.
+		 */
+        int message_size;
+
+		/**
+		 * The size (length) in bytes of the content part
+		 * of the http message.
+		 */
+        int content_length;
+
+        void ParseUrl(std::string &url);
+        void RetrieveData();
+        void OpenConnection(std::string &address, int port);
+        void CloseConnection();
     public:
         /**
          * Constructor of the class.
@@ -87,8 +110,8 @@ class JBHttpClient : public JBObservable {
          * Destructor of the class.
          */
         JB_EXPORT ~JBHttpClient();
-        JB_EXPORT void getContents(std::string &url);
-        JB_EXPORT char *getMessageBuffer();
-        JB_EXPORT int getMessageSize();
-        JB_EXPORT int getContentLength();
+        JB_EXPORT void GetContents(std::string &url);
+        JB_EXPORT char *GetMessageBuffer();
+        JB_EXPORT int GetMessageSize();
+        JB_EXPORT int GetContentLength();
 };

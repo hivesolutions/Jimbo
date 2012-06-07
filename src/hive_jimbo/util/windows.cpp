@@ -27,9 +27,9 @@
 
 #include "windows.h"
 
-char **JBWindows::commandLineToArgv(char *commandLine, int *argc) {
+char **JBWindows::CommandLineToArgv(char *command_line, int *argc) {
     int retval;
-    retval = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, commandLine, -1, NULL, 0);
+    retval = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, command_line, -1, NULL, 0);
     if(!SUCCEEDED(retval)) {
         return NULL;
     }
@@ -39,22 +39,22 @@ char **JBWindows::commandLineToArgv(char *commandLine, int *argc) {
         return NULL;
     }
 
-    retval = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, commandLine, -1, lpWideCharStr, retval);
+    retval = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, command_line, -1, lpWideCharStr, retval);
     if(!SUCCEEDED(retval)) {
         free(lpWideCharStr);
         return NULL;
     }
 
-    int numArgs;
+    int num_args;
     LPWSTR *args;
-    args = CommandLineToArgvW(lpWideCharStr, &numArgs);
+    args = CommandLineToArgvW(lpWideCharStr, &num_args);
     free(lpWideCharStr);
     if (args == NULL)
         return NULL;
 
-    int storage = numArgs * sizeof(LPSTR);
+    int storage = num_args * sizeof(LPSTR);
 
-    for(int index = 0; index < numArgs; ++index) {
+    for(int index = 0; index < num_args; ++index) {
         BOOL lpUsedDefaultChar = FALSE;
         retval = WideCharToMultiByte(CP_ACP, 0, args[index], -1, NULL, 0, NULL, &lpUsedDefaultChar);
         if(!SUCCEEDED(retval)) {
@@ -71,11 +71,11 @@ char **JBWindows::commandLineToArgv(char *commandLine, int *argc) {
         return NULL;
     }
 
-    int bufLen = storage - numArgs * sizeof(LPSTR);
-    LPSTR buffer = ((LPSTR)result) + numArgs * sizeof(LPSTR);
-    for(int index = 0; index < numArgs; ++index) {
+    int buf_len = storage - num_args * sizeof(LPSTR);
+    LPSTR buffer = ((LPSTR)result) + num_args * sizeof(LPSTR);
+    for(int index = 0; index < num_args; ++index) {
         BOOL lpUsedDefaultChar = FALSE;
-        retval = WideCharToMultiByte(CP_ACP, 0, args[index], -1, buffer, bufLen, NULL, &lpUsedDefaultChar);
+        retval = WideCharToMultiByte(CP_ACP, 0, args[index], -1, buffer, buf_len, NULL, &lpUsedDefaultChar);
         if(!SUCCEEDED(retval)) {
             LocalFree(result);
             LocalFree(args);
@@ -84,104 +84,104 @@ char **JBWindows::commandLineToArgv(char *commandLine, int *argc) {
 
         result[index] = buffer;
         buffer += retval;
-        bufLen -= retval;
+        buf_len -= retval;
     }
 
     LocalFree(args);
 
-    *argc = numArgs;
+    *argc = num_args;
     return result;
 }
 
-int JBWindows::copyRecursiveShell(const std::string &targetDirectory, const std::string &sourceDirectory) {
+int JBWindows::CopyRecursiveShell(const std::string &target_directory, const std::string &source_directory) {
     // retrieves the length of both the target and source
     // directory length do that it's possible to allocate
     // the structure native string structures
-    size_t targetDirectoryLength = targetDirectory.length();
-    size_t sourceDirectoryLength = sourceDirectory.length();
+    size_t target_directory_length = target_directory.length();
+    size_t source_directory_length = source_directory.length();
 
     // creates the target directory native string from the
     // target directory string and puts the double string
     // termination characters
-    char *targetDirectoryString = (char *) malloc(targetDirectory.length() + 2);
-    memcpy(targetDirectoryString, targetDirectory.c_str(), targetDirectoryLength);
-    targetDirectoryString[targetDirectoryLength] = '\0';
-    targetDirectoryString[targetDirectoryLength + 1] = '\0';
+    char *target_directory_string = (char *) malloc(target_directory.length() + 2);
+    memcpy(target_directory_string, target_directory.c_str(), target_directory_length);
+    target_directory_string[target_directory_length] = '\0';
+    target_directory_string[target_directory_length + 1] = '\0';
 
     // creates the source directory native string from the
     // source directory string and puts the double string
     // termination characters, note that the wildcard character
     // is put in the string so that all files are copy
-    char *sourceDirectoryString = (char *) malloc(sourceDirectory.length() + 4);
-    memcpy(sourceDirectoryString, sourceDirectory.c_str(), sourceDirectoryLength);
-    sourceDirectoryString[sourceDirectoryLength] = '\\';
-    sourceDirectoryString[sourceDirectoryLength + 1] = '*';
-    sourceDirectoryString[sourceDirectoryLength + 2] = '\0';
-    sourceDirectoryString[sourceDirectoryLength + 3] = '\0';
+    char *source_directory_string = (char *) malloc(source_directory.length() + 4);
+    memcpy(source_directory_string, source_directory.c_str(), source_directory_length);
+    source_directory_string[source_directory_length] = '\\';
+    source_directory_string[source_directory_length + 1] = '*';
+    source_directory_string[source_directory_length + 2] = '\0';
+    source_directory_string[source_directory_length + 3] = '\0';
 
     // creates the shell operation structure for the recursive
     // copy of the source to target directories
     SHFILEOPSTRUCT operation = { 0 };
     operation.hwnd = NULL;
     operation.wFunc = FO_COPY;
-    operation.pTo = targetDirectoryString;
-    operation.pFrom = sourceDirectoryString;
+    operation.pTo = target_directory_string;
+    operation.pFrom = source_directory_string;
     operation.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
     SHFileOperation(&operation);
 
     // releases the space allocated for the target
     // and source directory strings
-    free(targetDirectoryString);
-    free(sourceDirectoryString);
+    free(target_directory_string);
+    free(source_directory_string);
 
     return 0;
 }
 
-int JBWindows::deleteRecursive(const std::string &targetDirectory, bool deleteSubdirectories) {
+int JBWindows::DeleteRecursive(const std::string &target_directory, bool delete_subdirectories) {
     bool subdirectory = false;
-    HANDLE handlerFile;
-    std::string filePath;
+    HANDLE handler_file;
+    std::string file_path;
     std::string pattern;
-    WIN32_FIND_DATA fileInformation;
+    WIN32_FIND_DATA file_information;
 
-    pattern = targetDirectory + "\\*.*";
-    handlerFile = FindFirstFile(pattern.c_str(), &fileInformation);
+    pattern = target_directory + "\\*.*";
+    handler_file = FindFirstFile(pattern.c_str(), &file_information);
 
     // in case the file handler is not invalid
-    if(handlerFile != INVALID_HANDLE_VALUE) {
+    if(handler_file != INVALID_HANDLE_VALUE) {
         do {
-            if(fileInformation.cFileName[0] != '.') {
-                filePath.erase();
-                filePath = targetDirectory + "\\" + fileInformation.cFileName;
+            if(file_information.cFileName[0] != '.') {
+                file_path.erase();
+                file_path = target_directory + "\\" + file_information.cFileName;
 
-                if(fileInformation.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                    if(deleteSubdirectories) {
+                if(file_information.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+                    if(delete_subdirectories) {
                         // deletes the subdirectory
-                        int returnValue = JBWindows::deleteRecursive(filePath, deleteSubdirectories);
+                        int return_value = JBWindows::DeleteRecursive(file_path, delete_subdirectories);
 
                         // in case the return value is invalid
-                        if(returnValue)
+                        if(return_value)
                             // returns the return value
-                            return returnValue;
+                            return return_value;
                     }
                     else { subdirectory = true; }
                 }
                 else {
                     // sets the file attributes
-                    if(SetFileAttributes(filePath.c_str(), FILE_ATTRIBUTE_NORMAL) == false)
+                    if(SetFileAttributes(file_path.c_str(), FILE_ATTRIBUTE_NORMAL) == false)
                         // returns the last error
                         return GetLastError();
 
                     // deletes the file
-                    if(DeleteFile(filePath.c_str()) == false)
+                    if(DeleteFile(file_path.c_str()) == false)
                         // returns the last error
                         return GetLastError();
                 }
             }
-        } while(FindNextFile(handlerFile, &fileInformation) == TRUE);
+        } while(FindNextFile(handler_file, &file_information) == TRUE);
 
-        // closes the file handle
-        FindClose(handlerFile);
+        // closes the file Handle
+        FindClose(handler_file);
 
         DWORD error = GetLastError();
         if(error != ERROR_NO_MORE_FILES) { return error; }
@@ -189,11 +189,11 @@ int JBWindows::deleteRecursive(const std::string &targetDirectory, bool deleteSu
             if(!subdirectory) {
                 // sets the directory attributes, in case of failuree
                 // returns immediately in error
-                if(SetFileAttributes(targetDirectory.c_str(), FILE_ATTRIBUTE_NORMAL) == false) { return GetLastError(); }
+                if(SetFileAttributes(target_directory.c_str(), FILE_ATTRIBUTE_NORMAL) == false) { return GetLastError(); }
 
                 // deletes the directory, in case of failuree
                 // returns immediately in error
-                if(RemoveDirectory(targetDirectory.c_str()) == false) { return GetLastError(); }
+                if(RemoveDirectory(target_directory.c_str()) == false) { return GetLastError(); }
             }
         }
     }
@@ -201,17 +201,17 @@ int JBWindows::deleteRecursive(const std::string &targetDirectory, bool deleteSu
     return 0;
 }
 
-int JBWindows::deleteRecursiveShell(const char *targetDirectory, bool recycleBin) {
+int JBWindows::DeleteRecursiveShell(const char *target_directory, bool recycle_bin) {
     // retrieves the target directory length
-    int targetDirectoryLength = strlen(targetDirectory);
+    int target_directory_length = strlen(target_directory);
 
     // allocates space
-    TCHAR *targetDirectoryAux = new TCHAR[targetDirectoryLength + 2];
+    TCHAR *target_directory_aux = new TCHAR[target_directory_length + 2];
 
-    strcpy_s(targetDirectoryAux, targetDirectoryLength + 1, targetDirectory);
+    strcpy_s(target_directory_aux, target_directory_length + 1, target_directory);
 
-    targetDirectoryAux[targetDirectoryLength] = 0;
-    targetDirectoryAux[targetDirectoryLength + 1] = 0;
+    target_directory_aux[target_directory_length] = 0;
+    target_directory_aux[target_directory_length + 1] = 0;
 
     SHFILEOPSTRUCT operation;
     operation.hwnd = NULL;
@@ -220,7 +220,7 @@ int JBWindows::deleteRecursiveShell(const char *targetDirectory, bool recycleBin
     operation.wFunc = FO_DELETE;
 
     // sets the source file name as double null terminated string
-    operation.pFrom = targetDirectoryAux;
+    operation.pFrom = target_directory_aux;
 
     // no destination is required
     operation.pTo = NULL;
@@ -228,20 +228,20 @@ int JBWindows::deleteRecursiveShell(const char *targetDirectory, bool recycleBin
     // do not prompt the user
     operation.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
 
-    if(recycleBin) { operation.fFlags |= FOF_ALLOWUNDO; }
+    if(recycle_bin) { operation.fFlags |= FOF_ALLOWUNDO; }
 
     operation.fAnyOperationsAborted = FALSE;
     operation.lpszProgressTitle = NULL;
     operation.hNameMappings = NULL;
 
-    int returnValue = SHFileOperation(&operation);
+    int return_value = SHFileOperation(&operation);
 
-    delete [] targetDirectoryAux;
+    delete [] target_directory_aux;
 
-    return returnValue;
+    return return_value;
 }
 
-int JBWindows::getVersion() {
+int JBWindows::GetVersion() {
     // allocates space for the version variable
     unsigned long version;
 

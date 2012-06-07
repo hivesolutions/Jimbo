@@ -27,24 +27,24 @@
 
 #include "python.h"
 
-HKEY JBPython::checkPython() {
-    return JBPython::checkPython(NULL);
+HKEY JBPython::CheckPython() {
+    return JBPython::CheckPython(NULL);
 }
 
-HKEY JBPython::checkPython(const char *version) {
+HKEY JBPython::CheckPython(const char *version) {
     // allocates space for the string to hold the
     // various sub key values (iteration cycle)
     // stores also the syze of that key in a variable
-    char subKeyName[JBPython::bufferLength];
-    DWORD subKeyNameSize = JBPython::bufferLength;
+    char sub_key_name[JBPython::buffer_length];
+    DWORD sub_key_name_size = JBPython::buffer_length;
 
     // allocates space for the main python key registry
     // (key) reference, going to be used during the
     // enumeration of the sub keys
-    HKEY pythonKey;
+    HKEY python_key;
 
     // checks the registry for the python installation value
-    if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, PYTHON_KEY_NAME, 0, KEY_READ, &pythonKey) != ERROR_SUCCESS) {
+    if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, PYTHON_KEY_NAME, 0, KEY_READ, &python_key) != ERROR_SUCCESS) {
         throw "Python is not installed in the system";
     }
 
@@ -55,40 +55,40 @@ HKEY JBPython::checkPython(const char *version) {
         // enumerates one more value in the python key value to check
         // it for the correct version (the python sub keys represent
         // the various versions present in the system)
-        if(RegEnumKeyEx(pythonKey, index, subKeyName, &subKeyNameSize, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
+        if(RegEnumKeyEx(python_key, index, sub_key_name, &sub_key_name_size, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
             // closes the python key, avoids memory leaking
-            RegCloseKey(pythonKey);
+            RegCloseKey(python_key);
 
             throw "No valid Python version installed in the system";
         }
 
         // in case no version for checking is specified, returns
         // the python key immediately (no version is required)
-        if(version == NULL) { return pythonKey; }
+        if(version == NULL) { return python_key; }
 
         // in case the requested version matches the name of the current
         // sub key, the required python version is found
-        if(!strcmp(subKeyName, version)) { return pythonKey; }
+        if(!strcmp(sub_key_name, version)) { return python_key; }
     }
 
     // closes the python key, avoids memory leaking
-    RegCloseKey(pythonKey);
+    RegCloseKey(python_key);
 
     // retuns an invalid result, an error must have ocured
     // not possible to reach end of function otherwise
     return NULL;
 }
 
-void JBPython::getAvailableVersions(std::vector<std::string> &versions) {
+void JBPython::GetAvailableVersions(std::vector<std::string> &versions) {
     // allocates space for the string to hold the
     // various sub key values (iteration cycle)
     // stores also the syze of that key in a variable
-    char subKeyName[JBPython::bufferLength];
-    DWORD subKeyNameSize = JBPython::bufferLength;
+    char sub_key_name[JBPython::buffer_length];
+    DWORD sub_key_name_size = JBPython::buffer_length;
 
     // retrieves the python (base) key, in case none
     // is found this should raise an exception
-    HKEY pythonKey = checkPython();
+    HKEY python_key = CheckPython();
 
     // iterates continuously, to iterate over all the sub keys
     // in the current registry key, the iteration should only stop
@@ -97,61 +97,61 @@ void JBPython::getAvailableVersions(std::vector<std::string> &versions) {
         // enumerates one more value in the python key value to check
         // it for the correct version (the python sub keys represent
         // the various versions present in the system)
-        if(RegEnumKeyEx(pythonKey, index, subKeyName, &subKeyNameSize, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
+        if(RegEnumKeyEx(python_key, index, sub_key_name, &sub_key_name_size, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
             // closes the python key, avoiding leaking
             // and returns the function immediately
-            RegCloseKey(pythonKey);
+            RegCloseKey(python_key);
             return;
         }
 
         // adds the sub key name into the versions list,
         // first convert it into a standard string object
-        versions.push_back(std::string(subKeyName));
+        versions.push_back(std::string(sub_key_name));
     }
 
     // closes the python key, avoids possible leaking
-    RegCloseKey(pythonKey);
+    RegCloseKey(python_key);
 }
 
-std::string JBPython::getInstallPath(std::string &version) {
+std::string JBPython::GetInstallPath(std::string &version) {
     // allocates space for the string to hold the
     // install path, and also stores the size of
     // the path in it's own variable
-    char installPath[JBPython::bufferLength];
-    DWORD installPathSize = JBPython::bufferLength;
+    char install_path[JBPython::buffer_length];
+    DWORD install_path_size = JBPython::buffer_length;
 
     // retrieves the python (base) key, in case
     // none is found this should raise an exception
-    HKEY pythonKey = checkPython();
+    HKEY python_key = CheckPython();
 
     // allocates space for the storage of the install
     // path key value
-    HKEY installPathKey;
+    HKEY install_path_key;
 
     // tris to open the request version's python install path
     // key value, this should contain the path as a string value
-    if(RegOpenKeyEx(pythonKey, (version + "\\InstallPath").c_str(), 0, KEY_READ, &installPathKey) != ERROR_SUCCESS) {
+    if(RegOpenKeyEx(python_key, (version + "\\InstallPath").c_str(), 0, KEY_READ, &install_path_key) != ERROR_SUCCESS) {
         // closes the python key, avoids leaking
-        RegCloseKey(pythonKey);
+        RegCloseKey(python_key);
 
         throw "The requested version of Python is not installed in the system";
     }
 
     // tries to obtain the value of the of the install path key into
     // (this should not fail in normal circumstances)
-    if(RegQueryValueEx(installPathKey, NULL, NULL, NULL, (LPBYTE) installPath, &installPathSize) != ERROR_SUCCESS) {
+    if(RegQueryValueEx(install_path_key, NULL, NULL, NULL, (LPBYTE) install_path, &install_path_size) != ERROR_SUCCESS) {
          // closes the install path key, avoids leaking
-        RegCloseKey(installPathKey);
+        RegCloseKey(install_path_key);
 
         throw "Error retrieveing install path value";
     }
 
     // closes both python key and the install
     // path key values, avoids possible leaking
-    RegCloseKey(pythonKey);
-    RegCloseKey(installPathKey);
+    RegCloseKey(python_key);
+    RegCloseKey(install_path_key);
 
     // returns the string representing the install
     // path (it is returned by value)
-    return installPath;
+    return install_path;
 }

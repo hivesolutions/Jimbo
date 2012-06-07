@@ -38,32 +38,32 @@ class JBPackerElement {
         JBPackerElement();
         JBPackerElement(std::string &name, std::string &path);
         ~JBPackerElement();
-        virtual void addFile(std::string &filePath, JBPackerFile *packerFile) {};
-        virtual void removeFile(std::string &filePath) {};
+        virtual void AddFile(std::string &file_path, JBPackerFile *packer_file) {};
+        virtual void RemoveFile(std::string &file_path) {};
 };
 
 class JBPackerFile : public JBPackerElement {
     private:
-        std::fstream *fileStream;
-        std::string fileExtension;
-        std::string mimeType;
+        std::fstream *file_stream;
+        std::string file_extension;
+        std::string mime_type;
 
     public:
         JBPackerFile();
-        JBPackerFile(std::string &name, std::string &path, std::fstream *fileStream, std::string &mimeType = std::string("none/none"));
+        JBPackerFile(std::string &name, std::string &path, std::fstream *file_stream, std::string &mime_type = std::string("none/none"));
         ~JBPackerFile();
-        void addFile(std::string &filePath, JBPackerFile *packerFile) override;
-        void removeFile(std::string &filePath) override;
+        void AddFile(std::string &file_path, JBPackerFile *packer_file) override;
+        void RemoveFile(std::string &file_path) override;
 };
 
 class JBPackerDirectory : public JBPackerElement {
     private:
-        std::map<std::string, JBPackerElement *> elementsMap;
+        std::map<std::string, JBPackerElement *> elements_map;
 
     public:
         JBPackerDirectory();
         JBPackerDirectory(std::string &name, std::string &path);
         ~JBPackerDirectory();
-        void addFile(std::string &filePath, JBPackerFile *packerFile) override;
-        void removeFile(std::string &filePath) override;
+        void AddFile(std::string &file_path, JBPackerFile *packer_file) override;
+        void RemoveFile(std::string &file_path) override;
 };

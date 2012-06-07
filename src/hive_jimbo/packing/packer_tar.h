@@ -31,16 +31,16 @@
 #define TAR_BUFFER_BASE 512
 #define LARGE_NAME_SIZE 102400
 
-struct tarHeader {
+struct TarHeaderType {
     char name[100];
     char mode[8];
     char uid[8];
     char gid[8];
     char size[12];
-    char modifiedTime[12];
+    char modified_time[12];
     char checksum[8];
-    char linkFlag[1];
-    char linkName[100];
+    char link_flag[1];
+    char link_name[100];
     char padding[255];
 };
 
@@ -49,6 +49,6 @@ class JBPackerTar : JBPacker {
     public:
         JB_EXPORT JBPackerTar();
         JB_EXPORT ~JBPackerTar();
-        JB_EXPORT static void packFile(std::string &filePath, std::string &targetPath);
-        JB_EXPORT static void unpackFile(std::string &filePath, std::string &targetPath);
+        JB_EXPORT static void PackFile(std::string &file_path, std::string &target_path);
+        JB_EXPORT static void UnpackFile(std::string &file_path, std::string &target_path);
 };

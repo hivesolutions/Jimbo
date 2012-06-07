@@ -33,38 +33,38 @@ JBLoggerFormatter::JBLoggerFormatter() {
 JBLoggerFormatter::~JBLoggerFormatter() {
 }
 
-void JBLoggerFormatter::format(JBLoggerRecord &record) {
+void JBLoggerFormatter::Format(JBLoggerRecord &record) {
     // retrieves the record level and value to be
     // used in the construction of the formatted value
-    unsigned int recordLevel = record.getLevel();
-    std::string &recordValue = record.getValue();
+    unsigned int record_level = record.GetLevel();
+    std::string &record_value = record.GetValue();
 
     // creates the record level string
-    std::string recordLevelString;
+    std::string record_level_string;
 
-    switch(recordLevel) {
+    switch(record_level) {
         case DEBUG:
-            recordLevelString += "<DEBUG>";
+            record_level_string += "<DEBUG>";
             break;
         case INFO:
-            recordLevelString += "<INFO>";
+            record_level_string += "<INFO>";
             break;
         case WARNING:
-            recordLevelString += "<WARNING>";
+            record_level_string += "<WARNING>";
             break;
         case FAULT:
-            recordLevelString += "<FAULT>";
+            record_level_string += "<FAULT>";
             break;
         case CRITICAL:
-            recordLevelString += "<CRITICAL>";
+            record_level_string += "<CRITICAL>";
             break;
     }
 
     // creates the recrod formatted value from the
     // record level string and the record value and
     // sets it in the record (for latter usage)
-    std::string recordFormattedValue = recordLevelString + " " + recordValue;
-    record.setFormattedValue(recordFormattedValue);
+    std::string record_formatted_value = record_level_string + " " + record_value;
+    record.SetFormattedValue(record_formatted_value);
 }
 
 JBLoggerTimeFormatter::JBLoggerTimeFormatter() : JBLoggerFormatter() {
@@ -73,47 +73,47 @@ JBLoggerTimeFormatter::JBLoggerTimeFormatter() : JBLoggerFormatter() {
 JBLoggerTimeFormatter::~JBLoggerTimeFormatter() {
 }
 
-void JBLoggerTimeFormatter::format(JBLoggerRecord &record) {
-    JBLoggerFormatter::format(record);
+void JBLoggerTimeFormatter::Format(JBLoggerRecord &record) {
+    JBLoggerFormatter::Format(record);
 
     // retrieves the formatted value
-    std::string &formattedValue = record.getFormattedValue();
+    std::string &formatted_value = record.GetFormattedValue();
 
     // creates the time buffer
-    char timeBuffer[1024];
+    char time_buffer[1024];
 
     // creates the local time value
-    tm localTimeValue;
+    tm local_time_value;
 
     // retrieves the current time value
-    time_t timeValue = time(NULL);
+    time_t time_value = time(NULL);
 
     // converts the time to local time
-    localtime_s(&localTimeValue, &timeValue);
+    localtime_s(&local_time_value, &time_value);
 
     // formats the time
-    strftime(timeBuffer, 1024, "%Y-%m-%d %H:%M:%S", &localTimeValue);
+    strftime(time_buffer, 1024, "%Y-%m-%d %H:%M:%S", &local_time_value);
 
     // creates the time string
-    std::string &timeString = std::string(timeBuffer);
+    std::string &time_string = std::string(time_buffer);
 
     // creates the new formatted value
-    std::string &newFormattedValue = std::string(timeString + " " + formattedValue);
+    std::string &new_formatted_value = std::string(time_string + " " + formatted_value);
 
     // sets the new formatted value in the record
-    record.setFormattedValue(newFormattedValue);
+    record.SetFormattedValue(new_formatted_value);
 }
 
 JBLoggerStringFormatter::JBLoggerStringFormatter() : JBLoggerFormatter() {
 }
 
-JBLoggerStringFormatter::JBLoggerStringFormatter(std::string &formatString) : JBLoggerFormatter() {
-    this->setFormatString(formatString);
+JBLoggerStringFormatter::JBLoggerStringFormatter(std::string &format_string) : JBLoggerFormatter() {
+    this->SetFormatString(format_string);
 }
 
 JBLoggerStringFormatter::~JBLoggerStringFormatter() {
 }
 
-void JBLoggerStringFormatter::setFormatString(std::string &formatString) {
-    this->formatString = formatString;
+void JBLoggerStringFormatter::SetFormatString(std::string &format_string) {
+    this->format_string = format_string;
 }

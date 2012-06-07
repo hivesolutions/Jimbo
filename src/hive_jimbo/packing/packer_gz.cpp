@@ -35,7 +35,7 @@ JBPackerGz::JBPackerGz() : JBPacker() {
 JBPackerGz::~JBPackerGz() {
 }
 
-void JBPackerGz::packFile(std::string &filePath, std::string &targetPath) {
+void JBPackerGz::PackFile(std::string &file_path, std::string &target_path) {
     // allocates space for the buffer
     char buffer[GZ_BUFFER_SIZE];
 
@@ -43,10 +43,10 @@ void JBPackerGz::packFile(std::string &filePath, std::string &targetPath) {
     int count;
 
     // opens the file
-    std::fstream file = std::fstream(filePath.c_str(), std::fstream::in | std::fstream::binary);
+    std::fstream file = std::fstream(file_path.c_str(), std::fstream::in | std::fstream::binary);
 
     // opens the target file
-    gzFile targetFile = gzopen(targetPath.c_str(), "wb");
+    gzFile target_file = gzopen(target_path.c_str(), "wb");
 
     // loops continually
     while(1) {
@@ -61,17 +61,17 @@ void JBPackerGz::packFile(std::string &filePath, std::string &targetPath) {
         count = file.gcount();
 
         // writes the compresseed value
-        gzwrite(targetFile, buffer, count);
+        gzwrite(target_file, buffer, count);
     }
 
     // closes the file
     file.close();
 
     // closes the target file
-    gzclose(targetFile);
+    gzclose(target_file);
 }
 
-void JBPackerGz::unpackFile(std::string &filePath, std::string &targetPath) {
+void JBPackerGz::UnpackFile(std::string &file_path, std::string &target_path) {
     // allocates space for the buffer
     char buffer[GZ_BUFFER_SIZE];
 
@@ -79,22 +79,22 @@ void JBPackerGz::unpackFile(std::string &filePath, std::string &targetPath) {
     int count;
 
     // opens the file
-    gzFile file = gzopen(filePath.c_str(), "rb");
+    gzFile file = gzopen(file_path.c_str(), "rb");
 
     // opens the target file
-    std::fstream targetFile = std::fstream(targetPath.c_str(), std::fstream::out | std::fstream::trunc | std::fstream::binary);
+    std::fstream target_file = std::fstream(target_path.c_str(), std::fstream::out | std::fstream::trunc | std::fstream::binary);
 
     // loops while the read is successful
     while((count = gzread(file, buffer, GZ_BUFFER_SIZE)) > 0) {
         // writes the uncompressed value
-        targetFile.write(buffer, count);
+        target_file.write(buffer, count);
     }
 
     // closes the file
     gzclose(file);
 
     // closes the target file
-    targetFile.close();
+    target_file.close();
 }
 
 #endif

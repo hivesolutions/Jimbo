@@ -36,23 +36,23 @@ class JBLoggerFormatter {
     public:
         JBLoggerFormatter();
         ~JBLoggerFormatter();
-        virtual void format(JBLoggerRecord &record);
+        virtual void Format(JBLoggerRecord &record);
 };
 
 class JBLoggerTimeFormatter : public JBLoggerFormatter {
     public:
         JBLoggerTimeFormatter();
         ~JBLoggerTimeFormatter();
-        void format(JBLoggerRecord &record);
-        void formatValue(std::string &value);
+        void Format(JBLoggerRecord &record);
+        void FormatValue(std::string &value);
 };
 
 class JBLoggerStringFormatter : public JBLoggerFormatter {
     public:
         JBLoggerStringFormatter();
-        JBLoggerStringFormatter(std::string &formatString);
+        JBLoggerStringFormatter(std::string &format_string);
         ~JBLoggerStringFormatter();
-        void setFormatString(std::string &formatString);
+        void SetFormatString(std::string &format_string);
     private:
-        std::string formatString;
+        std::string format_string;
 };

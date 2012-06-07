@@ -28,310 +28,310 @@
 #include "http_client.h"
 
 JBHttpClient::JBHttpClient() : JBObservable() {
-    this->messageBuffer = NULL;
+    this->message_buffer = NULL;
 }
 
 JBHttpClient::~JBHttpClient() {
     // in case the message buffer is defined
-    if(this->messageBuffer) {
+    if(this->message_buffer) {
         // releases the message buffer
-        free(messageBuffer);
+        free(message_buffer);
     }
 }
 
-void JBHttpClient::parseUrl(std::string &url) {
+void JBHttpClient::ParseUrl(std::string &url) {
     int index;
-    int finalIndex;
+    int final_index;
 
     // allocates space for the content url
-    std::string contentUrl;
+    std::string content_url;
 
     // finds the url part of the address
     index = url.find("http://");
 
-    finalIndex = index + 7;
+    final_index = index + 7;
 
     if(index == std::string::npos) {
         throw "Invalid address";
     }
 
-    std::string subUrl = url.substr(finalIndex);
+    std::string sub_url = url.substr(final_index);
 
-    index = subUrl.find("/");
+    index = sub_url.find("/");
 
-    std::string address = subUrl.substr(0, index);
+    std::string address = sub_url.substr(0, index);
 
-    int portIndex = address.find(":");
+    int port_index = address.find(":");
 
-    if(portIndex == std::string::npos) {
+    if(port_index == std::string::npos) {
         this->address = address;
-        this->port = JBHttpClient::defaultPort;
+        this->port = JBHttpClient::default_port;
     }
     else {
-        this->address = address.substr(0, portIndex);
-        std::string portString = address.substr(portIndex + 1);
-        this->port = atoi((char *) portString.c_str());
+        this->address = address.substr(0, port_index);
+        std::string port_string = address.substr(port_index + 1);
+        this->port = atoi((char *) port_string.c_str());
     }
 
-    finalIndex = index + 1;
+    final_index = index + 1;
 
-    if(index == std::string::npos) { this->contentUrl = "/"; }
-    else { this->contentUrl = subUrl.substr(index); }
+    if(index == std::string::npos) { this->content_url = "/"; }
+    else { this->content_url = sub_url.substr(index); }
 }
 
-void JBHttpClient::retrieveData() {
-    int startLineIndex;
-    int startHeaderIndex;
-    int endHeaderIndex;
-    int startMessageIndex;
-    int messageSize;
-    unsigned int totalDataLength = 0;
-    std::string receiveStreamString;
+void JBHttpClient::RetrieveData() {
+    int start_line_index;
+    int start_header_index;
+    int end_header_index;
+    int start_message_index;
+    int message_size;
+    unsigned int total_data_length = 0;
+    std::string receive_stream_string;
 
     // creates the socket data to be sent
-    std::string socketData = "GET " + this->contentUrl + " HTTP/1.1\r\n" +
-                             "Host: " + this->address + "\r\n" +
-                             "Connection: keep-alive\r\n" +
-                             "User-Agent: " + HTTP_AGENT_NAME + "/" + HTTP_AGENT_VERSION + "\r\n" + "\r\n";
+    std::string socket_data = "GET " + this->content_url + " HTTP/1.1\r\n" +
+        "Host: " + this->address + "\r\n" +
+        "Connection: keep-alive\r\n" +
+        "User-Agent: " + HTTP_AGENT_NAME + "/" + HTTP_AGENT_VERSION + "\r\n" + "\r\n";
 
     // sends the request and retrieves the sent length
-    unsigned int dataLength = send(this->httpSocket, socketData.c_str(), socketData.length(), 0);
+    unsigned int data_length = send(this->http_socket, socket_data.c_str(), socket_data.length(), 0);
 
     // in case there was an error sending the message
-    if(dataLength < socketData.length()) {
+    if(data_length < socket_data.length()) {
         // throws an exception
         throw "Problem sending data";
     }
 
     // creates the start line loaded flag
-    bool startLineLoaded = false;
+    bool start_line_loaded = false;
 
     // creates the header loaded flag
-    bool headerLoaded = false;
+    bool header_loaded = false;
 
     // creates the message loaded
-    bool messageLoaded = false;
+    bool message_loaded = false;
 
     // creates the receive stream
-    std::stringstream receiveStream = std::stringstream(std::stringstream::in | std::stringstream::out | std::stringstream::binary);
+    std::stringstream receive_stream = std::stringstream(std::stringstream::in | std::stringstream::out | std::stringstream::binary);
 
     while(1) {
         // allocates memory for the receiving buffer
-        char receiveBuffer[HTTP_BUFFER_LENGTH + 1];
+        char receive_buffer[HTTP_BUFFER_LENGTH + 1];
 
         // receives data from the host
-        unsigned int dataLength = recv(this->httpSocket, receiveBuffer, HTTP_BUFFER_LENGTH * sizeof(char), 0);
+        unsigned int data_length = recv(this->http_socket, receive_buffer, HTTP_BUFFER_LENGTH * sizeof(char), 0);
 
         // increments the total data length
-        totalDataLength += dataLength;
+        total_data_length += data_length;
 
         // writes the receive buffer to the receive stream
-        receiveStream.write(receiveBuffer, dataLength);
+        receive_stream.write(receive_buffer, data_length);
 
         // in case the header is not loaded
-        if(!headerLoaded)
-            receiveStreamString = receiveStream.str() + "\0";
+        if(!header_loaded)
+            receive_stream_string = receive_stream.str() + "\0";
 
         // in case the start line is not loaded
-        if(!startLineLoaded) {
+        if(!start_line_loaded) {
             // retrieves the start line index
-            startLineIndex = receiveStreamString.find("\r\n");
+            start_line_index = receive_stream_string.find("\r\n");
 
-            if(startLineIndex != std::string::npos) {
+            if(start_line_index != std::string::npos) {
                 // sets the start line loaded flag and retrieves
                 // the start line header string value
-                startLineLoaded = true;
-                std::string startLineHeader = receiveStreamString.substr(0, startLineIndex);
+                start_line_loaded = true;
+                std::string start_line_header = receive_stream_string.substr(0, start_line_index);
 
                 // allocates space for the list that will hold the various
                 // tokens from the start line and then tokenizes the start
                 // line header part arround the space character
-                std::vector<std::string> tokensList;
-                JBTokenizer::TokenizeNoEscape(tokensList, startLineHeader, JBIsFromStringNoEscape(" "));
+                std::vector<std::string> tokens_list;
+                JBTokenizer::TokenizeNoEscape(tokens_list, start_line_header, JBIsFromStringNoEscape(" "));
 
                 // in case the header is smaller than expected, the expected
                 // tokens are the protocol version, status code and status
                 // message (the status message is of variable length)
-                if(tokensList.size() < 3) {
+                if(tokens_list.size() < 3) {
                     // throws an exception
                     throw "Invalid header in the request";
                 }
 
                 // retrieves the protocol version and the status code
                 // as the first and second elements of the tokens list
-                std::string protocolVersion = tokensList[0];
-                std::string statusCode = tokensList[1];
+                std::string protocol_version = tokens_list[0];
+                std::string status_code = tokens_list[1];
 
                 // retrieves the status message
-                std::string statusMessage = std::string();
+                std::string status_message = std::string();
 
                 // retrieves the tokens list iterator
-                std::vector<std::string>::iterator iterator = tokensList.begin();
+                std::vector<std::string>::iterator iterator = tokens_list.begin();
 
                 // increments the tokens list iterator (status code and message values)
                 // they should be skipped in order to correcly join the status message
                 iterator += 2;
 
                 // sets the is first flag
-                bool isFirst = true;
+                bool is_first = true;
 
                 // iterates over all the tokens to join the complete
                 // status message from the remaining tokens in the
                 // tokens list
-                while(iterator != tokensList.end()) {
+                while(iterator != tokens_list.end()) {
                     // in case it's the first iteration
                     // unsets the is first flag
-                    if(isFirst) { isFirst = false; }
+                    if(is_first) { is_first = false; }
                     // otherwise it's not the first operation
                     // and adds a space to the status message
-                    else { statusMessage += " "; }
+                    else { status_message += " "; }
 
                     // appends the current token value to the status
                     // message and increments the tokens list iterator
-                    statusMessage += *iterator;
+                    status_message += *iterator;
                     iterator++;
                 }
             }
         }
 
         // in case the header is not loaded
-        if(!headerLoaded) {
+        if(!header_loaded) {
             // fins the end header index
-            endHeaderIndex = receiveStreamString.find("\r\n\r\n");
+            end_header_index = receive_stream_string.find("\r\n\r\n");
 
             // in case the end header index is valid
-            if(endHeaderIndex != std::string::npos) {
+            if(end_header_index != std::string::npos) {
                 // sets the header loaded flag, calculates the start header
                 // index and retrieves the associated header string with the
                 // start header index value in mind
-                headerLoaded = true;
-                startHeaderIndex = startLineIndex + 2;
-                std::string headers = receiveStreamString.substr(startHeaderIndex, endHeaderIndex - startHeaderIndex);
+                header_loaded = true;
+                start_header_index = start_line_index + 2;
+                std::string headers = receive_stream_string.substr(start_header_index, end_header_index - start_header_index);
 
                 // allocates space for the list that will hold the various
                 // tokens from the various header lines and then tokenizes
                 // the header string part arround the new line and carriage
                 // return characters
-                std::vector<std::string> tokensList;
-                JBTokenizer::TokenizeNoEscape(tokensList, headers, JBIsFromStringNoEscape("\r\n"));
+                std::vector<std::string> tokens_list;
+                JBTokenizer::TokenizeNoEscape(tokens_list, headers, JBIsFromStringNoEscape("\r\n"));
 
                 // creats the map that will hold the various header values indexed
                 // by their key name and associated with their string value
-                std::map<std::string, std::string> headersMap = std::map<std::string, std::string>();
+                std::map<std::string, std::string> headers_map = std::map<std::string, std::string>();
 
                 // iterates over all the tokens in the tokens list to populate the
                 // headers map with the resulting values from their splitting
-                for(std::vector<std::string>::iterator iterator = tokensList.begin(); iterator < tokensList.end(); iterator++) {
+                for(std::vector<std::string>::iterator iterator = tokens_list.begin(); iterator < tokens_list.end(); iterator++) {
                     // retrieves the current iterator position as the
                     // current token in iteration
                     std::string token = *iterator;
 
                     // searches for the header value, key/value separator
                     // position to use it to split the token
-                    int baseIndex = token.find(":");
+                    int base_index = token.find(":");
 
                     // retrieves the header key and values by splitting
                     // the token arround the key/value separator
-                    std::string headerKey = token.substr(0, baseIndex);
-                    std::string headerValue = token.substr(baseIndex + 1);
+                    std::string header_key = token.substr(0, base_index);
+                    std::string header_value = token.substr(base_index + 1);
 
                     // trims the header key and values (avoids erroneous extra
                     // space characters) and sets the header in the headers map
-                    JBString::trim(headerKey);
-                    JBString::trim(headerValue);
-                    headersMap[headerKey] = headerValue;
+                    JBString::Trim(header_key);
+                    JBString::Trim(header_value);
+                    headers_map[header_key] = header_value;
                 }
 
-                if(headersMap.find("Content-Length") != headersMap.end()) {
-                    messageSize = atoi(headersMap["Content-Length"].c_str());
+                if(headers_map.find("Content-Length") != headers_map.end()) {
+                    message_size = atoi(headers_map["Content-Length"].c_str());
 
                     // sets the content length
-                    this->contentLength = messageSize;
+                    this->content_length = message_size;
                 }
-                else if(headersMap.find("Content-length") != headersMap.end()) {
-                    messageSize = atoi(headersMap["Content-length"].c_str());
+                else if(headers_map.find("Content-length") != headers_map.end()) {
+                    message_size = atoi(headers_map["Content-length"].c_str());
 
                     // sets the content length
-                    this->contentLength = messageSize;
+                    this->content_length = message_size;
                 }
 
                 // fires the header loaded event
-                this->fireEvent(std::string("header_loaded"), &(this->contentLength));
+                this->FireEvent(std::string("header_loaded"), &(this->content_length));
             }
         }
 
         // in case the message is not loaded and the header is loaded
-        if(!messageLoaded && headerLoaded) {
+        if(!message_loaded && header_loaded) {
             // calculates the start message index
-            startMessageIndex = endHeaderIndex + 4;
+            start_message_index = end_header_index + 4;
 
             // calculates the current message size
-            int currentMessageSize = totalDataLength - startMessageIndex;
+            int current_message_size = total_data_length - start_message_index;
 
             // fires the download changed event
-            this->fireEvent(std::string("download_changed"), &currentMessageSize);
+            this->FireEvent(std::string("download_changed"), &current_message_size);
 
             // in case the current message size is the same as the defined message size
-            if(currentMessageSize == messageSize) {
+            if(current_message_size == message_size) {
                 // sets the message loaded flag
-                messageLoaded = true;
+                message_loaded = true;
 
                 // calculates the message size
-                int messageBufferStringSize = messageSize * sizeof(char);
+                int message_buffer_string_size = message_size * sizeof(char);
 
                 // allocates space for the message buffer
-                this->messageBuffer = (char *) malloc(messageBufferStringSize);
+                this->message_buffer = (char *) malloc(message_buffer_string_size);
 
                 // seeks the receive stream into the message part
-                receiveStream.seekg(startMessageIndex);
+                receive_stream.seekg(start_message_index);
 
                 // reads the receive stream to the message buffer
-                receiveStream.read(this->messageBuffer, messageBufferStringSize);
+                receive_stream.read(this->message_buffer, message_buffer_string_size);
 
                 // sets the message size
-                this->messageSize = messageBufferStringSize;
+                this->message_size = message_buffer_string_size;
             }
         }
 
         // in case the start line is loaded the header is loaded
         // and the message is loaded, the download is complete
-        if(startLineLoaded && headerLoaded && messageLoaded) {
+        if(start_line_loaded && header_loaded && message_loaded) {
             // breaks the loop
             break;
         }
     }
 
     // fires the download completed event
-    this->fireEvent(std::string("download_completed"), NULL);
+    this->FireEvent(std::string("download_completed"), NULL);
 }
 
-void JBHttpClient::openConnection(std::string &address, int port) {
+void JBHttpClient::OpenConnection(std::string &address, int port) {
     // the windows socket api data
-    WSADATA wsaData;
+    WSADATA wsa_data;
 
     // the socket to be used in http
-    SOCKET httpSocket;
+    SOCKET http_socket;
 
     // the http socket address
-    SOCKADDR_IN httpSocketAddress;
+    SOCKADDR_IN http_socket_address;
 
     // tries to startup the windows socket api
-    if(WSAStartup(MAKEWORD(2, 0), &wsaData) != 0) {
+    if(WSAStartup(MAKEWORD(2, 0), &wsa_data) != 0) {
         // raises an exception
         throw "Socket Initialization Error";
     }
 
     // creates the new socket
-    httpSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    http_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     // in case the socket created successfully
-    if(httpSocket == INVALID_SOCKET) {
+    if(http_socket == INVALID_SOCKET) {
         // raises an exception
         throw "Socket creation unsuccessfull";
     }
 
     // resets the http socket address
-    memset(&httpSocketAddress, 0, sizeof(httpSocketAddress));
+    memset(&http_socket_address, 0, sizeof(http_socket_address));
 
     // retrieves the host from the address
     hostent *host = gethostbyname(address.c_str());
@@ -340,12 +340,12 @@ void JBHttpClient::openConnection(std::string &address, int port) {
     char *ip = inet_ntoa(*(struct in_addr *) *host->h_addr_list);
 
     // sets the http socket address
-    httpSocketAddress.sin_family = AF_INET;
-    httpSocketAddress.sin_port = htons(port);
-    httpSocketAddress.sin_addr.s_addr = inet_addr(ip);
+    http_socket_address.sin_family = AF_INET;
+    http_socket_address.sin_port = htons(port);
+    http_socket_address.sin_addr.s_addr = inet_addr(ip);
 
     // connects the socket
-    int connection = connect(httpSocket, (SOCKADDR *) &httpSocketAddress, sizeof(SOCKADDR_IN));
+    int connection = connect(http_socket, (SOCKADDR *) &http_socket_address, sizeof(SOCKADDR_IN));
 
     // in case there is a problem connecting the host
     if(connection != 0) {
@@ -354,45 +354,45 @@ void JBHttpClient::openConnection(std::string &address, int port) {
     }
 
     // sets the http socket in the instance
-    this->httpSocket = httpSocket;
+    this->http_socket = http_socket;
 }
 
-void JBHttpClient::closeConnection() {
+void JBHttpClient::CloseConnection() {
     // closes the socket
-    closesocket(this->httpSocket);
+    closesocket(this->http_socket);
 }
 
-void JBHttpClient::getContents(std::string &url) {
+void JBHttpClient::GetContents(std::string &url) {
     // parses the url
-    this->parseUrl(url);
+    this->ParseUrl(url);
 
     // opens the connection in the parser address and port
-    this->openConnection(this->address, this->port);
+    this->OpenConnection(this->address, this->port);
 
     try {
         // retrieves the data
-        this->retrieveData();
+        this->RetrieveData();
     }
     catch(char *) {
         // closes the connection
-        this->closeConnection();
+        this->CloseConnection();
 
         // rethrows exception
         throw;
     }
 
     // closes the connection
-    this->closeConnection();
+    this->CloseConnection();
 }
 
-char *JBHttpClient::getMessageBuffer() {
-    return this->messageBuffer;
+char *JBHttpClient::GetMessageBuffer() {
+    return this->message_buffer;
 }
 
-int JBHttpClient::getMessageSize() {
-    return this->messageSize;
+int JBHttpClient::GetMessageSize() {
+    return this->message_size;
 }
 
-int JBHttpClient::getContentLength() {
-    return this->contentLength;
+int JBHttpClient::GetContentLength() {
+    return this->content_length;
 }

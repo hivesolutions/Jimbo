@@ -33,42 +33,42 @@ JBPackerTar::JBPackerTar() : JBPacker() {
 JBPackerTar::~JBPackerTar() {
 }
 
-void JBPackerTar::packFile(std::string &filePath, std::string &targetPath) {
+void JBPackerTar::PackFile(std::string &file_path, std::string &target_path) {
 }
 
-void JBPackerTar::unpackFile(std::string &filePath, std::string &targetPath) {
+void JBPackerTar::UnpackFile(std::string &file_path, std::string &target_path) {
     // creates the counter
     int count;
 
     // creates the read counter
-    int readCount;
+    int read_count;
 
     // creates space for the size
-    unsigned long int sizeInt;
+    unsigned long int size_int;
 
     // creates space for the size remaining
-    unsigned long int sizeRemaining;
+    unsigned long int size_remaining;
 
     // creates space for the remainder value
-    int remainderValue;
+    int remainder_value;
 
     // allocates space for the header buffer
-    char baseBuffer[TAR_BUFFER_BASE];
+    char base_buffer[TAR_BUFFER_BASE];
 
     // allocates space for the buffer
     char buffer[TAR_BUFFER_SIZE];
 
     // allocates space for the next file name buffer
-    char nextFileNameBuffer[LARGE_NAME_SIZE];
+    char next_file_name_buffer[LARGE_NAME_SIZE];
 
     // creates the valid next file name flag
-    bool validNextFileName = false;
+    bool valid_next_file_name = false;
 
     // the target file pointer
-    std::fstream *targetFile;
+    std::fstream *target_file;
 
     // opens the file
-    std::fstream file = std::fstream(filePath.c_str(), std::fstream::in | std::fstream::binary);
+    std::fstream file = std::fstream(file_path.c_str(), std::fstream::in | std::fstream::binary);
 
     // loops continually
     while(1) {
@@ -77,109 +77,109 @@ void JBPackerTar::unpackFile(std::string &filePath, std::string &targetPath) {
             break;
 
         // reads the header of the tar file
-        file.read(baseBuffer, TAR_BUFFER_BASE);
+        file.read(base_buffer, TAR_BUFFER_BASE);
 
         // retrieves the buffer header for the read buffer
-        tarHeader *bufferHeader = (tarHeader *) baseBuffer;
+        TarHeaderType *buffer_header = (TarHeaderType *) base_buffer;
 
         // retrieves the file size
-        sscanf_s(bufferHeader->size, "%lo", &sizeInt);
+        sscanf_s(buffer_header->size, "%lo", &size_int);
 
         // starts the file path with the target path
-        std::string filePath = targetPath;
+        std::string file_path = target_path;
 
         // in case the flag valis next file name is active
-        if(validNextFileName) {
+        if(valid_next_file_name) {
             // adds the next file name buffer contents to the file path
-            filePath += nextFileNameBuffer;
+            file_path += next_file_name_buffer;
 
             // sets the valid next file name flag as false
-            validNextFileName = false;
+            valid_next_file_name = false;
         }
         else {
             // adds the file name to the file path
-            filePath += bufferHeader->name;
+            file_path += buffer_header->name;
         }
 
         // converts the file path to char pointer
-        char *filePathChar = (char *) filePath.c_str();
+        char *file_path_char = (char *) file_path.c_str();
 
         // in case the value is not empty
-        if(strcmp(bufferHeader->linkFlag, "")) {
+        if(strcmp(buffer_header->link_flag, "")) {
             // switches in the file type
-            switch(bufferHeader->linkFlag[0]) {
+            switch(buffer_header->link_flag[0]) {
                 // in case it's a file
                 case '0':
                     // creates a new file stream
-                    targetFile = new std::fstream(filePathChar, std::fstream::out | std::fstream::trunc | std::fstream::binary);
+                    target_file = new std::fstream(file_path_char, std::fstream::out | std::fstream::trunc | std::fstream::binary);
 
                     // in case the size is bigger than zero
-                    if(sizeInt > 0) {
-                        for(sizeRemaining = sizeInt; sizeRemaining > 0; sizeRemaining -= count) {
+                    if(size_int > 0) {
+                        for(size_remaining = size_int; size_remaining > 0; size_remaining -= count) {
                             // in case the end of file has been reached
                             if(file.eof())
                                 break;
 
                             // calculates the read count to be used
-                            readCount = sizeRemaining < TAR_BUFFER_SIZE ? sizeRemaining : TAR_BUFFER_SIZE;
+                            read_count = size_remaining < TAR_BUFFER_SIZE ? size_remaining : TAR_BUFFER_SIZE;
 
                             // reads the file to the buffer
-                            file.read(buffer, readCount);
+                            file.read(buffer, read_count);
 
                             // retrieves the number of bytes read
                             count = file.gcount();
 
                             // writes the file buffer contents
-                            targetFile->write(buffer, count);
+                            target_file->write(buffer, count);
                         }
 
                         // calculates the remainder value of the size of the file and the tar buffer base
-                        remainderValue = sizeInt % TAR_BUFFER_BASE;
+                        remainder_value = size_int % TAR_BUFFER_BASE;
 
                         // in case the remainder is greater than zero
-                        if(remainderValue != 0)
-                            file.seekg(TAR_BUFFER_BASE - remainderValue, std::fstream::cur);
+                        if(remainder_value != 0)
+                            file.seekg(TAR_BUFFER_BASE - remainder_value, std::fstream::cur);
                     }
 
                     // closes the target file
-                    targetFile->close();
+                    target_file->close();
 
                     // deletes the target file reference
-                    delete targetFile;
+                    delete target_file;
 
                     break;
                 // in case it's a directory
                 case '5':
                     // creates a new directory
-                    _mkdir(filePathChar);
+                    _mkdir(file_path_char);
 
                     break;
                 case 'K':
                     // reads the file to the buffer
-                    file.read(nextFileNameBuffer, sizeInt);
+                    file.read(next_file_name_buffer, size_int);
 
                     // calculates the remainder value of the size of the file and the tar buffer base
-                    remainderValue = sizeInt % TAR_BUFFER_BASE;
+                    remainder_value = size_int % TAR_BUFFER_BASE;
 
                     // in case the remainder is greater than zero
-                    if(remainderValue != 0)
-                        file.seekg(TAR_BUFFER_BASE - remainderValue, std::fstream::cur);
+                    if(remainder_value != 0)
+                        file.seekg(TAR_BUFFER_BASE - remainder_value, std::fstream::cur);
 
                     // sets the valid next file name flag
-                    validNextFileName = true;
+                    valid_next_file_name = true;
                 case 'L':
                     // reads the file to the buffer
-                    file.read(nextFileNameBuffer, sizeInt);
+                    file.read(next_file_name_buffer, size_int);
 
                     // calculates the remainder value of the size of the file and the tar buffer base
-                    remainderValue = sizeInt % TAR_BUFFER_BASE;
+                    remainder_value = size_int % TAR_BUFFER_BASE;
 
                     // in case the remainder is greater than zero
-                    if(remainderValue != 0)
-                        file.seekg(TAR_BUFFER_BASE - remainderValue, std::fstream::cur);
+                    if(remainder_value != 0)
+                        file.seekg(TAR_BUFFER_BASE - remainder_value, std::fstream::cur);
 
                     // sets the valid next file name flag
-                    validNextFileName = true;
+                    valid_next_file_name = true;
                 default:
                     break;
             }

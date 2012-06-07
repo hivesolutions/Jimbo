@@ -40,7 +40,7 @@ class JBPython {
          * This value should be big enough to hold a
          * registry key name.
          */
-        static const int bufferLength = 1024;
+        static const int buffer_length = 1024;
     public:
         /**
          * Checks if there is any python installation in the system
@@ -49,7 +49,7 @@ class JBPython {
          * @return The registry key containing the references to the python
          * installation details.
          */
-        JB_EXPORT static HKEY checkPython();
+        JB_EXPORT static HKEY CheckPython();
 
         /**
          * Checks if there is a python installation in the system
@@ -65,7 +65,7 @@ class JBPython {
          * @return The registry key containing the references to the python
          * installation details.
          */
-        JB_EXPORT static HKEY checkPython(const char *version);
+        JB_EXPORT static HKEY CheckPython(const char *version);
 
         /**
          * Populats the given list (vector) with the various version string
@@ -77,7 +77,7 @@ class JBPython {
          * @param versions The list (vector) ti be populated with the various
          * available python versions.
          */
-        JB_EXPORT static void getAvailableVersions(std::vector<std::string> &versions);
+        JB_EXPORT static void GetAvailableVersions(std::vector<std::string> &versions);
 
         /**
          * Retrieves the installation path to the python system with the requested
@@ -93,5 +93,5 @@ class JBPython {
          * @return The string containing the full file path to the requested python
          * installation.
          */
-        JB_EXPORT static std::string getInstallPath(std::string &version);
+        JB_EXPORT static std::string GetInstallPath(std::string &version);
 };

@@ -31,33 +31,33 @@ JBLoggerRecord::JBLoggerRecord() {
 }
 
 JBLoggerRecord::JBLoggerRecord(std::string &value, unsigned int level) {
-    this->setValue(value);
-    this->setLevel(level);
+    this->SetValue(value);
+    this->SetLevel(level);
 }
 
 JBLoggerRecord::~JBLoggerRecord() {
 }
 
-std::string &JBLoggerRecord::getValue() {
+std::string &JBLoggerRecord::GetValue() {
     return this->value;
 }
 
-void JBLoggerRecord::setValue(std::string &value) {
+void JBLoggerRecord::SetValue(std::string &value) {
     this->value = value;
 }
 
-unsigned int JBLoggerRecord::getLevel() {
+unsigned int JBLoggerRecord::GetLevel() {
     return this->level;
 }
 
-void JBLoggerRecord::setLevel(unsigned int level) {
+void JBLoggerRecord::SetLevel(unsigned int level) {
     this->level = level;
 }
 
-std::string &JBLoggerRecord::getFormattedValue() {
-    return this->formattedValue;
+std::string &JBLoggerRecord::GetFormattedValue() {
+    return this->formatted_value;
 }
 
-void JBLoggerRecord::setFormattedValue(std::string &formattedValue) {
-    this->formattedValue = formattedValue;
+void JBLoggerRecord::SetFormattedValue(std::string &formatted_value) {
+    this->formatted_value = formatted_value;
 }

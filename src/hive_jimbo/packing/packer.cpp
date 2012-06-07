@@ -33,15 +33,15 @@ JBPacker::JBPacker() {
 JBPacker::~JBPacker() {
 }
 
-void JBPacker::addFile(std::string &filePath, std::fstream &fileStream) {
-    this->baseDirectory.addFile(filePath, new JBPackerFile(filePath, filePath, &fileStream));
+void JBPacker::AddFile(std::string &file_path, std::fstream &file_stream) {
+    this->base_directory.AddFile(file_path, new JBPackerFile(file_path, file_path, &file_stream));
 }
 
-void JBPacker::removeFile(std::string &filePath) {
+void JBPacker::RemoveFile(std::string &file_path) {
 }
 
-void JBPacker::packFile(std::string &filePath, std::string &targetPath) {
+void JBPacker::PackFile(std::string &file_path, std::string &target_path) {
 }
 
-void JBPacker::unpackFile(std::string &filePath, std::string &targetPath) {
+void JBPacker::UnpackFile(std::string &file_path, std::string &target_path) {
 }

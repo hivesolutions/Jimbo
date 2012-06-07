@@ -27,7 +27,7 @@
 
 #include "string.h"
 
-std::string &JBString::trim(std::string &stringValue) {
+std::string &JBString::Trim(std::string &string_value) {
     // allocates space for the index to be used during
     // the left and right trimming operation and the values
     // to be used as markers for the start and end index of
@@ -38,32 +38,32 @@ std::string &JBString::trim(std::string &stringValue) {
 
     // retrieves the size of the string to be used
     // during iteration to avoid buffer overlfow
-    size_t stringSize = stringValue.size();
+    size_t string_size = string_value.size();
 
     // iterates while the string value is not a valid
-    // non space chartacter (left trim)
-    for(index = 0; index < stringSize && stringValue[index] <= 32; index++) { }
+    // non space chartacter (left Trim)
+    for(index = 0; index < string_size && string_value[index] <= 32; index++) { }
 
-    // marks the start index resulting from the left trim
+    // marks the start index resulting from the left Trim
     // this value is going to be used for the sub string
     start = index;
 
     // iterates (reversely) while the string value is not a valid
-    // non space chartacter (right trim)
-    for(index = stringSize; index > 0 && stringValue[index - 1] <= 32; index--) { }
+    // non space chartacter (right Trim)
+    for(index = string_size; index > 0 && string_value[index - 1] <= 32; index--) { }
 
-    // marks the end index resulting from the right trim
+    // marks the end index resulting from the right Trim
     // this value is going to be used for the sub string
     end = index;
 
     // creates the final string value by creating
     // a sub string of the original value on the detected
     // end and start indexed of the trimming process
-    stringValue = stringValue.substr(start, end - start);
-    return stringValue;
+    string_value = string_value.substr(start, end - start);
+    return string_value;
 }
 
-std::string &JBString::ltrim(std::string &stringValue) {
+std::string &JBString::LTrim(std::string &string_value) {
     // allocates space for the index to be used during
     // the left trimming operation and the values to
     // be used as markers for the start and end index of
@@ -74,25 +74,25 @@ std::string &JBString::ltrim(std::string &stringValue) {
 
     // retrieves the size of the string to be used
     // during iteration to avoid buffer overlfow
-    size_t stringSize = stringValue.size();
+    size_t string_size = string_value.size();
 
     // iterates while the string value is not a valid
-    // non space chartacter (left trim)
-    for(index = 0; (stringValue[index] <= 32) && index < stringSize; index++) { }
+    // non space chartacter (left Trim)
+    for(index = 0; (string_value[index] <= 32) && index < string_size; index++) { }
 
-    // sets start index as the index resulting from the left trim
+    // sets start index as the index resulting from the left Trim
     // and the end index as the string size (to the end of string)
     start = index;
-    end = stringSize;
+    end = string_size;
 
     // creates the final string value by creating
     // a sub string of the original value on the detected
     // end and start indexed of the trimming process
-    stringValue = stringValue.substr(start, end - start);
-    return stringValue;
+    string_value = string_value.substr(start, end - start);
+    return string_value;
 }
 
-std::string &JBString::rtrim(std::string &stringValue) {
+std::string &JBString::RTrim(std::string &string_value) {
     // allocates space for the index to be used during
     // the right trimming operation and the values to
     // be used as markers for the start and end index of
@@ -103,20 +103,20 @@ std::string &JBString::rtrim(std::string &stringValue) {
 
     // retrieves the size of the string to be used
     // during iteration to avoid buffer overlfow
-    size_t stringSize = stringValue.size();
+    size_t string_size = string_value.size();
 
     // iterates (reversely) while the string value is not a valid
-    // non space chartacter (right trim)
-    for(index = stringSize; index > 0 && stringValue[index - 1] <= 32; index--) { }
+    // non space chartacter (right Trim)
+    for(index = string_size; index > 0 && string_value[index - 1] <= 32; index--) { }
 
     // sets the start index as zero (begining of the string)
-    // and the end index as the index resulting from the right trim
+    // and the end index as the index resulting from the right Trim
     start = 0;
     end = index;
 
     // creates the final string value by creating
     // a sub string of the original value on the detected
     // end and start indexed of the trimming process
-    stringValue = stringValue.substr(start, end - start);
-    return stringValue;
+    string_value = string_value.substr(start, end - start);
+    return string_value;
 }

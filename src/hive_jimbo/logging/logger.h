@@ -37,9 +37,9 @@
 
 #define STRING_BUFFER_SIZE 1024
 
-#define sprintf_vargs(value, format, size) va_list vargs;\
-    va_start(vargs, format);\
-    vsprintf_s(_value, 1024, format, vargs);\
+#define sprintf_vargs(value, Format, size) va_list vargs;\
+    va_start(vargs, Format);\
+    vsprintf_s(_value, 1024, Format, vargs);\
     va_end(vargs)
 
 class JBLogger;
@@ -47,37 +47,37 @@ class JBLoggerHandler;
 class JBLoggerFormatter;
 class JBLoggerRecord;
 
-typedef std::vector<JBLoggerHandler *> handlersListType;
-typedef std::map<std::string, JBLogger *> loggersMapType;
+typedef std::vector<JBLoggerHandler *> HandlersListType;
+typedef std::map<std::string, JBLogger *> LoggersMapType;
 
 class JBLogger {
     public:
         JB_EXPORT JBLogger();
         JB_EXPORT ~JBLogger();
-        JB_EXPORT void debug(char *format, ...);
-        JB_EXPORT void info(char *format, ...);
-        JB_EXPORT void warning(char *format, ...);
-        JB_EXPORT void fault(char *format, ...);
-        JB_EXPORT void critical(char *format, ...);
-        JB_EXPORT void debug(std::string &value);
-        JB_EXPORT void info(std::string &value);
-        JB_EXPORT void warning(std::string &value);
-        JB_EXPORT void fault(std::string &value);
-        JB_EXPORT void critical(std::string &value);
-        JB_EXPORT void handle(JBLoggerRecord &record);
-        JB_EXPORT void setLevel(unsigned int level);
-        JB_EXPORT void addHandler(JBLoggerHandler *loggerHandler);
-        JB_EXPORT void setDefaultHandler(JBLoggerHandler *defaultLoggerHandler);
-        JB_EXPORT void setFormatter(JBLoggerFormatter *loggerFormatter);
-        JB_EXPORT static JBLogger *getLogger(std::string &loggerName);
-        JB_EXPORT static JBLogger *getLogger(char *loggerName);
-        JB_EXPORT static JBLogger *getLogger();
+        JB_EXPORT void Debug(char *Format, ...);
+        JB_EXPORT void Info(char *Format, ...);
+        JB_EXPORT void Warning(char *Format, ...);
+        JB_EXPORT void Fault(char *Format, ...);
+        JB_EXPORT void Critical(char *Format, ...);
+        JB_EXPORT void Debug(std::string &value);
+        JB_EXPORT void Info(std::string &value);
+        JB_EXPORT void Warning(std::string &value);
+        JB_EXPORT void Fault(std::string &value);
+        JB_EXPORT void Critical(std::string &value);
+        JB_EXPORT void Handle(JBLoggerRecord &record);
+        JB_EXPORT void SetLevel(unsigned int level);
+        JB_EXPORT void AddHandler(JBLoggerHandler *logger_handler);
+        JB_EXPORT void SetDefaultHandler(JBLoggerHandler *default_logger_handler);
+        JB_EXPORT void SetFormatter(JBLoggerFormatter *logger_formatter);
+        JB_EXPORT static JBLogger *GetLogger(std::string &logger_name);
+        JB_EXPORT static JBLogger *GetLogger(char *logger_name);
+        JB_EXPORT static JBLogger *GetLogger();
     private:
-        unsigned int logLevel;
-        JBLoggerHandler *defaultLoggerHandler;
-        handlersListType handlersList;
-        JBLoggerFormatter *loggerFormatter;
-        static loggersMapType loggersMap;
+        unsigned int log_level;
+        JBLoggerHandler *default_logger_handler;
+        HandlersListType handlers_list;
+        JBLoggerFormatter *logger_formatter;
+        static LoggersMapType loggers_map;
 };
 
 enum JBLogLevel {

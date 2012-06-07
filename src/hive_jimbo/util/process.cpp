@@ -27,13 +27,13 @@
 
 #include "process.h"
 
-bool JBProcess::isRunning(char *exeName, bool *running) {
+bool JBProcess::IsRunning(char *exe_name, bool *running) {
     // in case the boolean is already false, should
     // return immediately
     if(!running) { return false; }
 
     // the process entry structure
-    PROCESSENTRY32 processEntry;
+    PROCESSENTRY32 process_entry;
 
     // flag for the function success
     bool success = true;
@@ -43,37 +43,37 @@ bool JBProcess::isRunning(char *exeName, bool *running) {
 
     // takes a snapshot of the specified processes,
     // as well as the heaps, modules, and threads used by these processes
-    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+    HANDLE hsnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
 
-    if(hSnapshot != INVALID_HANDLE_VALUE) {
+    if(hsnapshot != INVALID_HANDLE_VALUE) {
         // sets the size of the structure before using it
-        processEntry.dwSize = sizeof(PROCESSENTRY32);
+        process_entry.dwSize = sizeof(PROCESSENTRY32);
 
         // describes an entry from a list of the processes residing
         // in the system address space when a snapshot was taken
-        BOOL processRetrievalResult = Process32First(hSnapshot, &processEntry);
+        BOOL process_retrieval_result = Process32First(hsnapshot, &process_entry);
 
         // iterates ovell all the processes residing
         // in the system address
-        while(processRetrievalResult == TRUE) {
+        while(process_retrieval_result == TRUE) {
             // in case the process found is the requested
-            if (!strcmp(exeName, processEntry.szExeFile)) {
+            if (!strcmp(exe_name, process_entry.szExeFile)) {
                 *running = true;
                 break;
             }
 
             // retrieves information about the next
             // process recorded in a system snapshot
-            processRetrievalResult = Process32Next(hSnapshot, &processEntry);
+            process_retrieval_result = Process32Next(hsnapshot, &process_entry);
         }
 
         // in case there was an error or there are no more
         // files to be retrieved
-        if (processRetrievalResult != TRUE && GetLastError() != ERROR_NO_MORE_FILES)
+        if (process_retrieval_result != TRUE && GetLastError() != ERROR_NO_MORE_FILES)
             success = false;
 
-        // closes the snapshot handle
-        CloseHandle(hSnapshot);
+        // closes the snapshot Handle
+        CloseHandle(hsnapshot);
     }
     else {
         success = false;
@@ -82,9 +82,9 @@ bool JBProcess::isRunning(char *exeName, bool *running) {
     return success;
 }
 
-bool JBProcess::getRunning(char *exeName, int *count) {
+bool JBProcess::GetRunning(char *exe_name, int *count) {
     // the process entry structure
-    PROCESSENTRY32 processEntry;
+    PROCESSENTRY32 process_entry;
 
     // flag for the function success
     bool success = true;
@@ -94,35 +94,35 @@ bool JBProcess::getRunning(char *exeName, int *count) {
 
     // takes a snapshot of the specified processes,
     // as well as the heaps, modules, and threads used by these processes
-    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+    HANDLE hsnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
 
-    if(hSnapshot != INVALID_HANDLE_VALUE) {
+    if(hsnapshot != INVALID_HANDLE_VALUE) {
         // sets the size of the structure before using it
-        processEntry.dwSize = sizeof(PROCESSENTRY32);
+        process_entry.dwSize = sizeof(PROCESSENTRY32);
 
         // describes an entry from a list of the processes residing
         // in the system address space when a snapshot was taken
-        BOOL processRetrievalResult = Process32First(hSnapshot, &processEntry);
+        BOOL process_retrieval_result = Process32First(hsnapshot, &process_entry);
 
         // iterates ovell all the processes residing
         // in the system address
-        while(processRetrievalResult == TRUE) {
+        while(process_retrieval_result == TRUE) {
             // in case the process found is the requested, increments
             // the number of running processes (count variable)
-            if (!strcmp(exeName, processEntry.szExeFile)) { (*count)++; }
+            if (!strcmp(exe_name, process_entry.szExeFile)) { (*count)++; }
 
             // retrieves information about the next
             // process recorded in a system snapshot
-            processRetrievalResult = Process32Next(hSnapshot, &processEntry);
+            process_retrieval_result = Process32Next(hsnapshot, &process_entry);
         }
 
         // in case there was an error or there are no more
         // files to be retrieved
-        if (processRetrievalResult != TRUE && GetLastError() != ERROR_NO_MORE_FILES)
+        if (process_retrieval_result != TRUE && GetLastError() != ERROR_NO_MORE_FILES)
             success = false;
 
-        // closes the snapshot handle
-        CloseHandle(hSnapshot);
+        // closes the snapshot Handle
+        CloseHandle(hsnapshot);
     }
     else {
         // unsets the success flag
@@ -133,15 +133,15 @@ bool JBProcess::getRunning(char *exeName, int *count) {
     return success;
 }
 
-void JBProcess::getProcessId(std::string &idString) {
+void JBProcess::GetProcessId(std::string &id_string) {
     // retrieves the current process id, this is a system
     // call to the windows system
-    int processId = GetCurrentProcessId();
+    int process_id = GetCurrentProcessId();
 
     // creates a new id stream, pipes the curren process id
     // to the id stream and then pipes it back to the id string
     // from the stream (this is required for syntax compatibility)
-    std::stringstream idStream;
-    idStream << processId;
-    idStream >> idString;
+    std::stringstream id_stream;
+    id_stream << process_id;
+    id_stream >> id_string;
 }
