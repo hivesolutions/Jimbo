@@ -241,7 +241,7 @@ int JBWindows::DeleteRecursiveShell(const char *target_directory, bool recycle_b
     return return_value;
 }
 
-int JBWindows::GetVersion() {
+int JBWindows::_GetVersion() {
     // allocates space for the version variable
     unsigned long version;
 

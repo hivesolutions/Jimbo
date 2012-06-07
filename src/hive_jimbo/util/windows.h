@@ -31,5 +31,5 @@ class JBWindows {
         JB_EXPORT static int CopyRecursiveShell(const std::string &target_directory, const std::string &source_directory);
         JB_EXPORT static int DeleteRecursive(const std::string &target_directory, bool delete_subdirectories);
         JB_EXPORT static int DeleteRecursiveShell(const char *target_directory, bool recycle_bin);
-        JB_EXPORT static int GetVersion();
+        JB_EXPORT static int _GetVersion();
 };
