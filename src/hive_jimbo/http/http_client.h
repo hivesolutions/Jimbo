@@ -61,39 +61,39 @@ class JBHttpClient : public JBObservable {
 
         /**
          * The address (string) to be used, this
-		 * is the tcp address or dns name for
-		 * the connection.
+         * is the tcp address or dns name for
+         * the connection.
          */
         std::string address;
 
         /**
          * The port to be used, this is the
-		 * tcp port for the connection.
+         * tcp port for the connection.
          */
         int port;
 
-		/**
-		 * The url to the content to be retrieved,
-		 * this is the target url of the client.
-		 */
+        /**
+         * The url to the content to be retrieved,
+         * this is the target url of the client.
+         */
         std::string content_url;
 
-		/**
-		 * The buffer containing the contents retrieved
-		 * by the client connection.
-		 */
+        /**
+         * The buffer containing the contents retrieved
+         * by the client connection.
+         */
         char *message_buffer;
 
-		/**
-		 * The size in bytes of the message retrieved
-		 * from the server.
-		 */
+        /**
+         * The size in bytes of the message retrieved
+         * from the server.
+         */
         int message_size;
 
-		/**
-		 * The size (length) in bytes of the content part
-		 * of the http message.
-		 */
+        /**
+         * The size (length) in bytes of the content part
+         * of the http message.
+         */
         int content_length;
 
         void ParseUrl(std::string &url);
