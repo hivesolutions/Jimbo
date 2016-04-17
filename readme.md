@@ -1,3 +1,3 @@
-# Jimbo
+# [Jimbo](http://jimbo.hive.pt)
 
-Library containing a set of C++ utilities for win32.
+Library containing a set of C++ utilities for Win32.
